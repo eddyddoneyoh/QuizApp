@@ -996,6 +996,27 @@ public class Admin extends JPanel {
     //////////////////////////////////////////////////////////////////////////////////
 
 
+
+
+
+
+
+    ////////////SLIDING PANEL ///////////////////////////////////////////////////////
+
+
+
+           JPanel slidingPanel =  new JPanel();
+
+
+
+
+
+
+
+
+        //////////////END OF SLIDING PANEL//////////////////////////////////////////
+
+
     public Admin() {
 
 
@@ -1009,6 +1030,78 @@ public class Admin extends JPanel {
 
         setBackground(new Color(255, 220, 0));
         setLayout(null);
+
+
+
+
+        /////sliding Panel program begins////////////////
+
+
+        slidingPanel.setBackground(Color.WHITE);
+        slidingPanel.setBounds(-500, 50, 500, 520);
+        slidingPanel.setLayout(null);
+        add(slidingPanel);
+
+
+
+
+        final JButton button = new JButton("Open");
+       final JButton button2 = new JButton("Hide");
+        button2.setVisible(false);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ((JButton) e.getSource()).setVisible(false);
+                button2.setVisible(true);
+                new Timer(1, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        slidingPanel.setLocation(slidingPanel.getX() + 10, 50);
+
+                        if (slidingPanel.getX()  == -230) {
+                            ((Timer) e.getSource()).stop();
+                            System.out.println("Timer stopped");
+                        }
+
+
+                    }
+                }).start();
+            }
+        });
+
+
+        button.setBounds(0,0,80,30);
+        add(button);
+
+
+
+
+        button2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ((JButton) e.getSource()).setVisible(false);
+                button.setVisible(true);
+                new Timer(1, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        slidingPanel.setLocation(slidingPanel.getX() - 10, 50);
+                        if (slidingPanel.getX() == -500) {
+                            ((Timer) e.getSource()).stop();
+                            System.out.println("Timer stopped");
+                        }
+
+                        button.setEnabled(true);
+                    }
+                }).start();
+            }
+        });
+
+
+        button2.setBounds(0,0,80,30);
+        add(button2);
+
+
+
+        ////////sliding panel program ends////////////////////////
+
+
+
 
         contestantStatus.setBounds(45, 10, 200, 30);
         contestantStatus.setFont(new Font("Calibri", 1, 20));

@@ -180,7 +180,23 @@ public class Entry extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 f.dispose();
-                new Login();
+               // new Login();
+
+
+
+                HolderPage.f.setEnabled(true);
+
+                HolderPage.content.removeAll();
+
+                HolderPage.content.add(new Admin());
+
+
+                HolderPage.content.updateUI();
+
+                HolderPage.f.setTitle("QuizApp 2016 - Admin Control");
+
+
+
 
             }
         });

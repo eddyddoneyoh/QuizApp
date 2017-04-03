@@ -62,6 +62,7 @@ public class Quiz extends JPanel implements ActionListener{
     static JPanel quicScores =  new JPanel();
     JButton fullScores = new JButton("View Full Scores");
     JPanel panel = new JPanel();
+    JPanel panel2 =  new JPanel();
 
 
 
@@ -79,6 +80,12 @@ public class Quiz extends JPanel implements ActionListener{
 
     private JButton saveGame =  new JButton("Save Game");
     private JButton quitGame =  new JButton("Quit Game");
+
+
+    JButton previous = new JButton("Previous");
+    JButton next =  new JButton("Next");
+    JLabel pageNo = new JLabel("1");
+    int pageCount = Integer.parseInt(pageNo.getText());
 
 
 
@@ -106,7 +113,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         String[] labels = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
 
 
         panel.setBackground(Color.white);
@@ -126,6 +133,34 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         panel.setLayout(layout);
+
+
+        /////////////////////////// SECOND PANEL CODE STARTS HERE ////////////////////////////////////////
+
+
+        String[] labels2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
+
+
+        panel2.setBackground(Color.white);
+
+        JButton button2;
+
+        for (String label : labels2) {
+            button2 = new JButton(label);
+            button2.addActionListener(this);
+            button2.setBackground(new Color(0, 168, 89));
+            button2.setPreferredSize(new Dimension(100,100));
+            button2.setFont(new Font("Calibri", 1, 20));
+            button2.setActionCommand(label);
+            button2.setForeground(Color.white);
+            panel2.add(button2);  //same as self.add(button)
+        }
+
+
+        panel2.setLayout(layout);
+
+        ///////////////////////// SECOND PANEL CODE ENDS HERE /////////////////////////////////
 
 
 
@@ -223,8 +258,92 @@ public class Quiz extends JPanel implements ActionListener{
 
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setBounds(20,80,500,450);
+        scrollPane.setAutoscrolls(true);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
         //f.getContentPane().add(scrollPane);
         add(scrollPane);
+
+
+
+
+
+        //////PAGE NUMBERING CODE STARTS//////////////
+
+
+
+        pageNo.setBounds(130,540,50,30);
+        pageNo.setOpaque(true);
+        pageNo.setHorizontalAlignment(SwingConstants.CENTER);
+        add(pageNo);
+
+
+        previous.setBounds(20,540,100,30);
+        previous.setEnabled(false);
+        add(previous);
+        previous.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                pageCount = pageCount - 1;
+
+
+                if(pageCount < 2){
+
+                    previous.setEnabled(false);
+
+                }
+
+                if(pageCount > 1){
+
+                    next.setEnabled(true);
+                }
+
+
+
+                pageNo.setText(pageCount + "");
+
+            }
+        });
+
+
+
+
+
+        next.setBounds(190,540,100,30);
+        add(next);
+        next.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                pageCount = pageCount + 1;
+                pageNo.setText(pageCount + "");
+
+                if(pageCount > 4){
+
+                    next.setEnabled(false);
+                }
+
+                if(pageCount > 1){
+
+                    previous.setEnabled(true);
+
+                }
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
 
 
         setBackground(new Color(255, 220, 0));
