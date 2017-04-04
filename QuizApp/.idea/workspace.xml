@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="11f8ad37-7418-471f-af58-6d123d935296" name="Default" comment="third commit">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/QuizApp/Entry$5$1.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/Questions.mdb" afterPath="$PROJECT_DIR$/DB/Questions.mdb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/db.mdb" afterPath="$PROJECT_DIR$/DB/db.mdb" />
+    <list default="true" id="11f8ad37-7418-471f-af58-6d123d935296" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/QuizApp/Process$1.class" afterPath="$PROJECT_DIR$/out/production/QuizApp/Process$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/QuizApp/Process.class" afterPath="$PROJECT_DIR$/out/production/QuizApp/Process.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/QuizApp/Quiz$1.class" afterPath="$PROJECT_DIR$/out/production/QuizApp/Quiz$1.class" />
@@ -13,13 +10,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/QuizApp/Quiz$4.class" afterPath="$PROJECT_DIR$/out/production/QuizApp/Quiz$4.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/QuizApp/Quiz.class" afterPath="$PROJECT_DIR$/out/production/QuizApp/Quiz.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/QuizDB" afterPath="$PROJECT_DIR$/DB/QuizDB" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/counter" afterPath="$PROJECT_DIR$/DB/counter" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DB/participants" afterPath="$PROJECT_DIR$/DB/participants" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/About.java" afterPath="$PROJECT_DIR$/src/About.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Entry.java" afterPath="$PROJECT_DIR$/src/Entry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Process.java" afterPath="$PROJECT_DIR$/src/Process.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Quiz.java" afterPath="$PROJECT_DIR$/src/Quiz.java" />
     </list>
     <ignored path="QuizApp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -551,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491238435385</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="third commit">
+      <created>1491325716147</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1491325716147</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
