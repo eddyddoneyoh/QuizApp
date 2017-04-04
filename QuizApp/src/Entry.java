@@ -77,6 +77,17 @@ public class Entry extends JPanel {
     JButton about =  new JButton("About");
 
 
+
+    JPanel menuPanel =  new JPanel();
+    JButton previous =  new JButton("Previous");
+    JButton next =  new JButton("Next");
+
+
+    JLabel rightLabel  =  new JLabel();
+    JLabel leftLabel  =  new JLabel();
+    int count  =  0;
+    int pageCount = 1;
+
     public Entry() {
 
 
@@ -89,13 +100,181 @@ public class Entry extends JPanel {
         widthdiv = (Integer) x / 2;
 
 
+        leftLabel.setBounds(0,190,200,210);
+        leftLabel.setOpaque(true);
+        leftLabel.setBackground(new Color(41, 170, 248));
+        add(leftLabel);
 
-        newQuiz.setBounds(130, 80, 180, 180);
+        rightLabel.setBounds(780,190,215,210);
+        rightLabel.setOpaque(true);
+        rightLabel.setBackground(new Color(41, 170, 248));
+        add(rightLabel);
+
+
+        menuPanel.setBounds(210,200,1130,180);
+        menuPanel.setLayout(null);
+        menuPanel.setOpaque(false);
+        add(menuPanel);
+
+
+
+
+
+
+        previous.setBounds(300,400,100,30);
+        add(previous);
+
+        previous.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+
+
+
+
+                pageCount = pageCount + 1;
+
+                if(pageCount == 1){
+
+                    previous.setEnabled(true);
+                    next.setEnabled(false);
+
+
+                }
+
+                if(pageCount == 2){
+
+                    previous.setEnabled(true);
+                    next.setEnabled(true);
+                }
+
+
+
+                if(pageCount == 3){
+
+                    previous.setEnabled(true);
+                    next.setEnabled(true);
+                }
+
+
+                if(pageCount == 4){
+
+                    previous.setEnabled(false);
+                    next.setEnabled(true);
+                }
+
+
+
+
+
+
+                new Timer(1, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+
+                        count = count + 1;
+
+                        menuPanel.setLocation(menuPanel.getX() - 38, 200);
+
+                        if (count == 5) {
+                            ((Timer) e.getSource()).stop();
+                            System.out.println("Timer stopped");
+                            count = 0;
+                        }
+
+
+                        }
+
+                }).start();
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+        next.setBounds(500,400,100,30);
+        next.setEnabled(false);
+        add(next);
+
+
+        next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+
+
+                pageCount = pageCount - 1;
+
+                if(pageCount == 1){
+
+                    previous.setEnabled(true);
+                    next.setEnabled(false);
+
+
+                }
+
+                if(pageCount == 2){
+
+                    previous.setEnabled(true);
+                    next.setEnabled(true);
+                }
+
+
+
+                if(pageCount == 3){
+
+                    previous.setEnabled(true);
+                    next.setEnabled(true);
+                }
+
+
+                if(pageCount == 4){
+
+                    previous.setEnabled(false);
+                    next.setEnabled(true);
+                }
+
+
+
+
+
+
+                new Timer(1, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+
+                        count = count + 1;
+
+                        menuPanel.setLocation(menuPanel.getX() + 38, 200);
+
+                        if (count == 5) {
+                            ((Timer) e.getSource()).stop();
+                            System.out.println("Timer stopped");
+                            count = 0;
+                        }
+
+
+
+
+                    }
+                }).start();
+            }
+        });
+
+
+
+
+
+        newQuiz.setBounds(0, 0, 180, 180);
         newQuiz.setFont(new Font("Calibri", 1, 19));
         newQuiz.setHorizontalAlignment(SwingConstants.CENTER);
         newQuiz.setBackground(new Color(0, 168, 89));
         newQuiz.setForeground(Color.white);
-        add(newQuiz);
+        menuPanel.add(newQuiz);
 
         newQuiz.addActionListener(new ActionListener() {
             @Override
@@ -129,12 +308,12 @@ public class Entry extends JPanel {
 
 
 
-        resume.setBounds(410, 80, 180, 180);
+        resume.setBounds(190, 0, 180, 180);
         resume.setFont(new Font("Calibri", 1, 19));
         resume.setHorizontalAlignment(SwingConstants.CENTER);
         resume.setBackground(new Color(0, 168, 89));
         resume.setForeground(Color.white);
-        add(resume);
+        menuPanel.add(resume);
 
 
         resume.addActionListener(new ActionListener() {
@@ -168,12 +347,12 @@ public class Entry extends JPanel {
         });
 
 
-        login.setBounds(700, 80, 180, 180);
+        login.setBounds(380, 0, 180, 180);
         login.setFont(new Font("Calibri", 1, 19));
         login.setHorizontalAlignment(SwingConstants.CENTER);
         login.setBackground(new Color(0, 168, 89));
         login.setForeground(Color.white);
-        add(login);
+        menuPanel.add(login);
 
         login.addActionListener(new ActionListener() {
             @Override
@@ -202,12 +381,12 @@ public class Entry extends JPanel {
         });
 
 
-        settings.setBounds(130, 320, 180, 180);
+        settings.setBounds(570, 0, 180, 180);
         settings.setFont(new Font("Calibri", 1, 19));
         settings.setHorizontalAlignment(SwingConstants.CENTER);
         settings.setBackground(new Color(0, 168, 89));
         settings.setForeground(Color.white);
-        add(settings);
+        menuPanel.add(settings);
 
 
         settings.addActionListener(new ActionListener() {
@@ -243,12 +422,12 @@ public class Entry extends JPanel {
 
 
 
-        help.setBounds(410, 320, 180, 180);
+        help.setBounds(760, 0, 180, 180);
         help.setFont(new Font("Calibri", 1, 19));
         help.setHorizontalAlignment(SwingConstants.CENTER);
         help.setBackground(new Color(0, 168, 89));
         help.setForeground(Color.white);
-        add(help);
+        menuPanel.add(help);
 
 
         help.addActionListener(new ActionListener() {
@@ -262,6 +441,7 @@ public class Entry extends JPanel {
 
 
                         HolderPage.content.removeAll();
+
 
                         HolderPage.content.add(new Help());
 
@@ -284,12 +464,12 @@ public class Entry extends JPanel {
 
 
 
-        about.setBounds(700, 320, 180, 180);
+        about.setBounds(950, 0, 180, 180);
         about.setFont(new Font("Calibri", 1, 19));
         about.setHorizontalAlignment(SwingConstants.CENTER);
         about.setBackground(new Color(0, 168, 89));
         about.setForeground(Color.white);
-        add(about);
+        menuPanel.add(about);
 
 
         about.addActionListener(new ActionListener() {

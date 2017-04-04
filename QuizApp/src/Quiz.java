@@ -56,6 +56,8 @@ public class Quiz extends JPanel implements ActionListener{
 
     Process pro = new Process();
 
+
+    JPanel mainScrollPanel =  new JPanel();
     public static JButton button;
 
     JLabel selectYourQuestion =  new JLabel("Select Your Question Number Below!");
@@ -63,6 +65,10 @@ public class Quiz extends JPanel implements ActionListener{
     JButton fullScores = new JButton("View Full Scores");
     JPanel panel = new JPanel();
     JPanel panel2 =  new JPanel();
+    JPanel panel3 = new JPanel();
+    JPanel panel4 =  new JPanel();
+    JPanel panel5 = new JPanel();
+
 
 
 
@@ -85,6 +91,7 @@ public class Quiz extends JPanel implements ActionListener{
     JButton previous = new JButton("Previous");
     JButton next =  new JButton("Next");
     JLabel pageNo = new JLabel("1");
+    JLabel pageNoView = new JLabel("1 - 20");
     int pageCount = Integer.parseInt(pageNo.getText());
 
 
@@ -111,9 +118,8 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-
         String[] labels = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
+                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 
 
         panel.setBackground(Color.white);
@@ -128,6 +134,7 @@ public class Quiz extends JPanel implements ActionListener{
             button.setFont(new Font("Calibri", 1, 20));
             button.setActionCommand(label);
             button.setForeground(Color.white);
+            //button.addActionListener(this);
             panel.add(button);  //same as self.add(button)
         }
 
@@ -135,11 +142,13 @@ public class Quiz extends JPanel implements ActionListener{
         panel.setLayout(layout);
 
 
-        /////////////////////////// SECOND PANEL CODE STARTS HERE ////////////////////////////////////////
 
 
-        String[] labels2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"};
+//        /////////////////////////// SECOND PANEL CODE STARTS HERE ////////////////////////////////////////
+//
+//
+        String[] labels2 = {"21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+                "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"};
 
 
         panel2.setBackground(Color.white);
@@ -160,7 +169,107 @@ public class Quiz extends JPanel implements ActionListener{
 
         panel2.setLayout(layout);
 
-        ///////////////////////// SECOND PANEL CODE ENDS HERE /////////////////////////////////
+       // panel2.setBounds(505,0,500,450);
+//
+//
+//        ///////////////////////// THIRD PANEL CODE ENDS HERE /////////////////////////////////
+
+
+
+        String[] labels3 = {"41", "42", "43", "44", "45", "46", "47", "48", "49", "50",
+                "51", "52", "53", "54", "55", "56", "57", "58", "59", "60"};
+
+
+        panel3.setBackground(Color.white);
+
+        JButton button3;
+
+        for (String label : labels3) {
+            button3 = new JButton(label);
+            button3.addActionListener(this);
+            button3.setBackground(new Color(0, 168, 89));
+            button3.setPreferredSize(new Dimension(100,100));
+            button3.setFont(new Font("Calibri", 1, 20));
+            button3.setActionCommand(label);
+            button3.setForeground(Color.white);
+            panel3.add(button3);  //same as self.add(button)
+        }
+
+
+        panel3.setLayout(layout);
+
+
+//
+//
+//        ///////////////////////// THIRD PANEL CODE ENDS HERE /////////////////////////////////
+
+
+
+
+        //        ///////////////////////// FOURTH PANEL CODE ENDS HERE /////////////////////////////////
+
+
+
+        String[] labels4 = {"61", "62", "63", "64", "65", "66", "67", "68", "69", "70",
+                "71", "72", "73", "74", "75", "76", "77", "78", "79", "80"};
+
+
+        panel4.setBackground(Color.white);
+
+        JButton button4;
+
+        for (String label : labels4) {
+            button4 = new JButton(label);
+            button4.addActionListener(this);
+            button4.setBackground(new Color(0, 168, 89));
+            button4.setPreferredSize(new Dimension(100,100));
+            button4.setFont(new Font("Calibri", 1, 20));
+            button4.setActionCommand(label);
+            button4.setForeground(Color.white);
+            panel4.add(button4);  //same as self.add(button)
+        }
+
+
+        panel4.setLayout(layout);
+
+
+//
+//
+//        ///////////////////////// FOURTH PANEL CODE ENDS HERE /////////////////////////////////
+
+
+
+
+        //        ///////////////////////// FIFTH PANEL CODE ENDS HERE /////////////////////////////////
+
+
+
+        String[] labels5 = {"81", "82", "83", "84", "85", "86", "87", "88", "89", "90",
+                "91", "92", "93", "94", "95", "96", "97", "98", "99", "100"};
+
+
+        panel5.setBackground(Color.white);
+
+        JButton button5;
+
+        for (String label : labels5) {
+            button5 = new JButton(label);
+            button5.addActionListener(this);
+            button5.setBackground(new Color(0, 168, 89));
+            button5.setPreferredSize(new Dimension(100,100));
+            button5.setFont(new Font("Calibri", 1, 20));
+            button5.setActionCommand(label);
+            button5.setForeground(Color.white);
+            panel5.add(button5);  //same as self.add(button)
+        }
+
+
+        panel5.setLayout(layout);
+
+
+//
+//
+//        ///////////////////////// FIFTH PANEL CODE ENDS HERE /////////////////////////////////
 
 
 
@@ -256,15 +365,59 @@ public class Quiz extends JPanel implements ActionListener{
         selectYourQuestion.setForeground(Color.white);
         add(selectYourQuestion);
 
-        JScrollPane scrollPane = new JScrollPane(panel);
+
+
+
+
+        final JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setBounds(20,80,500,450);
         scrollPane.setAutoscrolls(true);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-        //f.getContentPane().add(scrollPane);
         add(scrollPane);
+        //scrollPane.setVisible(false);
 
+
+
+
+        final JScrollPane scrollPane2 = new JScrollPane(panel2);
+        scrollPane2.setBounds(20,80,500,450);
+        scrollPane2.setAutoscrolls(true);
+        scrollPane2.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane2.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        add(scrollPane2);
+        scrollPane2.setVisible(false);
+
+
+        final JScrollPane scrollPane3 = new JScrollPane(panel3);
+        scrollPane3.setBounds(20,80,500,450);
+        scrollPane3.setAutoscrolls(true);
+        scrollPane3.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane3.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrollPane3.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        add(scrollPane3);
+        scrollPane3.setVisible(false);
+
+        final JScrollPane scrollPane4 = new JScrollPane(panel4);
+        scrollPane4.setBounds(20,80,500,450);
+        scrollPane4.setAutoscrolls(true);
+        scrollPane4.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane4.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrollPane4.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        add(scrollPane4);
+        scrollPane4.setVisible(false);
+
+
+        final JScrollPane scrollPane5 = new JScrollPane(panel5);
+        scrollPane5.setBounds(20,80,500,450);
+        scrollPane5.setAutoscrolls(true);
+        scrollPane5.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane5.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scrollPane5.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        add(scrollPane5);
+        scrollPane5.setVisible(false);
 
 
 
@@ -276,7 +429,16 @@ public class Quiz extends JPanel implements ActionListener{
         pageNo.setBounds(130,540,50,30);
         pageNo.setOpaque(true);
         pageNo.setHorizontalAlignment(SwingConstants.CENTER);
-        add(pageNo);
+        //add(pageNo);
+
+
+        pageNoView.setBounds(190,535,100,30);
+        pageNoView.setOpaque(true);
+        pageNoView.setHorizontalAlignment(SwingConstants.CENTER);
+        pageNoView.setForeground(Color.white);
+        pageNoView.setFont(new Font("Calibri", 1, 21));
+        pageNoView.setBackground(Color.darkGray);
+        add(pageNoView);
 
 
         previous.setBounds(20,540,100,30);
@@ -288,6 +450,72 @@ public class Quiz extends JPanel implements ActionListener{
 
 
                 pageCount = pageCount - 1;
+
+                if(pageCount == 1){
+
+                    scrollPane.setVisible(true);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(false);
+
+                    pageNoView.setText("1 - 20");
+
+                }
+
+                if(pageCount == 2){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(true);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(false);
+
+                    pageNoView.setText("21 - 40");
+                }
+
+
+
+                if(pageCount == 3){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(true);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(false);
+
+                    pageNoView.setText("41 - 60");
+                }
+
+
+                if(pageCount == 4){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(true);
+                    scrollPane5.setVisible(false);
+
+                    pageNoView.setText("61 - 80");
+                }
+
+
+                if(pageCount == 5){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(true);
+                    pageNoView.setText("81 - 100");
+                }
+
+
+
+
+
+
+
 
 
                 if(pageCount < 2){
@@ -312,7 +540,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        next.setBounds(190,540,100,30);
+        next.setBounds(400,540,100,30);
         add(next);
         next.addActionListener(new ActionListener() {
             @Override
@@ -320,6 +548,70 @@ public class Quiz extends JPanel implements ActionListener{
 
                 pageCount = pageCount + 1;
                 pageNo.setText(pageCount + "");
+
+                if(pageCount == 1){
+
+                    scrollPane.setVisible(true);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(false);
+
+
+                    pageNoView.setText("1 - 20");
+                }
+
+                if(pageCount == 2){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(true);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(false);
+
+                    pageNoView.setText("21 - 40");
+                }
+
+
+
+                if(pageCount == 3){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(true);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(false);
+
+
+                    pageNoView.setText("41 - 60");
+                }
+
+
+                if(pageCount == 4){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(true);
+                    scrollPane5.setVisible(false);
+
+                    pageNoView.setText("61 - 80");
+                }
+
+
+                if(pageCount == 5){
+
+                    scrollPane.setVisible(false);
+                    scrollPane2.setVisible(false);
+                    scrollPane3.setVisible(false);
+                    scrollPane4.setVisible(false);
+                    scrollPane5.setVisible(true);
+
+
+                    pageNoView.setText("81 - 100");
+                }
+
+
 
                 if(pageCount > 4){
 
@@ -366,7 +658,7 @@ public class Quiz extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
 
-        button = (JButton) e.getSource();
+      JButton  button = (JButton) e.getSource();
        // System.out.println(button.getBackground());
 
         if(button.getBackground().toString().equals("java.awt.Color[r=0,g=168,b=89]") ){

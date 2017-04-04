@@ -72,33 +72,73 @@ public class Process {
 
 
 
+
+
             act = Integer.parseInt(actioncommand);
 
 
             if(rec.absolute(act)){
 
 
-                if (questrad.equals(rec.getString("Type")))  {
-
-                    QuestionRadio.tarea.setText("");
-                    QuestionRadio.amenu.setText("");
-                    QuestionRadio.bmenu.setText("");
-                    QuestionRadio.cmenu.setText("");
-                    QuestionRadio.dmenu.setText("");
 
 
-                    new QuestionRadio().fill(rec.getString("Question"),rec.getString("Option1"),rec.getString("Option2"),rec.getString("Option3"),rec.getString("Option4"));
+                if (questrad.equals(rec.getString("Type"))   )  {
+
+                    String emptyCheck =  rec.getString("Question");
+
+
+
+
+                        try {
+
+
+                            if(emptyCheck.equals("") || emptyCheck.equals("null")){
+
+                                System.out.print("Empty question");
+
+                            }
+
+                            else {
+
+
+
+                                QuestionRadio.tarea.setText("");
+                                QuestionRadio.amenu.setText("");
+                                QuestionRadio.bmenu.setText("");
+                                QuestionRadio.cmenu.setText("");
+                                QuestionRadio.dmenu.setText("");
+
+
+                                new QuestionRadio().fill(rec.getString("Question"),rec.getString("Option1"),rec.getString("Option2"),rec.getString("Option3"),rec.getString("Option4"));
+
+
+                            }
+
+
+                        }catch (Exception e){ JOptionPane.showMessageDialog(null, "Please Choose Another Question", " NO AVAILABLE QUESTION", JOptionPane.PLAIN_MESSAGE);
+                            }
+
+
+
+                            try {
+
+
+                                timer.start();
+                                timer.stop();
+                            }catch (Exception f){timer.stop();};
+
+
 
                 }
-                else if ((questchk.equals(rec.getString("Type")))) {
-
-                    new QuestionCheck().fill(rec.getString("Question"), rec.getString("Option1"), rec.getString("Option2"), rec.getString("Option3"), rec.getString("Option4"));
-
-                }
+//                else if ((questchk.equals(rec.getString("Type")))) {
+//
+//                    new QuestionCheck().fill(rec.getString("Question"), rec.getString("Option1"), rec.getString("Option2"), rec.getString("Option3"), rec.getString("Option4"));
+//
+//                }
 
             }
-            else{ timer.start();
-                timer.stop();}
+//            else{ timer.start();
+//                timer.stop();}
 
 
             st.close();

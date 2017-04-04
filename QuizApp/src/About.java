@@ -186,6 +186,8 @@ public class About extends JPanel {
 
                         HolderPage.content.removeAll();
 
+
+
                         HolderPage.content.add(new Entry());
 
                         HolderPage.content.updateUI();
