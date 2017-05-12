@@ -361,7 +361,6 @@ public class Quiz extends JPanel implements ActionListener{
 
         final JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setBounds(20,75,500,430);
-        scrollPane.setFont(new Font("Calibri",1,15));
         scrollPane.setAutoscrolls(true);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
@@ -375,11 +374,13 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         final JScrollPane scrollPane2 = new JScrollPane(panel2);
-        scrollPane2.setBounds(20,80,500,450);
+        scrollPane2.setBounds(20,75,500,430);
         scrollPane2.setAutoscrolls(true);
         scrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane2.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        scrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"", 2,2,new Font("Calibri",1,20),Color.black));
+
         add(scrollPane2);
         scrollPane2.setVisible(false);
 
@@ -539,7 +540,7 @@ public class Quiz extends JPanel implements ActionListener{
         next.setBounds(400,535,100,30);
         next.setFont(new Font("Calibri",1,15));
         next.setBackground(new Color(6, 125, 248));
-        previous.setForeground(Color.white);
+        next.setForeground(Color.white);
         add(next);
         next.addActionListener(new ActionListener() {
             @Override
