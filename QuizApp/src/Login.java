@@ -250,16 +250,19 @@ public class Login extends JPanel {
                     Connection conn = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=DB/db.mdb;");
 
                     Statement st = conn.createStatement();
-                    ResultSet rec = st.executeQuery("SELECT username, password FROM Login");
+                    //ResultSet rec = st.executeQuery("SELECT username, password FROM Login");
+                    ResultSet rec = st.executeQuery("SELECT password FROM Login");
                     boolean isExist = false;
 
                     while (rec.next()) {
-                        String x = uname.getText();
+                       // String x = uname.getText();
                         String y = passfield.getText();
 
 
 
-                            if ((x.equals(rec.getString("username"))) && (y.equals(rec.getString("password")))) {
+                            //if ((x.equals(rec.getString("username"))) && (y.equals(rec.getString("password")))) {
+
+                                if ((y.equals(rec.getString("password")))) {
 
 
                                 isExist = true;

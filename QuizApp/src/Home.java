@@ -101,7 +101,7 @@ public class Home extends JPanel {
 
 
 
-    Image imaget = new ImageIcon("img/home.png").getImage();
+   // Image imaget = new ImageIcon("img/home.png").getImage();
 
 
     JButton selectDB =  new JButton("Choose");
@@ -132,9 +132,12 @@ public class Home extends JPanel {
     //////////////////////////////////////////////////////////////////////////////////
 
 
+    JButton home = new JButton("Home");
 
 
 
+    JLabel downbar =  new JLabel();
+    JLabel yellowUp =  new JLabel();
 
 
 
@@ -159,17 +162,24 @@ public class Home extends JPanel {
 
         panel.setLayout(layout);
         panel.setBackground(new Color(0, 168, 89));
+       // panel.setBackground(new Color(233, 233, 233));
         panel.setPreferredSize(new Dimension(400,380));
         panel.updateUI();
 
         scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setBounds(45,100,500,380);
+       // scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Contestants", 1,2,new Font("Calibri",1,14),Color.red));
+        scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"Contestants", 2,2,new Font("Calibri",1,20),Color.black));
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        scroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        scroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+
+        scroll.setBounds(45,30,500,380);
         add(scroll);
         scroll.updateUI();
 
-        contestantStatus.setBounds(45, 50, 200, 30);
-        contestantStatus.setFont(new Font("Calibri", 1, 20));
+        contestantStatus.setBounds(45, 425, 150, 25);
+        contestantStatus.setFont(new Font("Calibri", 1, 16));
         contestantStatus.setBackground(new Color(0, 168, 89));
         contestantStatus.setHorizontalAlignment(SwingConstants.CENTER);
         contestantStatus.setOpaque(true);
@@ -182,11 +192,11 @@ public class Home extends JPanel {
         panelsAndTextFields();
 
 
-        up.setBounds(260, 50, 80, 30);
-        up.setBackground(new Color(0, 168, 89));
+        up.setBounds(220, 423, 80, 30);
+        up.setBackground(new Color(6, 125, 248));
         up.setHorizontalAlignment(SwingConstants.CENTER);
         up.setForeground(Color.white);
-        up.setFont(new Font("Calibri", 1, 17));
+        up.setFont(new Font("Calibri", 1, 16));
         add(up);
 
         up.addActionListener(new ActionListener() {
@@ -256,11 +266,11 @@ public class Home extends JPanel {
             }
         });
 
-        down.setBounds(350, 50, 100, 30);
-        down.setBackground(new Color(0, 168, 89));
+        down.setBounds(320, 423, 100, 30);
+        down.setBackground(new Color(6, 125, 248));
         down.setEnabled(false);
         down.setHorizontalAlignment(SwingConstants.CENTER);
-        down.setFont(new Font("Calibri", 1, 17));
+        down.setFont(new Font("Calibri", 1, 16));
         down.setForeground(Color.white);
         add(down);
 
@@ -339,9 +349,9 @@ public class Home extends JPanel {
 
 
         JButton reset = new JButton("Reset");
-        reset.setBounds(460, 50, 80, 30);
+        reset.setBounds(440, 423, 80, 30);
         reset.setBackground(new Color(250, 2, 2));
-        reset.setFont(new Font("Calibri", 1, 17));
+        reset.setFont(new Font("Calibri", 1, 16));
         reset.setHorizontalAlignment(SwingConstants.CENTER);
         reset.setForeground(Color.white);
         add(reset);
@@ -356,8 +366,8 @@ public class Home extends JPanel {
 
 
 
-        go.setBounds(45, 500, 200, 32);
-        go.setFont(new Font("Calibri", 1, 17));
+        go.setBounds(45, 460, 200, 30);
+        go.setFont(new Font("Calibri", 1, 16));
         go.setHorizontalAlignment(SwingConstants.CENTER);
         go.setBackground(new Color(0, 168, 89));
         go.setForeground(Color.white);
@@ -379,7 +389,7 @@ public class Home extends JPanel {
 
 
 
-        start.setBounds(250, 500, 100, 32);
+        start.setBounds(250, 460, 100, 32);
         start.setFont(new Font("Calibri", 1, 17));
         start.setHorizontalAlignment(SwingConstants.CENTER);
         start.setBackground(new Color(0, 168, 89));
@@ -426,7 +436,7 @@ public class Home extends JPanel {
 
 
 
-        retrieve.setBounds(360, 500, 150, 32);
+        retrieve.setBounds(360, 460, 150, 32);
         retrieve.setFont(new Font("Calibri", 1, 17));
         retrieve.setHorizontalAlignment(SwingConstants.CENTER);
         retrieve.setBackground(new Color(0, 168, 89));
@@ -443,16 +453,19 @@ public class Home extends JPanel {
         });
 
 
-        JButton login = new JButton("Return Home");
-        login.setBounds(800, 50, 150, 32);
-        login.setFont(new Font("Calibri", 1, 17));
-        login.setHorizontalAlignment(SwingConstants.CENTER);
-        login.setBackground(new Color(245, 3, 6));
-        login.setForeground(Color.white);
-        add(login);
 
 
-        login.addActionListener(new ActionListener() {
+
+
+        home.setBounds(420, 520, 180, 30);
+        home.setFont(new Font("Calibri", 1, 19));
+        home.setHorizontalAlignment(SwingConstants.CENTER);
+        home.setBackground(new Color(6, 125, 248));
+        home.setForeground(Color.white);
+        add(home);
+
+
+        home.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -507,8 +520,13 @@ public class Home extends JPanel {
 
         settingsScroll = new JScrollPane(settings);
         settingsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        settingsScroll.setBounds(600,100,380,200);
-        settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Quick Settings", 1,2,new Font("Calibri",1,14),Color.red));
+        settingsScroll.setBounds(600,30,380,220);
+       // settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Quick Settings", 1,2,new Font("Calibri",1,14),Color.red));
+        settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"Quick Settings", 2,2,new Font("Calibri",1,20),Color.black));
+        settingsScroll.getVerticalScrollBar().setUnitIncrement(16);
+        settingsScroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
+        settingsScroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+
         add(settingsScroll);
 
         //ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
@@ -589,9 +607,9 @@ public class Home extends JPanel {
         //settings.add(rangestop);
 
 
-        time.addItem("5secs");
-        time.addItem("10secs");
-        time.addItem("15secs");
+        //time.addItem("5secs");
+       // time.addItem("10secs");
+      //  time.addItem("15secs");
         time.addItem("30secs");
        time.addItem("45secs");
        time.addItem("60secs");
@@ -666,8 +684,6 @@ public class Home extends JPanel {
 
                 settingsUpdate();
 
-                updateSettings.setVisible(false);
-                edit.setVisible(true);
 
             }
         });
@@ -696,6 +712,25 @@ public class Home extends JPanel {
 
             }
         });
+
+
+
+
+        yellowUp.setBounds(0,495,1000,5);
+        yellowUp.setBackground(new Color(232, 161, 28));
+        yellowUp.setOpaque(true);
+        add(yellowUp);
+
+
+
+        downbar.setBounds(0,500,1000,70);
+        downbar.setBackground(new Color(233, 233, 233));
+        downbar.setOpaque(true);
+        add(downbar);
+
+
+
+        setBackground(Color.white);
 
 
 //        f.add(this);
@@ -1356,118 +1391,106 @@ public class Home extends JPanel {
 
 
 
-    public void settingsUpdate(){
+    public void settingsUpdate() {
+
+
+        if (quiznametext.getText().equals("") || quizname.getText() == null) {
 
 
 
-
-        String counterNow = time.getSelectedItem().toString();
-        String questionID = quiznametext.getText();
-        RandomAccessFile conf;
+            JOptionPane.showMessageDialog(null, "No Question Choosen", "", JOptionPane.INFORMATION_MESSAGE);
 
 
-        try{
+            updateSettings.setVisible(true);
+            edit.setVisible(false);
 
-            conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\counter", "rw");
-            //conf.seek(0);
-            conf.writeBytes(counterNow);
-            conf.close();
+
+        } else {
+
+
+
+            updateSettings.setVisible(false);
+            edit.setVisible(true);
+
+
+
+            String counterNow = time.getSelectedItem().toString();
+            String questionID = quiznametext.getText();
+            RandomAccessFile conf;
+
+
+            try {
+
+                conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\counter", "rw");
+                //conf.seek(0);
+                conf.writeBytes(counterNow);
+                conf.close();
+
+
+            } catch (Exception exception) {
+                System.out.println("config-file read error: " + exception.toString());
+            }
+
+
+            try {
+
+                conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\QuizDB", "rw");
+                //conf.seek(0);
+                // conf.writeBytes("   ");
+                conf.writeBytes(questionID + "                ");
+                conf.close();
+
+
+            } catch (Exception exception) {
+                System.out.println("config-file read error: " + exception.toString());
+            }
+
+
+            combo.setEnabled(false);
+            point.setEnabled(false);
+            time.setEnabled(false);
+            rangestop.setEnabled(false);
+            rangestart.setEnabled(false);
+            quiznametext.setEnabled(false);
+            selectDB.setEnabled(false);
+
+
+            PreparedStatement ps = null;
+            Connection conn = null;
+
+
+            try {
+
+
+                Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+                conn = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=DB/db.mdb;");
+
+
+                ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '" + point.getSelectedItem().toString() + "' WHERE id = '" + 2 + "'");
+                ps.executeUpdate();
+
+                ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '" + combo.getSelectedItem().toString() + "' WHERE id = '" + 3 + "'");
+                ps.executeUpdate();
+
+                ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '" + time.getSelectedItem().toString() + "' WHERE id = '" + 4 + "'");
+                ps.executeUpdate();
+
+                conn.close();
+                ps.close();
+
+
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
+
+            } // end catch
+            catch (ClassNotFoundException classNotFound) {
+                classNotFound.printStackTrace();
+
+            } // end catch
 
 
         }
-        catch (Exception exception)
-        {
-            System.out.println("config-file read error: " + exception.toString());
-        }
-
-
-
-
-
-        try{
-
-            conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\QuizDB", "rw");
-            //conf.seek(0);
-           // conf.writeBytes("   ");
-            conf.writeBytes(questionID + "                ");
-            conf.close();
-
-
-        }
-        catch (Exception exception)
-        {
-            System.out.println("config-file read error: " + exception.toString());
-        }
-
-
-
-
-
-
-
-
-        combo.setEnabled(false);
-        point.setEnabled(false);
-        time.setEnabled(false);
-        rangestop.setEnabled(false);
-        rangestart.setEnabled(false);
-        quiznametext.setEnabled(false);
-        selectDB.setEnabled(false);
-
-
-
-
-
-
-
-
-
-
-
-        PreparedStatement ps = null;
-        Connection conn = null;
-
-
-
-        try {
-
-
-            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-            conn = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=DB/db.mdb;");
-
-
-            ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '"+point.getSelectedItem().toString()+"' WHERE id = '"+2+"'");
-            ps.executeUpdate();
-
-            ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '"+combo.getSelectedItem().toString()+"' WHERE id = '"+3+"'");
-            ps.executeUpdate();
-
-            ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '"+time.getSelectedItem().toString()+"' WHERE id = '"+4+"'");
-            ps.executeUpdate();
-
-            conn.close();
-            ps.close();
-
-
-
-
-        }
-
-
-
-        catch ( SQLException sqlException )
-        {
-            sqlException.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
-
-        } // end catch
-        catch ( ClassNotFoundException classNotFound )
-        {
-            classNotFound.printStackTrace();
-
-        } // end catch
-
-
 
 
     }
@@ -1475,20 +1498,20 @@ public class Home extends JPanel {
 
 
 
-    public void paintComponent(Graphics g){
-
-        super.paintComponent(g);
-
-
-
-
-        //	g.setFont(new Font("Calibri (Body)", 1, 11));
-
-        g.drawImage(imaget, 0, 0,1000,570,this);
-
-
-
-    }
+//    public void paintComponent(Graphics g){
+//
+//        super.paintComponent(g);
+//
+//
+//
+//
+//        //	g.setFont(new Font("Calibri (Body)", 1, 11));
+//
+//       // g.drawImage(imaget, 0, 0,1000,570,this);
+//
+//
+//
+//    }
 
 
 
@@ -1559,6 +1582,10 @@ public class Home extends JPanel {
 
 
             selected.setBounds(20, 10, 240, 30);
+            selected.setFont(new Font("Calibri", 1, 18));
+            selected.setOpaque(false);
+            selected.setBackground(new Color(230, 230, 230));
+            selected.setHorizontalAlignment(SwingConstants.CENTER);
             selected.setEditable(false);
             dlog2.add(selected);
 

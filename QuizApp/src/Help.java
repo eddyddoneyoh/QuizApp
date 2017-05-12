@@ -18,55 +18,15 @@
  */
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.RandomAccessFile;
-import java.sql.*;
-import javax.swing.event.*;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.awt.Dimension;
-import java.util.Vector;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JOptionPane;
-
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-
-import javax.swing.table.DefaultTableModel;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.UIManager;
-
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeSelectionModel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-
-import java.net.URL;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.net.URL;
 
 
 
@@ -83,6 +43,7 @@ public class Help extends JPanel implements TreeSelectionListener  {
     int widthdiv;
 
 
+    JLabel downbar  = new JLabel();
 
 
 
@@ -105,6 +66,8 @@ public class Help extends JPanel implements TreeSelectionListener  {
     //Optionally set the look and feel.
     private static boolean useSystemLookAndFeel = false;
 
+    JLabel yellowUp = new JLabel();
+
 
 
 
@@ -117,8 +80,10 @@ public class Help extends JPanel implements TreeSelectionListener  {
         y = screenSize.height;
         x = screenSize.width;
 
-        heightdiv = (Integer) y / 2;
-        widthdiv = (Integer) x / 2;
+        heightdiv = y / 2;
+        widthdiv = x / 2;
+
+
 
 
 
@@ -143,8 +108,11 @@ public class Help extends JPanel implements TreeSelectionListener  {
 
         //Create the scroll pane and add the tree to it.
         JScrollPane treeView = new JScrollPane(tree);
-        treeView.setBounds(100,50,250,450);
+        treeView.setBounds(100,30,250,450);
         add(treeView);
+
+
+        treeView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 4,true));
 
 
 
@@ -153,12 +121,18 @@ public class Help extends JPanel implements TreeSelectionListener  {
         htmlPane.setEditable(false);
         initHelp();
         JScrollPane htmlView = new JScrollPane(htmlPane);
-        htmlView.setBounds(355,50,520,450);
+        htmlView.setBounds(355,30,520,450);
         add(htmlView);
+
+
+
+        htmlView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 4,true));
+
+
 
         //Add the scroll panes to a split pane.
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setBounds(347,52,52,448);
+        splitPane.setBounds(347,31,52,448);
        // splitPane.setLeftComponent(treeView);
         //splitPane.setRightComponent(htmlView);
 
@@ -178,10 +152,10 @@ public class Help extends JPanel implements TreeSelectionListener  {
 
 
 
-        home.setBounds(400, 500, 180, 30);
+        home.setBounds(420, 520, 180, 30);
         home.setFont(new Font("Calibri", 1, 19));
         home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(0, 168, 89));
+        home.setBackground(new Color(6, 125, 248));
         home.setForeground(Color.white);
         add(home);
 
@@ -217,9 +191,25 @@ public class Help extends JPanel implements TreeSelectionListener  {
 
 
 
+        yellowUp.setBounds(0,495,1000,5);
+        yellowUp.setBackground(new Color(232, 161, 28));
+        yellowUp.setOpaque(true);
+        add(yellowUp);
 
 
-        setBackground(new Color(32, 173, 248));
+
+        downbar.setBounds(0,500,1000,70);
+        downbar.setBackground(new Color(233, 233, 233));
+        downbar.setOpaque(true);
+        add(downbar);
+
+
+
+
+
+
+       // setBackground(new Color(32, 173, 248));
+        setBackground(Color.white);
         setLayout(null);
 
 

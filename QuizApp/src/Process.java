@@ -1,15 +1,9 @@
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.RandomAccessFile;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.*;
-import java.util.*;
 
 /**
  * Created by EdidiongEyo on 11/6/2016.
@@ -120,12 +114,12 @@ public class Process {
 
 
 
-                            try {
-
-
-                                timer.start();
-                                timer.stop();
-                            }catch (Exception f){timer.stop();};
+//                            try {
+//
+//
+//                                timer.start();
+//                                timer.stop();
+//                            }catch (Exception f){timer.stop();};
 
 
 

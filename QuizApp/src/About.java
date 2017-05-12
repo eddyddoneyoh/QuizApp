@@ -21,86 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.RandomAccessFile;
-import java.sql.*;
-import javax.swing.event.*;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.awt.Dimension;
-import java.util.Vector;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JOptionPane;
-
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-
-import javax.swing.table.DefaultTableModel;
-
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.RandomAccessFile;
-import java.sql.*;
-import javax.swing.event.*;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.awt.Dimension;
-import java.util.Vector;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JOptionPane;
-
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-
-import javax.swing.table.DefaultTableModel;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.UIManager;
-
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeSelectionModel;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-
-import java.net.URL;
 import java.io.IOException;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.net.URL;
 
 
 
@@ -151,6 +73,8 @@ public class About extends JPanel {
 
 
 
+    JLabel downbar =  new JLabel();
+    JLabel yelloDown = new JLabel();
 
 
     public About() {
@@ -161,15 +85,15 @@ public class About extends JPanel {
         y = screenSize.height;
         x = screenSize.width;
 
-        heightdiv = (Integer) y / 2;
-        widthdiv = (Integer) x / 2;
+        heightdiv = y / 2;
+        widthdiv = x / 2;
 
 
 
-        home.setBounds(400, 500, 180, 30);
+        home.setBounds(420, 520, 180, 30);
         home.setFont(new Font("Calibri", 1, 19));
         home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(0, 168, 89));
+        home.setBackground(new Color(6, 125, 248));
         home.setForeground(Color.white);
         add(home);
 
@@ -200,6 +124,8 @@ public class About extends JPanel {
                 });
 
 
+               // HolderPage.menuAdjuster();
+               // HolderPage.content.updateUI();
 
 
 
@@ -215,12 +141,29 @@ public class About extends JPanel {
         htmlPane.setEditable(false);
         initHelp();
         JScrollPane htmlView = new JScrollPane(htmlPane);
-        htmlView.setBounds(100,50,700,450);
+        htmlView.setBounds(150,30,700,450);
+
+        htmlView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 4,true));
+
         add(htmlView);
 
 
 
-        setBackground(new Color(32, 173, 248));
+
+        yelloDown.setBounds(0,495,1000,5);
+        yelloDown.setBackground(new Color(232, 161, 28));
+        yelloDown.setOpaque(true);
+        add(yelloDown);
+
+
+
+        downbar.setBounds(0,500,1000,70);
+        downbar.setBackground(new Color(233, 233, 233));
+        downbar.setOpaque(true);
+        add(downbar);
+
+
+        setBackground(Color.white);
         setLayout(null);
 
 
@@ -233,7 +176,7 @@ public class About extends JPanel {
 
 
     private void initHelp() {
-        String s = "AboutFIles//Demo//template.html";
+        String s = "HelpFiles/arnold.html";
         helpURL = getClass().getResource(s);
         if (helpURL == null) {
             System.err.println("Couldn't open help file: " + s);

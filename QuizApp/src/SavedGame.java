@@ -18,34 +18,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.RandomAccessFile;
-import java.sql.*;
-import javax.swing.event.*;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.awt.Dimension;
-import java.util.Vector;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JOptionPane;
-
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-
-import javax.swing.table.DefaultTableModel;
 
 
 
@@ -71,6 +43,9 @@ public class SavedGame extends JPanel {
 
 
 
+    JLabel downbar =  new JLabel();
+    JLabel yelloDown = new JLabel();
+
 
 
 
@@ -88,15 +63,20 @@ public class SavedGame extends JPanel {
         y = screenSize.height;
         x = screenSize.width;
 
-        heightdiv = (Integer) y / 2;
-        widthdiv = (Integer) x / 2;
+        heightdiv = y / 2;
+        widthdiv = x / 2;
 
 
 
-        home.setBounds(400, 500, 180, 30);
+
+
+
+
+
+        home.setBounds(420, 520, 180, 30);
         home.setFont(new Font("Calibri", 1, 19));
         home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(0, 168, 89));
+        home.setBackground(new Color(6, 125, 248));
         home.setForeground(Color.white);
         add(home);
 
@@ -135,8 +115,22 @@ public class SavedGame extends JPanel {
 
 
 
+        yelloDown.setBounds(0,495,1000,5);
+        yelloDown.setBackground(new Color(232, 161, 28));
+        yelloDown.setOpaque(true);
+        add(yelloDown);
 
-        setBackground(new Color(32, 173, 248));
+
+
+        downbar.setBounds(0,500,1000,70);
+        downbar.setBackground(new Color(233, 233, 233));
+        downbar.setOpaque(true);
+        add(downbar);
+
+
+
+
+        setBackground(Color.white);
         setLayout(null);
 
 

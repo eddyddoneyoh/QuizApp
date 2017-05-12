@@ -7,18 +7,9 @@
 /**
  * Created by EdidiongEyo on 11/5/2016.
  */
-import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.RandomAccessFile;
-import java.sql.*;
 
 
 public class HolderPage  {
@@ -36,6 +27,11 @@ public class HolderPage  {
 
     Image imaget = new ImageIcon("img/home.png").getImage();
 
+
+
+    static public int holderPage_pageCount = 1;
+
+
     public HolderPage() {
 
 
@@ -45,8 +41,8 @@ public class HolderPage  {
         y = screenSize.height;
         x = screenSize.width;
 
-        heightdiv = (Integer) y / 2;
-        widthdiv = (Integer) x / 2;
+        heightdiv = y / 2;
+        widthdiv = x / 2;
 
         content.setLayout(new BorderLayout());
 
@@ -63,9 +59,114 @@ public class HolderPage  {
         f.setDefaultCloseOperation(3);
         f.setResizable(false);
 
+
     }
 
 
+//
+//
+//
+//    public static void menuAdjuster(){
+//
+//
+//
+//        if(holderPage_pageCount == 1){
+//
+//            Entry.previousHidden.setVisible(false);
+//            Entry.previous.setEnabled(true);
+//            Entry.previous.setVisible(true);
+//            Entry.next.setVisible(false);
+//
+//
+//
+//
+//            Entry.newQuiz.setEnabled(true);
+//            Entry.resume.setEnabled(true);
+//            Entry.login.setEnabled(true);
+//            Entry.settings.setEnabled(false);
+//            Entry.help.setEnabled(false);
+//            Entry.about.setEnabled(true);
+//
+//
+//
+//
+//        }
+//
+//        if(holderPage_pageCount == 2){
+//
+//            Entry.previousHidden.setVisible(false);
+//            Entry.previous.setEnabled(true);
+//            Entry.previous.setVisible(true);
+//            Entry.next.setVisible(true);
+//
+//
+//
+//            Entry.newQuiz.setEnabled(false);
+//            Entry.resume.setEnabled(true);
+//            Entry.login.setEnabled(true);
+//            Entry.settings.setEnabled(true);
+//            Entry.help.setEnabled(false);
+//            Entry.about.setEnabled(false);
+//
+//        }
+//
+//
+//
+//        if(holderPage_pageCount == 3){
+//
+//            Entry.previousHidden.setVisible(false);
+//            Entry.previous.setEnabled(true);
+//            Entry.previous.setVisible(true);
+//            Entry.next.setVisible(true);
+//
+//
+//            Entry.newQuiz.setEnabled(false);
+//            Entry.resume.setEnabled(false);
+//            Entry.login.setEnabled(true);
+//            Entry.settings.setEnabled(true);
+//            Entry.help.setEnabled(true);
+//            Entry.about.setEnabled(false);
+//
+//
+//
+//
+//
+//        }
+//
+//
+//        if(holderPage_pageCount == 4){
+//
+//
+//            System.out.println("Holder Page count  =  "  + holderPage_pageCount);
+//
+//
+//            Entry.menuPanel.setLocation(590 , 200);
+//            HolderPage.content.updateUI();
+//
+//            Entry.previousHidden.setVisible(true);
+//            Entry.previous.setVisible(false);
+//            Entry.next.setEnabled(true);
+//            Entry.next.setVisible(true);
+//
+//
+//
+//            Entry.newQuiz.setEnabled(false);
+//            Entry.resume.setEnabled(false);
+//            Entry.login.setEnabled(false);
+//            Entry.settings.setEnabled(true);
+//            Entry.help.setEnabled(true);
+//            Entry.about.setEnabled(true);
+//
+//
+//
+//        }
+//
+//
+//
+//
+//
+//    }
+//
 
     public static void main(String[] args) {
 
