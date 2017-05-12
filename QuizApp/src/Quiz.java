@@ -368,7 +368,7 @@ public class Quiz extends JPanel implements ActionListener{
         scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"", 2,2,new Font("Calibri",1,20),Color.black));
 
         add(scrollPane);
-        //scrollPane.setVisible(false);
+
 
 
 
