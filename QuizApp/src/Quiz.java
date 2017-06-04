@@ -13,15 +13,16 @@
 
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.RandomAccessFile;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.TimerTask;
 import java.util.Vector;
-
-
 
 
 public class Quiz extends JPanel implements ActionListener{
@@ -50,7 +51,7 @@ public class Quiz extends JPanel implements ActionListener{
 
     JLabel selectYourQuestion =  new JLabel("Select Your Question Number Below!");
     static JPanel quicScores =  new JPanel();
-    JButton fullScores = new JButton("View Full Scores");
+    MaterialButton fullScores = new MaterialButton();
     JPanel panel = new JPanel();
     JPanel panel2 =  new JPanel();
     JPanel panel3 = new JPanel();
@@ -72,19 +73,78 @@ public class Quiz extends JPanel implements ActionListener{
 
     static public JTable table = new JTable();
 
-    private JButton saveGame =  new JButton("Save Game");
-    private JButton quitGame =  new JButton("Quit Game");
+    private MaterialButton saveGame =  new MaterialButton();
+    private MaterialButton quitGame =  new MaterialButton();
 
 
-    JButton previous = new JButton("Previous");
-    JButton next =  new JButton("Next");
+    MaterialButton previous = new MaterialButton();
+    MaterialButton next =  new MaterialButton();
     JLabel pageNo = new JLabel("1");
     JLabel pageNoView = new JLabel("1 - 20");
     int pageCount = Integer.parseInt(pageNo.getText());
 
 
 
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+
+    JButton home = new JButton();
+
+
+
+    JLabel downbar =  new JLabel();
+    JLabel yellowUp =  new JLabel();
+
+
+
+
+    JLabel topBar = new JLabel("QuizApp");
+
+
+
+
+    int x1 = 0;
+    int y1 = 0;
+    int fx = 0;
+    int fy = 0;
+
+
+    JButton close = new JButton();
+
+    JButton minimize =  new JButton();
+    JButton topMenu =  new JButton();
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+    JLabel date = new JLabel();
+
+    DateFormat dateFormat = new SimpleDateFormat("EEE MMMMMMMMMMMMMM, yyyy  |  hh:mm aaa");
+
+    java.util.Date dated = new java.util.Date();
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    JLabel breadCrumb =  new JLabel("Home > Quiz Setup > New Quiz ");
+
+
+
     public Quiz() {
+
+
+
+
+
+        new Move().move(HolderPage.f,topBar);
+
+
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -112,10 +172,11 @@ public class Quiz extends JPanel implements ActionListener{
 
         panel.setBackground(Color.white);
 
-        JButton button;
+        MaterialButton button;
 
         for (String label : labels) {
-            button = new JButton(label);
+            button = new MaterialButton();
+            button.setText(label);
             button.addActionListener(this);
             button.setBackground(new Color(0, 168, 89));
             button.setPreferredSize(new Dimension(100,100));
@@ -261,21 +322,74 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        quicScores.setBounds(530,80,450,200);
+        quicScores.setBounds(530,100,400,250);
        quicScores.setLayout(null);
         quicScores.setBackground(Color.white);
         //quicScores.setBorder(BorderFactory.createTitledBorder("Quick Scores"));
-        quicScores.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"Quick Scores", 2,2,new Font("Calibri",1,20),Color.black));
+        quicScores.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Quick Scores", 2,2,new Font("Calibri",1,20),Color.black));
 
         add(quicScores);
 
 
 
-        saveGame.setBounds(550, 400, 190, 50);
+
+        home.setBounds(300, 42, 30, 30);
+        home.setIcon( new ImageIcon("img//home.png"));
+        home.setRolloverIcon( new ImageIcon("img//homeR.png"));
+        home.setToolTipText("Return to home");
+
+        add(home);
+
+
+        home.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                Home.dlog2.dispose();
+
+                JOptionPane pane = new JOptionPane("Are you really sure you want to exit?  YOU WILL LOSE THE GAME?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
+                JDialog dialog = pane.createDialog(null, "Exit");
+                dialog.show();
+                String selectedValue = pane.getValue().toString();
+
+                if(selectedValue.equals("0")){
+
+                    //totalReset();
+
+                    HolderPage.content.removeAll();
+
+                    HolderPage.content.add(new Entry());
+
+                    HolderPage.content.updateUI();
+
+                    HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
+
+
+                }
+                else{
+
+                    dialog.show(false);
+                }
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+        saveGame.setBounds(550, 400, 150, 50);
         saveGame.setFont(new Font("Calibri", 1, 17));
         saveGame.setHorizontalAlignment(SwingConstants.CENTER);
-        saveGame.setBackground(new Color(0, 168, 89));
+        saveGame.setBackground(MaterialColor.GREEN_500);
         saveGame.setForeground(Color.white);
+        saveGame.setText("Save Quiz");
         add(saveGame);
 
         saveGame.addActionListener(new ActionListener() {
@@ -289,17 +403,20 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        quitGame.setBounds(770, 400, 190, 50);
+        quitGame.setBounds(770, 400, 150, 50);
         quitGame.setFont(new Font("Calibri", 1, 17));
         quitGame.setHorizontalAlignment(SwingConstants.CENTER);
-        quitGame.setBackground(new Color(250, 2, 2));
+        quitGame.setBackground(MaterialColor.RED_500);
         quitGame.setForeground(Color.white);
+        quitGame.setText("Quit Quiz");
         add(quitGame);
 
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+                Home.dlog2.dispose();
 
                 JOptionPane pane = new JOptionPane("Are you really sure you want to exit?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
                 JDialog dialog = pane.createDialog(null, "Exit");
@@ -329,12 +446,13 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        fullScores.setBounds(650, 300, 190, 40);
+        fullScores.setBounds(85, 190, 250, 50);
         fullScores.setFont(new Font("Calibri", 1, 17));
         fullScores.setHorizontalAlignment(SwingConstants.CENTER);
-        fullScores.setBackground(new Color(0, 168, 89));
+        fullScores.setBackground(MaterialColor.BLUE_700);
         fullScores.setForeground(Color.white);
-        add(fullScores);
+        fullScores.setText("View Full Scores");
+        quicScores.add(fullScores);
 
         fullScores.addActionListener(new ActionListener() {
             @Override
@@ -347,26 +465,17 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        selectYourQuestion.setBounds(20, 30, 500, 30);
-        selectYourQuestion.setFont(new Font("Calibri", 1, 20));
-        selectYourQuestion.setBackground(new Color(0, 168, 89));
-        selectYourQuestion.setHorizontalAlignment(SwingConstants.CENTER);
-        selectYourQuestion.setOpaque(true);
-        selectYourQuestion.setForeground(Color.white);
-        add(selectYourQuestion);
-
-
 
 
 
         final JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setBounds(20,75,500,430);
+        scrollPane.setBounds(30,100,450,370);
         scrollPane.setAutoscrolls(true);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"", 2,2,new Font("Calibri",1,20),Color.black));
-
+        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Select Your Question Below!", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
         add(scrollPane);
 
 
@@ -374,42 +483,52 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         final JScrollPane scrollPane2 = new JScrollPane(panel2);
-        scrollPane2.setBounds(20,75,500,430);
+        scrollPane2.setBounds(30,100,450,370);
         scrollPane2.setAutoscrolls(true);
         scrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane2.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane2.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-        scrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Select Your Question Below!", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane2.getVerticalScrollBar().setUI(new MyScrollBarUI());
 
         add(scrollPane2);
         scrollPane2.setVisible(false);
 
 
         final JScrollPane scrollPane3 = new JScrollPane(panel3);
-        scrollPane3.setBounds(20,75,500,430);
+        scrollPane3.setBounds(30,100,450,370);
         scrollPane3.setAutoscrolls(true);
         scrollPane3.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane3.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane3.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        scrollPane3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Select Your Question Below!", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane3.getVerticalScrollBar().setUI(new MyScrollBarUI());
+
         add(scrollPane3);
         scrollPane3.setVisible(false);
 
         final JScrollPane scrollPane4 = new JScrollPane(panel4);
-        scrollPane4.setBounds(20,75,500,430);
+        scrollPane4.setBounds(30,100,450,370);
         scrollPane4.setAutoscrolls(true);
         scrollPane4.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane4.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane4.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        scrollPane4.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Select Your Question Below!", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane4.getVerticalScrollBar().setUI(new MyScrollBarUI());
+
         add(scrollPane4);
         scrollPane4.setVisible(false);
 
 
         final JScrollPane scrollPane5 = new JScrollPane(panel5);
-        scrollPane5.setBounds(20,75,500,430);
+        scrollPane5.setBounds(30,100,450,370);
         scrollPane5.setAutoscrolls(true);
         scrollPane5.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane5.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane5.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        scrollPane5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Select Your Question Below!", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane5.getVerticalScrollBar().setUI(new MyScrollBarUI());
+
         add(scrollPane5);
         scrollPane5.setVisible(false);
 
@@ -420,26 +539,27 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        pageNo.setBounds(130,540,50,30);
+        pageNo.setBounds(130,545,50,30);
         pageNo.setOpaque(true);
         pageNo.setHorizontalAlignment(SwingConstants.CENTER);
         //add(pageNo);
 
 
-        pageNoView.setBounds(190,535,100,30);
+        pageNoView.setBounds(190,485,100,25);
         pageNoView.setOpaque(true);
         pageNoView.setHorizontalAlignment(SwingConstants.CENTER);
         pageNoView.setForeground(Color.white);
-        pageNoView.setFont(new Font("Calibri", 1, 21));
-        pageNoView.setBackground(Color.darkGray);
+        pageNoView.setFont(new Font("Calibri", 1, 20));
+        pageNoView.setBackground(MaterialColor.LIGHT_BLACK);
         add(pageNoView);
 
 
-        previous.setBounds(20,530,100,30);
+        previous.setBounds(50,475,100,45);
         previous.setEnabled(false);
         previous.setFont(new Font("Calibri",1,15));
-        previous.setBackground(new Color(6, 125, 248));
+        previous.setBackground(MaterialColor.BLUE_700);
         previous.setForeground(Color.white);
+        previous.setText("Previous");
         add(previous);
         previous.addActionListener(new ActionListener() {
             @Override
@@ -537,10 +657,11 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        next.setBounds(400,535,100,30);
+        next.setBounds(330,475,100,45);
         next.setFont(new Font("Calibri",1,15));
         next.setBackground(new Color(6, 125, 248));
         next.setForeground(Color.white);
+        next.setText("Next");
         add(next);
         next.addActionListener(new ActionListener() {
             @Override
@@ -635,25 +756,139 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
+        close.setBounds(926,5,30,30);
+        close.setIcon(new ImageIcon("img//power.png"));
+        close.setRolloverIcon(new ImageIcon("img//powerR.png"));
+        add(close);
+
+
+        minimize.setBounds(880,5,30,30);
+        minimize.setIcon(new ImageIcon("img//minimize.png"));
+        minimize.setRolloverIcon(new ImageIcon("img//minimizeR.png"));
+        add(minimize);
+
+        minimize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                HolderPage.f.setState(Frame.ICONIFIED);
+            }
+        });
+
+        topMenu.setBounds(825,5,30,30);
+        topMenu.setIcon(new ImageIcon("img//menu.png"));
+        topMenu.setRolloverIcon(new ImageIcon("img//menuR.png"));
+        add(topMenu);
+
+        topMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                new TopMenu();
+
+            }
+        });
 
 
 
-       // setBackground(new Color(255, 220, 0));
+
+
+        topBar.setBounds(0,0,1000,40);
+        topBar.setOpaque(true);
+        topBar.setBackground(MaterialColor.BLUE_800);
+        topBar.setForeground(MaterialColor.DARK_WHITE);
+        topBar.setFont(new Font("Calibri",1, 20));
+        topBar.setHorizontalAlignment(SwingConstants.CENTER);
+        add(topBar);
+
+
+
+
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.exit(0);
+
+            }
+        });
+
+
+
+        breadCrumb.setBounds(40,40,400,35);
+        breadCrumb.setForeground(MaterialColor.WHITE);
+        breadCrumb.setFont(new Font("Calibri", 1, 18));
+        add(breadCrumb);
+
+
+
+
+        date.setBounds(750,40,400,35);
+        date.setForeground(MaterialColor.WHITE);
+        date.setFont(new Font("Calibri", 1, 18));
+        add(date);
+
+
+        java.util.Timer timer4 = new java.util.Timer();
+        TimerTask myTask = new TimerTask() {
+            @Override
+            public void run() {
+
+
+                dated = new java.util.Date();
+                date.setText(dateFormat.format(dated).toString());
+
+
+            }
+        };
+
+        timer4.scheduleAtFixedRate(myTask,0,1000);
+
+
+
+
+
+        yellowUp.setBounds(0,40,1000,35);
+        yellowUp.setBackground(MaterialColor.ORANGE_400);
+        yellowUp.setOpaque(true);
+        add(yellowUp);
+
+
+
+
+
+
+
+
+        downbar.setBounds(0,530,1000,40);
+        downbar.setBackground(new Color(233, 233, 233));
+        downbar.setOpaque(true);
+        add(downbar);
+
+
+
+
+
+        scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
+
+
+
+
         setBackground(Color.white);
         setLayout(null);
 
 
-      // f.add(this);
-
-
-//        f.setSize(1000, 600);
-//       f.setLocation(widthdiv - 500, heightdiv - 300);
-//        //f.setUndecorated(true);
-//       f.setVisible(true);
-//        f.setDefaultCloseOperation(3);
-//       f.setResizable(false);
-
     }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -851,8 +1086,9 @@ public class Quiz extends JPanel implements ActionListener{
         table.removeMouseListener(null);
 
         scroll = new JScrollPane(table);
-        scroll.setBounds(10,25,430,160);
+        scroll.setBounds(10,25,380,160);
         scroll.setBackground(Color.white);
+        //scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
         quicScores.add(scroll);
 
 
@@ -923,6 +1159,167 @@ public class Quiz extends JPanel implements ActionListener{
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    class Move{
+
+
+        public void move(final JFrame frame, JLabel l){
+
+
+
+
+            l.addMouseListener(
+
+
+                    new MouseAdapter(){
+
+
+                        public void mousePressed(MouseEvent t){
+
+
+                            x1 = t.getX();
+                            y1 = t.getY();
+
+
+
+                        }
+
+
+                    });
+
+
+
+
+            l.addMouseMotionListener(
+
+
+                    new MouseMotionAdapter(){
+
+
+
+                        public void mouseDragged(MouseEvent evt){
+
+
+                            fx = evt.getXOnScreen() - x1;
+
+                            fy = evt.getYOnScreen() - y1;
+
+
+                            frame.setLocation(fx,fy);
+
+
+
+                        }
+
+                    });
+
+
+
+
+
+
+        }
+
+    }
+
+
+
+
+
+
+    class MyScrollBarUI extends BasicScrollBarUI {
+                private final Dimension d = new Dimension();
+
+                @Override
+                protected JButton createDecreaseButton(int orientation) {
+                    return new JButton() {
+                        @Override
+                        public Dimension getPreferredSize() {
+                            return d;
+                        }
+                    };
+                }
+
+                @Override
+                protected JButton createIncreaseButton(int orientation) {
+                    return new JButton() {
+                        @Override
+                        public Dimension getPreferredSize() {
+                            return d;
+                        }
+                    };
+                }
+
+                @Override
+                protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+                }
+
+                @Override
+                protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
+                    Color color = null;
+                    JScrollBar sb = (JScrollBar) c;
+                    if (!sb.isEnabled() || r.width > r.height) {
+                        return;
+                    } else if (isDragging) {
+                        color = MaterialColor.GREY_500;
+                    } else if (isThumbRollover()) {
+                        color = MaterialColor.GREY_500;
+                    } else {
+                        color = Color.LIGHT_GRAY;
+                    }
+                    g2.setPaint(color);
+                    // g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+                    g2.fillRect(r.x, r.y, r.width, r.height);
+                    g2.setPaint(Color.WHITE);
+                    // g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+                    g2.dispose();
+                }
+
+                @Override
+                protected void setThumbBounds(int x, int y, int width, int height) {
+                    super.setThumbBounds(x, y, width, height);
+                    scrollbar.repaint();
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

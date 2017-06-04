@@ -12,7 +12,7 @@ import java.sql.*;
 public class Login extends JPanel {
 
 
-    JFrame f = new JFrame();
+    MaterialWindow f = new MaterialWindow();
 
 
     int x;
@@ -22,14 +22,27 @@ public class Login extends JPanel {
     int widthdiv;
 
     static JTextField uname = new JTextField();
-    JPasswordField passfield = new JPasswordField();
+    MaterialPasswordField passfield = new MaterialPasswordField();
     JButton login = new JButton("Login");
     JButton home =  new JButton("Cancel");
     JLabel show = new JLabel();
     JLabel forgot = new JLabel("forgot password");
 
 
+    int x1 = 0;
+    int y1 = 0;
+    int fx = 0;
+    int fy = 0;
+
+
+    JLabel tobBar =  new JLabel();
+
     public Login() {
+
+
+
+        new Move().move(f,tobBar);
+
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,10 +59,10 @@ public class Login extends JPanel {
 
         uname.setBounds(45, 115, 200, 30);
         uname.setFont(new Font("Calibri", 1, 18));
-        add(uname);
+       add(uname);
 
-        passfield.setBounds(45, 185, 200, 30);
-        passfield.setFont(new Font("Calibri", 1, 22));
+        passfield.setBounds(45, 185, 200, 35);
+       // passfield.setFont(new Font("Calibri", 1, 22));
         passfield.addCaretListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
@@ -66,7 +79,7 @@ public class Login extends JPanel {
         add(passfield);
 
         show.setBounds(249, 185, 50, 30);
-        show.setFont(new Font("Calibri", 2 + Font.BOLD, 17));
+        //show.setFont(new Font("Calibri", 2 + Font.BOLD, 17));
         show.setIcon(new ImageIcon("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\img\\eye2.png"));
         show.setForeground(new Color(0, 168, 89));
         show.setVisible(false);
@@ -76,14 +89,14 @@ public class Login extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mouseClicked(e);
-                passfield.setFont(new Font("Calibri", 1, 17));
+                passfield.setFont(Roboto.MEDIUM.deriveFont(17f));
                 passfield.setEchoChar((char) 0);
             }
 
 
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                passfield.setFont(new Font("Calibri", 1, 22));
+                passfield.setFont(Roboto.MEDIUM.deriveFont(22f));
                 passfield.setEchoChar('*');
             }
         });
@@ -131,11 +144,20 @@ public class Login extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+               // HolderPage.blocker.setVisible(false);
                 HolderPage.f.setEnabled(true);
                 HolderPage.f.setAutoRequestFocus(true);
                 f.dispose();
                 uname.setText("");
                 passfield.setText("");
+
+
+
+
+                HolderPage.blocker.dispose();
+                HolderPage.f.setFocusable(true);
+
+
 
 
 
@@ -195,8 +217,26 @@ public class Login extends JPanel {
             }
         });
 
+        tobBar.setBounds(0,0,350,40);
+        tobBar.setText("                        Admin Login");
+        add(tobBar);
+        tobBar.setOpaque(true);
+        tobBar.setHorizontalAlignment(SwingConstants.LEFT);
+        tobBar.setBackground(new Color(0, 168, 89));
+        tobBar.setForeground(Color.white);
+        tobBar.setFont(new Font("Calibri",1, 16));
+
+
+
         f.setSize(300, 370);
-        f.setLocation(widthdiv - 200, heightdiv - 200);
+
+
+        int locationX = HolderPage.f.getX()  + 380;
+        int locationY =  HolderPage.f.getY()  +  100;
+
+
+
+        f.setLocation(locationX, locationY);
         // f.setUndecorated(true);
         f.setVisible(true);
         f.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -219,8 +259,8 @@ public class Login extends JPanel {
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-        g.setColor(new Color(0, 168, 89));
-        g.fillRect(0, 0, 350, 40);
+        //g.setColor(new Color(0, 168, 89));
+        //g.fillRect(0, 0, 350, 40);
         g.setColor(new Color(240, 200, 30));
 
 
@@ -234,8 +274,79 @@ public class Login extends JPanel {
 
         g.setColor(Color.white);
 
-        g.drawString("Enter your login details", 50, 25);
+       // g.drawString("Enter your login details", 50, 25);
     }
+
+
+
+
+
+
+    class Move{
+
+
+        public void move(final JFrame frame, JLabel l){
+
+
+
+
+            l.addMouseMotionListener(
+
+
+                    new MouseMotionAdapter(){
+
+
+
+                        public void mouseDragged(MouseEvent evt){
+
+
+                            fx = evt.getXOnScreen() - x1;
+
+                            fy = evt.getYOnScreen() - y1;
+
+
+                            frame.setLocation(fx,fy);
+
+
+
+                        }
+
+                    });
+
+
+
+            l.addMouseListener(
+
+
+                    new MouseAdapter(){
+
+
+                        public void mousePressed(MouseEvent t){
+
+
+                            x1 = t.getX();
+                            y1 = t.getY();
+
+
+
+                        }
+
+
+                    });
+
+
+
+
+
+        }
+
+    }
+
+
+
+
+
+
 
 
 

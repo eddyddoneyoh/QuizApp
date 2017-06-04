@@ -3,13 +3,15 @@
  */
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.RandomAccessFile;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimerTask;
 
 
 @SuppressWarnings({"SpellCheckingInspection", "FieldCanBeLocal", "WeakerAccess"})
@@ -26,32 +28,32 @@ public class Home extends JPanel {
     int widthdiv;
 
 
-    private JButton up = new JButton("Add");
-    private JButton down =  new JButton("Remove");
+    private JButton up = new JButton();
+    private JButton down =  new JButton();
 
 
     private static JPanel panel  = new JPanel();
 
 
-    private JPanel participant1 =  new JPanel();
+    private MaterialPanel participant1 =  new MaterialPanel();
     private JPanel participant2 =  new JPanel();
     private JPanel participant3 =  new JPanel();
     private JPanel participant4 =  new JPanel();
     private JPanel participant5 =  new JPanel();
 
-    private JTextField part1name =  new JTextField("Name");
+    private MaterialTextField part1name =  new MaterialTextField();
     private JTextField part1ID =  new JTextField("1");
 
-    private JTextField part2name =  new JTextField("Name");
+    private MaterialTextField part2name =  new MaterialTextField();
     private JTextField part2ID =  new JTextField("2");
 
-    private JTextField part3name =  new JTextField("Name");
+    private MaterialTextField part3name =  new MaterialTextField();
     private JTextField part3ID =  new JTextField("3");
 
-    private JTextField part4name =  new JTextField("Name");
+    private MaterialTextField part4name =  new MaterialTextField();
     private JTextField part4ID =  new JTextField("4");
 
-    private JTextField part5name =  new JTextField("Name");
+    private MaterialTextField part5name =  new MaterialTextField();
     private JTextField part5ID =  new JTextField("5");
 
     private JLabel reset1 = new JLabel("Clear");
@@ -61,10 +63,11 @@ public class Home extends JPanel {
     private JLabel reset5 = new JLabel("Clear");
 
 
-    private JButton go = new JButton("Apply and Update");
-    private JButton start = new JButton("Start");
+    private JButton go = new JButton();
+    private JButton start = new JButton();
+    JButton reset = new JButton();
 
-    private JButton retrieve =  new JButton("Retrieve");
+    private JButton retrieve =  new JButton();
 
     private JLabel contestantStatus = new JLabel("No Contestant!");
 
@@ -73,18 +76,19 @@ public class Home extends JPanel {
     private static int startCount = 1;
 
     private FlowLayout layout =  new FlowLayout(FlowLayout.CENTER,10,20);
-    private JScrollPane scroll;
+   private JScrollPane scroll;
 
+    //private MaterialScrollPane scroll;
 
-    private JPanel settings =  new JPanel();
+    private MaterialPanel settings =  new MaterialPanel();
 
     private JComboBox combo = new JComboBox();
 
     private JComboBox rangestart = new JComboBox();
 
     private JComboBox rangestop = new JComboBox();
-    private JComboBox time = new JComboBox();
-    private JComboBox point = new JComboBox();
+    private MaterialComboBox time = new MaterialComboBox();
+    private MaterialComboBox point = new MaterialComboBox();
 
     private JLabel questLabel =  new JLabel("No of Questions:");
     private JLabel timeLabel =  new JLabel("Time:");
@@ -94,8 +98,8 @@ public class Home extends JPanel {
 
     JTextField quiznametext =  new JTextField();
 
-    JButton updateSettings = new JButton("Update");
-    JButton edit = new JButton("Edit");
+    MaterialButton updateSettings = new MaterialButton();
+    MaterialButton edit = new MaterialButton();
 
 
 
@@ -104,13 +108,15 @@ public class Home extends JPanel {
    // Image imaget = new ImageIcon("img/home.png").getImage();
 
 
-    JButton selectDB =  new JButton("Choose");
+    MaterialButton selectDB =  new MaterialButton ();
 
 
 
 
     ///////////////////////////////////////////////////////////////////////
-    JDialog dlog2 = new JDialog();
+    //MaterialWindow dlog2 = new MaterialWindow();
+
+    public static MaterialDialog dlog2 = new MaterialDialog();
 
 
     DefaultListModel data = new DefaultListModel();
@@ -120,7 +126,7 @@ public class Home extends JPanel {
 
 
 
-    JButton addButton =  new JButton("Choose");
+    MaterialButton  addButton =  new MaterialButton();
     JButton cancel = new JButton("Cancel");
 
     JScrollPane scroll2 =  new JScrollPane(listID);
@@ -132,7 +138,7 @@ public class Home extends JPanel {
     //////////////////////////////////////////////////////////////////////////////////
 
 
-    JButton home = new JButton("Home");
+    JButton home = new JButton();
 
 
 
@@ -142,11 +148,67 @@ public class Home extends JPanel {
 
 
 
+    JLabel topBar = new JLabel("QuizApp");
 
+
+
+
+    int x1 = 0;
+    int y1 = 0;
+    int fx = 0;
+    int fy = 0;
+
+
+    JButton close = new JButton();
+    JButton minimize =  new JButton();
+    JButton topMenu =  new JButton();
+
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+    JLabel date = new JLabel();
+
+    DateFormat dateFormat = new SimpleDateFormat("EEE. MMMMMMMMMMMMMM, yyyy  |  hh:mm aaa");
+
+    Date dated = new Date();
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    JLabel breadCrumb =  new JLabel("Home > New Quiz");
 
 
 
     public Home() {
+
+
+
+
+          dlog2.addWindowFocusListener(new WindowFocusListener() {
+              @Override
+              public void windowGainedFocus(WindowEvent e) {
+
+              }
+
+              @Override
+              public void windowLostFocus(WindowEvent e) {
+
+                  //System.out.println("true");
+                  dlog2.dispose();
+              }
+          });
+
+
+
+        new Move().move(HolderPage.f,topBar);
+
+
+
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -161,7 +223,7 @@ public class Home extends JPanel {
         setLayout(null);
 
         panel.setLayout(layout);
-        panel.setBackground(new Color(0, 168, 89));
+        panel.setBackground(MaterialColor.ORANGE_300);
        // panel.setBackground(new Color(233, 233, 233));
         panel.setPreferredSize(new Dimension(400,380));
         panel.updateUI();
@@ -169,16 +231,16 @@ public class Home extends JPanel {
         scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
        // scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Contestants", 1,2,new Font("Calibri",1,14),Color.red));
-        scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"Contestants", 2,2,new Font("Calibri",1,20),Color.black));
+        scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Contestants", 2,2,new Font("Calibri",1,20),Color.black));
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-
-        scroll.setBounds(45,30,500,380);
+        scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
+        scroll.setBounds(30,100,500,380);
         add(scroll);
         scroll.updateUI();
 
-        contestantStatus.setBounds(45, 425, 150, 25);
+        contestantStatus.setBounds(45, 488, 150, 25);
         contestantStatus.setFont(new Font("Calibri", 1, 16));
         contestantStatus.setBackground(new Color(0, 168, 89));
         contestantStatus.setHorizontalAlignment(SwingConstants.CENTER);
@@ -192,11 +254,11 @@ public class Home extends JPanel {
         panelsAndTextFields();
 
 
-        up.setBounds(220, 423, 80, 30);
-        up.setBackground(new Color(6, 125, 248));
-        up.setHorizontalAlignment(SwingConstants.CENTER);
-        up.setForeground(Color.white);
-        up.setFont(new Font("Calibri", 1, 16));
+        up.setBounds(220, 485, 30, 30);
+        up.setIcon(new ImageIcon("img//add.png"));
+        up.setRolloverIcon(new ImageIcon("img//addR.png"));
+        up.setContentAreaFilled(false);
+        up.setToolTipText("Add new contestant");
         add(up);
 
         up.addActionListener(new ActionListener() {
@@ -266,12 +328,12 @@ public class Home extends JPanel {
             }
         });
 
-        down.setBounds(320, 423, 100, 30);
-        down.setBackground(new Color(6, 125, 248));
+        down.setBounds(260, 485, 30, 30);
         down.setEnabled(false);
-        down.setHorizontalAlignment(SwingConstants.CENTER);
-        down.setFont(new Font("Calibri", 1, 16));
-        down.setForeground(Color.white);
+        down.setIcon(new ImageIcon("img//down.png"));
+        down.setRolloverIcon(new ImageIcon("img//downR.png"));
+        down.setContentAreaFilled(false);
+        down.setToolTipText("Remove existing contestant");
         add(down);
 
 
@@ -348,12 +410,11 @@ public class Home extends JPanel {
         });
 
 
-        JButton reset = new JButton("Reset");
-        reset.setBounds(440, 423, 80, 30);
-        reset.setBackground(new Color(250, 2, 2));
-        reset.setFont(new Font("Calibri", 1, 16));
-        reset.setHorizontalAlignment(SwingConstants.CENTER);
-        reset.setForeground(Color.white);
+
+        reset.setBounds(300, 485, 30, 30);
+        reset.setIcon(new ImageIcon("img//reset.png"));
+       reset.setRolloverIcon(new ImageIcon("img//resetR.png"));
+        reset.setToolTipText("Reset contestants information");
         add(reset);
 
         reset.addActionListener(new ActionListener() {
@@ -366,12 +427,10 @@ public class Home extends JPanel {
 
 
 
-        go.setBounds(45, 460, 200, 30);
-        go.setFont(new Font("Calibri", 1, 16));
-        go.setHorizontalAlignment(SwingConstants.CENTER);
-        go.setBackground(new Color(0, 168, 89));
-        go.setForeground(Color.white);
+        go.setBounds(340, 485, 30, 30);
         go.setEnabled(false);
+        go.setIcon(new ImageIcon("img//save.png"));
+        go.setToolTipText("Save contestants information");
         add(go);
 
         go.addActionListener(new ActionListener() {
@@ -389,12 +448,11 @@ public class Home extends JPanel {
 
 
 
-        start.setBounds(250, 460, 100, 32);
-        start.setFont(new Font("Calibri", 1, 17));
-        start.setHorizontalAlignment(SwingConstants.CENTER);
-        start.setBackground(new Color(0, 168, 89));
-        start.setForeground(Color.white);
+        start.setBounds(380, 485, 30, 30);
+        start.setIcon(new ImageIcon("img//start.png"));
+        start.setRolloverIcon(new ImageIcon("img//startR.png"));
         start.setEnabled(false);
+        start.setToolTipText("Start quiz");
         add(start);
 
 
@@ -436,11 +494,10 @@ public class Home extends JPanel {
 
 
 
-        retrieve.setBounds(360, 460, 150, 32);
-        retrieve.setFont(new Font("Calibri", 1, 17));
-        retrieve.setHorizontalAlignment(SwingConstants.CENTER);
-        retrieve.setBackground(new Color(0, 168, 89));
-        retrieve.setForeground(Color.white);
+        retrieve.setBounds(420, 485, 30, 30);
+        retrieve.setIcon(new ImageIcon("img//retrieve.png"));
+        retrieve.setRolloverIcon(new ImageIcon("img//retrieveR.png"));
+        retrieve.setToolTipText("Retrieve from existing database");
         add(retrieve);
 
         retrieve.addActionListener(new ActionListener() {
@@ -457,11 +514,11 @@ public class Home extends JPanel {
 
 
 
-        home.setBounds(420, 520, 180, 30);
-        home.setFont(new Font("Calibri", 1, 19));
-        home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(6, 125, 248));
-        home.setForeground(Color.white);
+        home.setBounds(300, 42, 30, 30);
+        home.setIcon( new ImageIcon("img//home.png"));
+        home.setRolloverIcon( new ImageIcon("img//homeR.png"));
+        home.setToolTipText("Return to home");
+
         add(home);
 
 
@@ -470,11 +527,11 @@ public class Home extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
 
-
                 JOptionPane pane = new JOptionPane("Are you really sure you want to exit?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
-                JDialog dialog = pane.createDialog(null, "Exit");
-                dialog.show();
-                String selectedValue = pane.getValue().toString();
+                JDialog dialog2 = pane.createDialog(null, "Exit");
+                //dialog2.setUndecorated(true);
+                dialog2.show();
+               String selectedValue = pane.getValue().toString();
 
                 if(selectedValue.equals("0")){
 
@@ -492,7 +549,7 @@ public class Home extends JPanel {
                 }
                 else{
 
-                    dialog.show(false);
+                    dialog2.show(false);
                 }
 
 
@@ -510,7 +567,7 @@ public class Home extends JPanel {
 
         settings.setLayout(null);
         //settings.setBounds(600,100,380,200);
-        settings.setBackground(new Color(0, 168, 89));
+        settings.setBackground(MaterialColor.ORANGE_300);
         settings.setPreferredSize(new Dimension(360,200));
 
         add(settings);
@@ -520,12 +577,13 @@ public class Home extends JPanel {
 
         settingsScroll = new JScrollPane(settings);
         settingsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        settingsScroll.setBounds(600,30,380,220);
+        settingsScroll.setBounds(570,100,380,220);
        // settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Quick Settings", 1,2,new Font("Calibri",1,14),Color.red));
-        settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"Quick Settings", 2,2,new Font("Calibri",1,20),Color.black));
+        settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Quick Settings", 2,2,new Font("Calibri",1,20),Color.black));
         settingsScroll.getVerticalScrollBar().setUnitIncrement(16);
         settingsScroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         settingsScroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
+        settingsScroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
 
         add(settingsScroll);
 
@@ -614,7 +672,7 @@ public class Home extends JPanel {
        time.addItem("45secs");
        time.addItem("60secs");
 
-        time.setBounds(205 ,20,75 ,30);
+        time.setBounds(205 ,20,75 ,28);
         settings.add(time);
 
 
@@ -624,7 +682,7 @@ public class Home extends JPanel {
        // point.addItem("10pts");
 
 
-        point.setBounds(75,20,63,30);
+        point.setBounds(75,20,63,28);
         settings.add(point);
 
 
@@ -637,28 +695,31 @@ public class Home extends JPanel {
         //rangestart.setEnabled(false);
 
 
-        updateSettings.setBounds(280, 150, 80,30);
-        updateSettings.setBackground(new Color(255, 197, 0));
-        updateSettings.setForeground(Color.BLACK);
-        updateSettings.setFont(new Font("Calibri", 1, 15));
-        //updateSettings.setVisible(false);
+        updateSettings.setBounds(120, 120, 120,50);
+        updateSettings.setBackground(MaterialColor.BLUE_700);
+        updateSettings.setForeground(Color.WHITE);
+        updateSettings.setFont(new Font("Calibri", 1, 16));
+        updateSettings.setText("Update");
         settings.add(updateSettings);
 
 
-        edit.setBounds(280, 150, 80,30);
-        edit.setBackground(new Color(255, 197, 0));
-        edit.setForeground(Color.BLACK);
-        edit.setFont(new Font("Calibri", 1, 15));
+        edit.setBounds(120, 120, 120,50);
+        edit.setBackground(MaterialColor.BLUE_700);
+        edit.setForeground(Color.WHITE);
+        edit.setFont(new Font("Calibri", 1, 16));
         edit.setEnabled(true);
         edit.setVisible(false);
+        edit.setText("Edit");
         settings.add(edit);
 
 
 
-        selectDB.setBounds(280, 70, 80,30);
-        selectDB.setBackground(new Color(255, 197, 0));
-        selectDB.setForeground(Color.BLACK);
+        selectDB.setBounds(278, 63, 80,45);
+        selectDB.setBackground(new Color(0, 168, 89));
+        selectDB.setForeground(Color.WHITE);
         selectDB.setFont(new Font("Calibri", 1, 15));
+        selectDB.setText("Choose");
+
 
 
         settings.add(selectDB);
@@ -670,6 +731,10 @@ public class Home extends JPanel {
 
                 selected.setText("");
               new SaveDB();
+
+
+
+
 
             }
         });
@@ -716,14 +781,115 @@ public class Home extends JPanel {
 
 
 
-        yellowUp.setBounds(0,495,1000,5);
-        yellowUp.setBackground(new Color(232, 161, 28));
+
+
+
+        close.setBounds(926,5,30,30);
+        close.setIcon(new ImageIcon("img//power.png"));
+       close.setRolloverIcon(new ImageIcon("img//powerR.png"));
+        add(close);
+
+
+        minimize.setBounds(880,5,30,30);
+        minimize.setIcon(new ImageIcon("img//minimize.png"));
+        minimize.setRolloverIcon(new ImageIcon("img//minimizeR.png"));
+        add(minimize);
+
+        minimize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                HolderPage.f.setState(Frame.ICONIFIED);
+            }
+        });
+
+        topMenu.setBounds(825,5,30,30);
+        topMenu.setIcon(new ImageIcon("img//menu.png"));
+        topMenu.setRolloverIcon(new ImageIcon("img//menuR.png"));
+        add(topMenu);
+
+        topMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                new TopMenu();
+
+            }
+        });
+
+
+
+
+
+        topBar.setBounds(0,0,1000,40);
+        topBar.setOpaque(true);
+        topBar.setBackground(MaterialColor.BLUE_800);
+        topBar.setForeground(MaterialColor.DARK_WHITE);
+        topBar.setFont(new Font("Calibri",1, 20));
+        topBar.setHorizontalAlignment(SwingConstants.CENTER);
+        add(topBar);
+
+
+
+
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.exit(0);
+
+            }
+        });
+
+
+
+        breadCrumb.setBounds(40,40,400,35);
+        breadCrumb.setForeground(MaterialColor.WHITE);
+        breadCrumb.setFont(new Font("Calibri", 1, 18));
+        add(breadCrumb);
+
+
+
+
+        date.setBounds(750,40,400,35);
+        date.setForeground(MaterialColor.WHITE);
+        date.setFont(new Font("Calibri", 1, 18));
+        add(date);
+
+
+        java.util.Timer timer4 = new java.util.Timer();
+        TimerTask myTask = new TimerTask() {
+            @Override
+            public void run() {
+
+
+                dated = new java.util.Date();
+                date.setText(dateFormat.format(dated).toString());
+
+
+            }
+        };
+
+        timer4.scheduleAtFixedRate(myTask,0,1000);
+
+
+
+
+
+        yellowUp.setBounds(0,40,1000,35);
+        yellowUp.setBackground(MaterialColor.ORANGE_400);
         yellowUp.setOpaque(true);
-        add(yellowUp);
+       add(yellowUp);
 
 
 
-        downbar.setBounds(0,500,1000,70);
+
+
+
+
+
+        downbar.setBounds(0,530,1000,40);
         downbar.setBackground(new Color(233, 233, 233));
         downbar.setOpaque(true);
         add(downbar);
@@ -732,12 +898,6 @@ public class Home extends JPanel {
 
         setBackground(Color.white);
 
-
-//        f.add(this);
-//        f.setSize(1000,600);
-//        f.setDefaultCloseOperation(3);
-//        f.setVisible(true);
-//        updateUI();
 
     }
 
@@ -1134,8 +1294,9 @@ public class Home extends JPanel {
             participant1.add(part1ID);
 
 
-            part1name.setBounds(10,70,200,30);
-            part1name.setFont(new Font("Calibri", 1, 15));
+            part1name.setBounds(10,70,200,35);
+            part1name.setFont(Roboto.REGULAR.deriveFont(16f));
+            part1name.setHint("Contestant One details");
             participant1.add(part1name);
 
             part2ID.setBounds(10, 20, 100, 30);
@@ -1145,7 +1306,8 @@ public class Home extends JPanel {
 
 
             part2name.setBounds(10,70,200,30);
-            part2name.setFont(new Font("Calibri", 1, 15));
+            part2name.setFont(Roboto.REGULAR.deriveFont(16f));
+            part2name.setHint("Contestant Two details");
             participant2.add(part2name);
 
 
@@ -1156,7 +1318,8 @@ public class Home extends JPanel {
 
 
             part3name.setBounds(10,70,200,30);
-            part3name.setFont(new Font("Calibri", 1, 15));
+            part3name.setFont(Roboto.REGULAR.deriveFont(16f));
+            part3name.setHint("Contestant Three details");
             participant3.add(part3name);
 
 
@@ -1167,7 +1330,8 @@ public class Home extends JPanel {
 
 
             part4name.setBounds(10,70,200,30);
-            part4name.setFont(new Font("Calibri", 1, 15));
+            part4name.setFont(Roboto.REGULAR.deriveFont(16f));
+            part4name.setHint("Contestant Four details");
             participant4.add(part4name);
 
 
@@ -1179,7 +1343,8 @@ public class Home extends JPanel {
 
 
             part5name.setBounds(10,70,200,30);
-            part5name.setFont(new Font("Calibri", 1, 15));
+            part5name.setFont(Roboto.REGULAR.deriveFont(16f));
+            part5name.setHint("Contestant Five details");
             participant5.add(part5name);
 
 
@@ -1307,45 +1472,6 @@ public class Home extends JPanel {
 
 
     public void participantCount(){
-
-
-//        PreparedStatement ps = null;
-//        Connection conn = null;
-//
-//
-//
-//        try {
-//
-//
-//            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-//            conn = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=DB/db.mdb;");
-//
-//
-//            ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '"+count+"' WHERE id = '"+1+"'");
-//            ps.executeUpdate();
-//            conn.close();
-//            ps.close();
-//
-//
-//        }
-//
-//
-//
-//        catch ( SQLException sqlException )
-//        {
-//            sqlException.printStackTrace();
-//            JOptionPane.showMessageDialog(null, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
-//
-//        } // end catch
-//        catch ( ClassNotFoundException classNotFound )
-//        {
-//            classNotFound.printStackTrace();
-//
-//        } // end catch
-//
-
-
-
 
 
         String participantsCount = count + "";
@@ -1551,7 +1677,6 @@ public class Home extends JPanel {
 
 
 
-
     }
 
 
@@ -1572,25 +1697,54 @@ public class Home extends JPanel {
     {
 
 
+        int x1 = 0;
+        int y1 = 0;
+        int fx = 0;
+        int fy = 0;
+
+
+        JLabel tobBar =  new JLabel();
+
+        JPanel pan = new JPanel();
 
 
 
         public SaveDB() {
 
 
-            dlog2.setTitle("Select Quiz Database");
+            new Move().move(dlog2,tobBar);
 
 
-            selected.setBounds(20, 10, 240, 30);
+            HolderPage.f.setFocusable(false);
+            HolderPage.f.setFocusableWindowState(false);
+
+            dlog2.requestFocus();
+            //dlog2.setAutoRequestFocus(true);
+
+
+
+
+            tobBar.setBounds(0,0,290,40);
+            tobBar.setText("                      Select quiz database");
+            dlog2.add(tobBar);
+            tobBar.setOpaque(true);
+            tobBar.setHorizontalAlignment(SwingConstants.LEFT);
+            tobBar.setBackground(new Color(0, 168, 89));
+            tobBar.setForeground(Color.white);
+            tobBar.setFont(new Font("Calibri",1, 16));
+
+
+
+            selected.setBounds(20, 50, 240, 30);
             selected.setFont(new Font("Calibri", 1, 18));
             selected.setOpaque(false);
             selected.setBackground(new Color(230, 230, 230));
             selected.setHorizontalAlignment(SwingConstants.CENTER);
             selected.setEditable(false);
-            dlog2.add(selected);
+           dlog2.add(selected);
 
 
-            scroll2.setBounds(20, 50, 240, 150);
+            scroll2.setBounds(20, 90, 240, 150);
             listID.setFont(new Font("Calibri", 0, 20));
             listID.setFixedCellHeight(25);
             listID.setSelectionBackground(new Color(255, 250, 152));
@@ -1608,11 +1762,12 @@ public class Home extends JPanel {
 
             comboBox();
 
-            addButton.setBounds(100, 220, 100, 30);
+            addButton.setBounds(100, 250, 100, 45);
             addButton.setFont(new Font("Calibri", 1, 17));
             addButton.setHorizontalAlignment(SwingConstants.CENTER);
             addButton.setBackground(new Color(0, 168, 89));
             addButton.setForeground(Color.white);
+            addButton.setText("Choose");
             dlog2.add(addButton);
 
             addButton.addActionListener(new ActionListener() {
@@ -1620,20 +1775,36 @@ public class Home extends JPanel {
                 public void actionPerformed(ActionEvent e) {
 
 
-                    //SaveToDatabase.goaction();
+
+                    HolderPage.f.setFocusable(true);
+                    HolderPage.f.setFocusableWindowState(true);
+
                     quiznametext.setText(selected.getText());
-                    dlog2.hide();
+                    dlog2.dispose();
+
 
 
                 }
             });
 
 
+
             dlog2.setLayout(null);
-            dlog2.setSize(300, 300);
+            dlog2.setSize(290, 300);
+
+
+
+
+
+            int locationX = HolderPage.f.getX() ;
+            int locationY =  HolderPage.f.getY();
+
+
+            dlog2.getContentPane().setBackground(Color.white);
             dlog2.setVisible(true);
-            dlog2.setLocationRelativeTo(Home.f);
-            dlog2.setAlwaysOnTop(true);
+            dlog2.setLocation(locationX  + 400,locationY + 160);
+
+
 
 
         }
@@ -1649,9 +1820,152 @@ public class Home extends JPanel {
 
 
 
+    class Move{
 
 
-        public static void main(String[] args) {
+        public void move(final Component frame, JLabel l){
+
+
+
+
+            l.addMouseListener(
+
+
+                    new MouseAdapter(){
+
+
+                        public void mousePressed(MouseEvent t){
+
+
+                            x1 = t.getX();
+                            y1 = t.getY();
+
+
+
+                        }
+
+
+                    });
+
+
+
+
+            l.addMouseMotionListener(
+
+
+                    new MouseMotionAdapter(){
+
+
+
+                        public void mouseDragged(MouseEvent evt){
+
+
+                            fx = evt.getXOnScreen() - x1;
+
+                            fy = evt.getYOnScreen() - y1;
+
+
+                            frame.setLocation(fx,fy);
+
+
+
+                        }
+
+                    });
+
+
+
+
+
+
+
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+    class MyScrollBarUI extends BasicScrollBarUI {
+        private final Dimension d = new Dimension();
+
+        @Override
+        protected JButton createDecreaseButton(int orientation) {
+            return new JButton() {
+                @Override
+                public Dimension getPreferredSize() {
+                    return d;
+                }
+            };
+        }
+
+        @Override
+        protected JButton createIncreaseButton(int orientation) {
+            return new JButton() {
+                @Override
+                public Dimension getPreferredSize() {
+                    return d;
+                }
+            };
+        }
+
+        @Override
+        protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+        }
+
+        @Override
+        protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            Color color = null;
+            JScrollBar sb = (JScrollBar) c;
+            if (!sb.isEnabled() || r.width > r.height) {
+                return;
+            } else if (isDragging) {
+                color = MaterialColor.GREY_500;
+            } else if (isThumbRollover()) {
+                color = MaterialColor.GREY_500;
+            } else {
+                color = Color.LIGHT_GRAY;
+            }
+            g2.setPaint(color);
+           // g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+            g2.fillRect(r.x, r.y, r.width, r.height);
+            g2.setPaint(Color.WHITE);
+           // g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+            g2.dispose();
+        }
+
+        @Override
+        protected void setThumbBounds(int x, int y, int width, int height) {
+            super.setThumbBounds(x, y, width, height);
+            scrollbar.repaint();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static void main(String[] args) {
 
 
 

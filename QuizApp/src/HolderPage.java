@@ -15,8 +15,10 @@ import java.awt.*;
 public class HolderPage  {
 
 
-    public static JFrame f = new JFrame("");
+    public static MaterialWindow f = new MaterialWindow();
+    //public static JFrame f =  new JFrame();
     public static JPanel content =  new JPanel();
+
 
 
     int x;
@@ -31,6 +33,13 @@ public class HolderPage  {
 
     static public int holderPage_pageCount = 1;
 
+    static public int welcomeToastCount = 0;
+
+
+
+    public static MaterialBlocker blocker =  new MaterialBlocker(HolderPage.f);
+
+
 
     public HolderPage() {
 
@@ -44,15 +53,26 @@ public class HolderPage  {
         heightdiv = y / 2;
         widthdiv = x / 2;
 
+
+
+        f.setSize(1000, 590);
+
+
+
+
         content.setLayout(new BorderLayout());
 
-        //content.add(new Admin());
-        content.add(new Entry());
+        content.add(new Admin());
+       // content.add(new Entry());
         //content.add(new Home());
+        //content.add(new Quiz());
+
+       // new SaveDB();
+
 
         f.add(content);
 
-        f.setSize(1000, 600);
+
         f.setEnabled(true);
         f.setLocation(widthdiv - 500, heightdiv - 300);
         f.setVisible(true);
@@ -63,110 +83,78 @@ public class HolderPage  {
     }
 
 
-//
-//
-//
-//    public static void menuAdjuster(){
-//
-//
-//
-//        if(holderPage_pageCount == 1){
-//
-//            Entry.previousHidden.setVisible(false);
-//            Entry.previous.setEnabled(true);
-//            Entry.previous.setVisible(true);
-//            Entry.next.setVisible(false);
-//
-//
-//
-//
-//            Entry.newQuiz.setEnabled(true);
-//            Entry.resume.setEnabled(true);
-//            Entry.login.setEnabled(true);
-//            Entry.settings.setEnabled(false);
-//            Entry.help.setEnabled(false);
-//            Entry.about.setEnabled(true);
-//
-//
-//
-//
-//        }
-//
-//        if(holderPage_pageCount == 2){
-//
-//            Entry.previousHidden.setVisible(false);
-//            Entry.previous.setEnabled(true);
-//            Entry.previous.setVisible(true);
-//            Entry.next.setVisible(true);
-//
-//
-//
-//            Entry.newQuiz.setEnabled(false);
-//            Entry.resume.setEnabled(true);
-//            Entry.login.setEnabled(true);
-//            Entry.settings.setEnabled(true);
-//            Entry.help.setEnabled(false);
-//            Entry.about.setEnabled(false);
-//
-//        }
-//
-//
-//
-//        if(holderPage_pageCount == 3){
-//
-//            Entry.previousHidden.setVisible(false);
-//            Entry.previous.setEnabled(true);
-//            Entry.previous.setVisible(true);
-//            Entry.next.setVisible(true);
-//
-//
-//            Entry.newQuiz.setEnabled(false);
-//            Entry.resume.setEnabled(false);
-//            Entry.login.setEnabled(true);
-//            Entry.settings.setEnabled(true);
-//            Entry.help.setEnabled(true);
-//            Entry.about.setEnabled(false);
-//
-//
-//
-//
-//
-//        }
-//
-//
-//        if(holderPage_pageCount == 4){
-//
-//
-//            System.out.println("Holder Page count  =  "  + holderPage_pageCount);
-//
-//
-//            Entry.menuPanel.setLocation(590 , 200);
-//            HolderPage.content.updateUI();
-//
-//            Entry.previousHidden.setVisible(true);
-//            Entry.previous.setVisible(false);
-//            Entry.next.setEnabled(true);
-//            Entry.next.setVisible(true);
-//
-//
-//
-//            Entry.newQuiz.setEnabled(false);
-//            Entry.resume.setEnabled(false);
-//            Entry.login.setEnabled(false);
-//            Entry.settings.setEnabled(true);
-//            Entry.help.setEnabled(true);
-//            Entry.about.setEnabled(true);
-//
-//
-//
-//        }
-//
-//
-//
-//
-//
-//    }
-//
+
+
+
+
+
+    public  static class Blocker
+    {
+
+
+        int x1 = 0;
+        int y1 = 0;
+        int fx = 0;
+        int fy = 0;
+
+
+        JLabel tobBar =  new JLabel();
+
+        JPanel pan = new JPanel();
+
+
+
+        public Blocker() {
+
+
+
+            blocker.setLayout(null);
+            blocker.setSize(f.getWidth(), f.getHeight());
+            blocker.setAutoRequestFocus(false);
+            blocker.setFocusable(false);
+            blocker.setFocusableWindowState(false);
+
+
+
+
+
+
+
+
+
+            int locationX = HolderPage.f.getX() ;
+            int locationY =  HolderPage.f.getY();
+
+
+
+            //blocker.getContentPane().setBackground(Color.white);
+            blocker.setVisible(true);
+
+            //blocker.setLocation(0,0);
+            //blocker.setLocationRelativeTo(f);
+          blocker.setLocation(locationX  ,locationY );
+
+
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static void main(String[] args) {
 

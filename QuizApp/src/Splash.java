@@ -10,8 +10,9 @@ import java.util.Random;
 
 public class Splash extends JPanel{
 
+    MaterialProgressSpinner spinner = new MaterialProgressSpinner();
 
-    JFrame f = new JFrame();
+    MaterialWindow f = new MaterialWindow();
 
     private int i = 0;
 
@@ -49,6 +50,10 @@ public class Splash extends JPanel{
 
 
 
+        spinner.setBounds(250,335,30,30);
+        spinner.setForeground(MaterialColor.ORANGE_900);
+        add(spinner);
+
         bar.setBounds(0,375,550,3);
         bar.setValue(i);
         bar.setStringPainted(true);
@@ -64,17 +69,21 @@ public class Splash extends JPanel{
 
 
 
+
+
+
+
         setLayout(null);
 
 
         f.add(this);
 
-        f.setSize(550,416);
+        f.setSize(550,430);
         f.setLocation(	widthdiv - 250, heightdiv - 200);
 
-        f.setUndecorated(true);
+        //f.setUndecorated(true);
         f.setVisible(true);
-        f.setDefaultCloseOperation(3);
+       // f.setDefaultCloseOperation(3);
 
 
 
@@ -91,6 +100,9 @@ public class Splash extends JPanel{
         g.drawImage(imaget, 0, 0,550,416,this);
 
 
+
+
+
     }
 
 
@@ -99,7 +111,7 @@ public class Splash extends JPanel{
 
         public void actionPerformed(ActionEvent evt){
 
-            int k = r.nextInt(70);
+            int k = r.nextInt(100);
 
             i = i + k;
 
@@ -115,10 +127,10 @@ public class Splash extends JPanel{
 
                 time.stop();
                 bar.setVisible(false);
-                new HolderPage();
-               // new Home();
-                HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
                 f.dispose();
+                new HolderPage();
+                //HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
+
 
 
             }

@@ -12,9 +12,9 @@
  */
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.*;
 
 
@@ -22,6 +22,9 @@ public class Settings extends JPanel {
 
 
 
+    MaterialWindow frame =  new MaterialWindow();
+
+   // MaterialDialog frame = new MaterialDialog();
 
 
     int x;
@@ -84,7 +87,7 @@ public class Settings extends JPanel {
 
 
 
-    JButton home =  new JButton("Home");
+    JButton home =  new JButton("X");
 
 
 
@@ -104,11 +107,48 @@ public class Settings extends JPanel {
 
 
     JLabel downBar = new JLabel();
-    JLabel yellowDown =  new JLabel();
+    JLabel topBar =  new JLabel();
+
+
+
+
+    int x1 = 0;
+    int y1 = 0;
+    int fx = 0;
+    int fy = 0;
+
 
 
 
     public Settings() {
+
+
+
+
+        new Move().move(frame,topBar);
+
+
+
+
+
+        frame.setSize(800,500);
+        frame.add(this);
+
+
+
+        setBounds(0,0, frame.getWidth(), frame.getHeight());
+
+
+
+        // frame.setEnabled(true);
+
+
+
+
+
+        //HolderPage.blocker.setVisible(true);
+        //HolderPage.f.setFocusable(false);
+
 
 
         checkEnableStatus(securityButton);
@@ -124,7 +164,7 @@ public class Settings extends JPanel {
 
 
         settingsPanel.setLayout(null);
-        settingsPanel.setPreferredSize(new Dimension(740, 700));
+        settingsPanel.setPreferredSize(new Dimension(550, 750));
 
 
         //---------------------------------------------------------------------------------------
@@ -307,10 +347,10 @@ public class Settings extends JPanel {
 
 
 
-        home.setBounds(400, 520, 180, 30);
+        home.setBounds(730,0, 50, 35);
         home.setFont(new Font("Calibri", 1, 19));
         home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(6, 125, 248));
+        home.setBackground(MaterialColor.RED_400);
         home.setForeground(Color.white);
         add(home);
 
@@ -325,13 +365,14 @@ public class Settings extends JPanel {
                     public void run() {
 
 
-                        HolderPage.content.removeAll();
 
-                        HolderPage.content.add(new Entry());
+                        frame.dispose();
+                       // HolderPage.blocker.dispose();
+                       // HolderPage.blocker.setVisible(false);
 
-                        HolderPage.content.updateUI();
+                        HolderPage.blocker.dispose();
+                        HolderPage.f.setFocusable(true);
 
-                        HolderPage.f.setTitle("QuizApp 2016 - Home");
 
 
 
@@ -352,34 +393,55 @@ public class Settings extends JPanel {
 
 
 
-        scrollPane.setBounds(130,30,770,430);
+        scrollPane.setBounds(90,50,600,380);
         scrollPane.setAutoscrolls(true);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
        // scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray,2, true),"Settings"));
-        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),4,true),"Settings", 2,2,new Font("Calibri",1,20),Color.black));
-
+        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"", 2,2,new Font("Calibri",1,20),Color.black));
+        scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
         add(scrollPane);
 
 
 
 
-        downBar.setBounds(0,500, 1000, 70);
+
+        topBar.setBounds(0,0, frame.getWidth(), 35);
+        topBar.setBackground(MaterialColor.BLUE_700);
+        topBar.setForeground(MaterialColor.WHITE);
+        topBar.setFont(new Font("Calibri",1,15));
+        topBar.setText("       Settings");
+        topBar.setOpaque(true);
+        add(topBar);
+
+
+
+
+
+        downBar.setBounds(0,450, frame.getWidth(), 40);
         downBar.setBackground(new Color(233, 233, 233));
         downBar.setOpaque(true);
         add(downBar);
 
 
-        yellowDown.setBounds(0,495,1000,5);
-        yellowDown.setBackground(new Color(232, 161, 28));
-        yellowDown.setOpaque(true);
-        add(yellowDown);
 
 
         setBackground(Color.white);
         setLayout(null);
 
+
+
+        int locationX = HolderPage.f.getX()  + 100;
+        int locationY =  HolderPage.f.getY()  +  50;
+
+       // frame.setLocation(locationX, locationY);
+        frame.setLocationRelativeTo(HolderPage.f);
+
+
+
+        frame.setVisible(true);
+        frame.setResizable(false);
 
 
     }
@@ -783,6 +845,137 @@ public class Settings extends JPanel {
 
 
 
+    class MyScrollBarUI extends BasicScrollBarUI {
+        private final Dimension d = new Dimension();
+
+        @Override
+        protected JButton createDecreaseButton(int orientation) {
+            return new JButton() {
+                @Override
+                public Dimension getPreferredSize() {
+                    return d;
+                }
+            };
+        }
+
+        @Override
+        protected JButton createIncreaseButton(int orientation) {
+            return new JButton() {
+                @Override
+                public Dimension getPreferredSize() {
+                    return d;
+                }
+            };
+        }
+
+        @Override
+        protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+        }
+
+        @Override
+        protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            Color color = null;
+            JScrollBar sb = (JScrollBar) c;
+            if (!sb.isEnabled() || r.width > r.height) {
+                return;
+            } else if (isDragging) {
+                color = MaterialColor.GREY_500;
+            } else if (isThumbRollover()) {
+                color = MaterialColor.GREY_500;
+            } else {
+                color = Color.LIGHT_GRAY;
+            }
+            g2.setPaint(color);
+            // g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+            g2.fillRect(r.x, r.y, r.width, r.height);
+            g2.setPaint(Color.WHITE);
+            // g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+            g2.dispose();
+        }
+
+        @Override
+        protected void setThumbBounds(int x, int y, int width, int height) {
+            super.setThumbBounds(x, y, width, height);
+            scrollbar.repaint();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    class Move{
+
+
+        public void move(final Component frame, JLabel l){
+
+
+
+
+            l.addMouseListener(
+
+
+                    new MouseAdapter(){
+
+
+                        public void mousePressed(MouseEvent t){
+
+
+                            x1 = t.getX();
+                            y1 = t.getY();
+
+
+
+                        }
+
+
+                    });
+
+
+
+
+            l.addMouseMotionListener(
+
+
+                    new MouseMotionAdapter(){
+
+
+
+                        public void mouseDragged(MouseEvent evt){
+
+
+                            fx = evt.getXOnScreen() - x1;
+
+                            fy = evt.getYOnScreen() - y1;
+
+
+                            frame.setLocation(fx,fy);
+
+
+
+                        }
+
+                    });
+
+
+
+
+
+
+
+
+        }
+
+    }
 
 
 
@@ -814,6 +1007,8 @@ public class Settings extends JPanel {
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
+
                 new Settings();
             }
         });

@@ -52,7 +52,7 @@ public class About extends JPanel {
 
 
 
-    JButton home =  new JButton("Home");
+    MaterialButton home =  new MaterialButton();
 
 
 
@@ -90,8 +90,9 @@ public class About extends JPanel {
 
 
 
-        home.setBounds(420, 520, 180, 30);
-        home.setFont(new Font("Calibri", 1, 19));
+        home.setBounds(420, 510, 180, 60);
+        home.setText("Home");
+        //home.setFont(new Font("Calibri", 1, 19));
         home.setHorizontalAlignment(SwingConstants.CENTER);
         home.setBackground(new Color(6, 125, 248));
         home.setForeground(Color.white);

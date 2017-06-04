@@ -10,12 +10,12 @@
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.RandomAccessFile;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.TimerTask;
 
 
 public class Admin extends JPanel {
@@ -1007,9 +1007,7 @@ public class Admin extends JPanel {
 
            JPanel slidingPanel =  new JPanel();
 
-
-
-
+            Boolean slidePanelCheck =  true;
 
 
 
@@ -1017,7 +1015,71 @@ public class Admin extends JPanel {
         //////////////END OF SLIDING PANEL//////////////////////////////////////////
 
 
+
+
+
+
+
+
+
+
+    JButton home = new JButton();
+
+
+
+    JLabel downbar =  new JLabel();
+    JLabel yellowUp =  new JLabel();
+
+
+
+
+    JLabel topBar = new JLabel("QuizApp");
+
+
+
+
+    int x1 = 0;
+    int y1 = 0;
+    int fx = 0;
+    int fy = 0;
+
+
+    JButton close = new JButton();
+    JButton minimize =  new JButton();
+    JButton topMenu =  new JButton();
+
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+    JLabel date = new JLabel();
+
+    DateFormat dateFormat = new SimpleDateFormat("EEE. MMMMMMMMMMMMMM, yyyy  |  hh:mm aaa");
+
+    java.util.Date dated = new java.util.Date();
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    JLabel breadCrumb =  new JLabel("Home > New Quiz");
+
+
+
+
+
+
     public Admin() {
+
+
+
+
+        new Move().move(HolderPage.f,topBar);
+
+
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1028,7 +1090,7 @@ public class Admin extends JPanel {
         heightdiv = (Integer) y / 2;
         widthdiv = (Integer) x / 2;
 
-        setBackground(new Color(255, 220, 0));
+        setBackground(MaterialColor.WHITE);
         setLayout(null);
 
 
@@ -1037,38 +1099,60 @@ public class Admin extends JPanel {
         /////sliding Panel program begins////////////////
 
 
-        slidingPanel.setBackground(Color.WHITE);
-        slidingPanel.setBounds(-500, 50, 500, 520);
+
+
+
+        slidingPanel.setBackground(MaterialColor.ORANGE_200);
+        slidingPanel.setBounds(-500, 40, 500, 530);
         slidingPanel.setLayout(null);
         add(slidingPanel);
 
 
 
 
-        final JButton button = new JButton("Open");
-       final JButton button2 = new JButton("Hide");
+        final JButton button = new JButton();
+       final JButton button2 = new JButton();
         button2.setVisible(false);
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ((JButton) e.getSource()).setVisible(false);
-                button2.setVisible(true);
-                new Timer(1, new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        slidingPanel.setLocation(slidingPanel.getX() + 10, 50);
 
-                        if (slidingPanel.getX()  == -230) {
-                            ((Timer) e.getSource()).stop();
-                            System.out.println("Timer stopped");
+
+
+                if(slidePanelCheck){
+
+
+                    slidePanelCheck =  false;
+
+                    ((JButton) e.getSource()).setVisible(false);
+                    button2.setVisible(true);
+
+
+
+                    new Timer(1, new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            slidingPanel.setLocation(slidingPanel.getX() + 45, 40);
+
+                            if (slidingPanel.getX()  == -230) {
+                                ((Timer) e.getSource()).stop();
+                                System.out.println("Timer stopped");
+                            }
+
+
                         }
+                    }).start();
 
 
-                    }
-                }).start();
+                }
+
+
+
             }
         });
 
 
-        button.setBounds(0,0,80,30);
+        button.setBounds(20,5,30,30);
+        button.setIcon(new ImageIcon("img//more.png"));
+        button.setRolloverIcon(new ImageIcon("img//moreR.png"));
         add(button);
 
 
@@ -1076,25 +1160,122 @@ public class Admin extends JPanel {
 
         button2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ((JButton) e.getSource()).setVisible(false);
-                button.setVisible(true);
-                new Timer(1, new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        slidingPanel.setLocation(slidingPanel.getX() - 10, 50);
-                        if (slidingPanel.getX() == -500) {
-                            ((Timer) e.getSource()).stop();
-                            System.out.println("Timer stopped");
-                        }
 
-                        button.setEnabled(true);
-                    }
-                }).start();
+
+                if(slidePanelCheck == false){
+
+
+                    slidePanelCheck = true;
+
+
+                    ((JButton) e.getSource()).setVisible(false);
+                    button.setVisible(true);
+                    new Timer(1, new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            slidingPanel.setLocation(slidingPanel.getX() - 45, 40);
+                            if (slidingPanel.getX() == -500) {
+                                ((Timer) e.getSource()).stop();
+                                System.out.println("Timer stopped");
+                            }
+
+                            button.setEnabled(true);
+                        }
+                    }).start();
+
+
+                }
+
+
+
+
+
             }
         });
 
 
-        button2.setBounds(0,0,80,30);
+        button2.setBounds(20,5,30,30);
+        button2.setIcon(new ImageIcon("img//more2.png"));
+        button2.setRolloverIcon(new ImageIcon("img//more2R.png"));
         add(button2);
+
+
+
+
+
+        slidingPanel.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                System.out.print("Focus gained");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+
+                System.out.println("Focus lost");
+
+            }
+        });
+
+
+        slidingPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+
+                System.out.println("Sliding panel focus requested");
+                ((JPanel) e.getSource()).requestFocus();
+
+            }
+        });
+
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+
+                System.out.println("Main panel focus requested");
+                ((java.awt.Component) e.getSource()).requestFocus();
+
+
+                if(slidePanelCheck == false){
+
+
+                    slidePanelCheck = true;
+
+
+                    button2.setVisible(false);
+                    button.setVisible(true);
+                    new Timer(1, new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            slidingPanel.setLocation(slidingPanel.getX() - 45, 40);
+                            if (slidingPanel.getX() == -500) {
+                                ((Timer) e.getSource()).stop();
+                                System.out.println("Timer stopped");
+                            }
+
+                            button.setEnabled(true);
+                        }
+                    }).start();
+
+
+                }
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1103,7 +1284,7 @@ public class Admin extends JPanel {
 
 
 
-        contestantStatus.setBounds(45, 10, 200, 30);
+        contestantStatus.setBounds(45, 300, 200, 30);
         contestantStatus.setFont(new Font("Calibri", 1, 20));
         contestantStatus.setBackground(new Color(0, 168, 89));
         contestantStatus.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1724,7 +1905,7 @@ public class Admin extends JPanel {
 
 
 
-        retrieve.setBounds(720, 10, 100, 30);
+        retrieve.setBounds(720, 300, 100, 30);
         retrieve.setFont(new Font("Calibri", 1, 17));
         retrieve.setHorizontalAlignment(SwingConstants.CENTER);
         retrieve.setBackground(new Color(0, 168, 89));
@@ -1741,11 +1922,11 @@ public class Admin extends JPanel {
         });
 
 
-        combo.setBounds(400, 10, 300, 30);
+        combo.setBounds(400, 300, 300, 30);
         combo.setFont(new Font("Calibri", 1, 17));;
         add(combo);
 
-        refresh.setBounds(840, 10, 100, 30);
+        refresh.setBounds(840, 300, 100, 30);
         refresh.setFont(new Font("Calibri", 1, 17));
         refresh.setHorizontalAlignment(SwingConstants.CENTER);
         refresh.setBackground(new Color(0, 168, 89));
@@ -1761,7 +1942,7 @@ public class Admin extends JPanel {
             }
         });
 
-        newDB.setBounds(270, 10, 100, 30);
+        newDB.setBounds(270, 300, 100, 30);
         newDB.setFont(new Font("Calibri", 1, 17));
         newDB.setHorizontalAlignment(SwingConstants.CENTER);
         newDB.setBackground(new Color(0, 168, 89));
@@ -1796,7 +1977,172 @@ public class Admin extends JPanel {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-        add(scroll);
+       // add(scroll);
+
+
+
+
+        home.setBounds(300, 42, 30, 30);
+        home.setIcon( new ImageIcon("img//home.png"));
+        home.setRolloverIcon( new ImageIcon("img//homeR.png"));
+        home.setToolTipText("Return to home");
+
+        add(home);
+
+
+        home.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                JOptionPane pane = new JOptionPane("Are you really sure you want to exit?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
+                JDialog dialog2 = pane.createDialog(null, "Exit");
+                //dialog2.setUndecorated(true);
+                dialog2.show();
+                String selectedValue = pane.getValue().toString();
+
+                if(selectedValue.equals("0")){
+
+                    totalReset();
+
+                    HolderPage.content.removeAll();
+
+                    HolderPage.content.add(new Entry());
+
+                    HolderPage.content.updateUI();
+
+                    HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
+
+
+                }
+                else{
+
+                    dialog2.show(false);
+                }
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+        close.setBounds(926,5,30,30);
+        close.setIcon(new ImageIcon("img//power.png"));
+        close.setRolloverIcon(new ImageIcon("img//powerR.png"));
+        add(close);
+
+
+        minimize.setBounds(880,5,30,30);
+        minimize.setIcon(new ImageIcon("img//minimize.png"));
+        minimize.setRolloverIcon(new ImageIcon("img//minimizeR.png"));
+        add(minimize);
+
+        minimize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                HolderPage.f.setState(Frame.ICONIFIED);
+            }
+        });
+
+        topMenu.setBounds(825,5,30,30);
+        topMenu.setIcon(new ImageIcon("img//menu.png"));
+        topMenu.setRolloverIcon(new ImageIcon("img//menuR.png"));
+        add(topMenu);
+
+        topMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                new TopMenu();
+
+            }
+        });
+
+
+
+
+
+        topBar.setBounds(0,0,1000,40);
+        topBar.setOpaque(true);
+        topBar.setBackground(MaterialColor.BLUE_800);
+        topBar.setForeground(MaterialColor.DARK_WHITE);
+        topBar.setFont(new Font("Calibri",1, 20));
+        topBar.setHorizontalAlignment(SwingConstants.CENTER);
+        add(topBar);
+
+
+
+
+        close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.exit(0);
+
+            }
+        });
+
+
+
+        breadCrumb.setBounds(40,40,400,35);
+        breadCrumb.setForeground(MaterialColor.WHITE);
+        breadCrumb.setFont(new Font("Calibri", 1, 18));
+        add(breadCrumb);
+
+
+
+
+        date.setBounds(750,40,400,35);
+        date.setForeground(MaterialColor.WHITE);
+        date.setFont(new Font("Calibri", 1, 18));
+        add(date);
+
+
+        java.util.Timer timer4 = new java.util.Timer();
+        TimerTask myTask = new TimerTask() {
+            @Override
+            public void run() {
+
+
+                dated = new java.util.Date();
+                date.setText(dateFormat.format(dated).toString());
+
+
+            }
+        };
+
+        timer4.scheduleAtFixedRate(myTask,0,1000);
+
+
+
+
+
+        yellowUp.setBounds(0,40,1000,35);
+        yellowUp.setBackground(MaterialColor.ORANGE_400);
+        yellowUp.setOpaque(true);
+        add(yellowUp);
+
+
+
+
+
+
+
+
+        downbar.setBounds(0,530,1000,40);
+        downbar.setBackground(new Color(233, 233, 233));
+        downbar.setOpaque(true);
+        add(downbar);
 
 
 
@@ -3277,6 +3623,74 @@ public class Admin extends JPanel {
 
 
 
+
+
+
+
+
+    class Move{
+
+
+        public void move(final Component frame, JLabel l){
+
+
+
+
+            l.addMouseListener(
+
+
+                    new MouseAdapter(){
+
+
+                        public void mousePressed(MouseEvent t){
+
+
+                            x1 = t.getX();
+                            y1 = t.getY();
+
+
+
+                        }
+
+
+                    });
+
+
+
+
+            l.addMouseMotionListener(
+
+
+                    new MouseMotionAdapter(){
+
+
+
+                        public void mouseDragged(MouseEvent evt){
+
+
+                            fx = evt.getXOnScreen() - x1;
+
+                            fy = evt.getYOnScreen() - y1;
+
+
+                            frame.setLocation(fx,fy);
+
+
+
+                        }
+
+                    });
+
+
+
+
+
+
+
+
+        }
+
+    }
 
 
 
