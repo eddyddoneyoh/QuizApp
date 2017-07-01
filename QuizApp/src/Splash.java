@@ -1,6 +1,10 @@
 /**
  * Created by EdidiongEyo on 11/17/2016.
  */
+import MaterialDesign.MaterialColor;
+import MaterialDesign.MaterialProgressSpinner;
+import MaterialDesign.MaterialWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +17,7 @@ public class Splash extends JPanel{
     MaterialProgressSpinner spinner = new MaterialProgressSpinner();
 
     MaterialWindow f = new MaterialWindow();
+   // JFrame f =  new JFrame();
 
     private int i = 0;
 
@@ -25,7 +30,8 @@ public class Splash extends JPanel{
     private Random r = new Random();
 
 
-    private Image imaget = new ImageIcon("img/logo.png").getImage();
+   // private Image imaget = new ImageIcon("img/logo.png").getImage();
+    private Image imaget = new ImageIcon("logo.png").getImage();
 
 
     int x ;
@@ -33,6 +39,11 @@ public class Splash extends JPanel{
 
     int heightdiv;
     int widthdiv;
+
+
+    JLabel mainPix =  new JLabel();
+
+
 
 
     public Splash(){
@@ -48,6 +59,9 @@ public class Splash extends JPanel{
         widthdiv = x /2;
 
 
+        mainPix.setBounds(0,0,550,430);
+        mainPix.setIcon(new ImageIcon("img/logo.png"));
+        add(mainPix);
 
 
         spinner.setBounds(250,335,30,30);
@@ -68,6 +82,7 @@ public class Splash extends JPanel{
         time.start();
 
 
+        setBackground(MaterialColor.DARK_WHITE);
 
 
 
@@ -91,33 +106,18 @@ public class Splash extends JPanel{
 
 
 
-
-
-    public void paintComponent(Graphics g){
-
-        super.paintComponent(g);
-
-        g.drawImage(imaget, 0, 0,550,416,this);
-
-
-
-
-
-    }
-
-
-
     private class MyTimer implements ActionListener{
 
         public void actionPerformed(ActionEvent evt){
 
-            int k = r.nextInt(100);
+            int k = r.nextInt(30);
 
             i = i + k;
 
             if(i < 100 ){
 
                 bar.setValue(i);
+
 
 
             }
@@ -128,7 +128,8 @@ public class Splash extends JPanel{
                 time.stop();
                 bar.setVisible(false);
                 f.dispose();
-                new HolderPage();
+               HolderPage g = new HolderPage();
+
                 //HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
 
 

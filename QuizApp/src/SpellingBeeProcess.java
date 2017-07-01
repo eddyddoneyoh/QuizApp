@@ -5,11 +5,9 @@ import java.sql.*;
 /**
  * Created by EdidiongEyo on 11/6/2016.
  */
-public class Process {
+public class SpellingBeeProcess {
 
     public static int act;
-    public static String quizdb = "";
-
 
 
     public static int start = 1;
@@ -24,30 +22,7 @@ public class Process {
 
 
 
-
-
-
-
-        RandomAccessFile config;
-
-
-        try{
-
-            config = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\QuizDB", "r");
-            //conf.seek(0);
-            quizdb = config.readLine();
-
-
-        }
-        catch (Exception exception)
-        {
-            System.out.println("config-file read error: " + exception.toString());
-        }
-
-
-
-
-           String query = "SELECT ID, Question, Option1, Option2, Option3, Option4, Answer FROM " + quizdb;
+        String query = "SELECT ID, Word, Meaning FROM SpellingBee";
 
 
 
@@ -68,55 +43,48 @@ public class Process {
 
 
 
-                while (rec.next()) {
+            while (rec.next()) {
 
 
 
-                    try {
+                try {
 
 
 
 
-                        if (x.equals(rec.getString("ID"))) {
+                    if (x.equals(rec.getString("ID"))) {
 
 
 
-                          //  QuestionRadio.tarea2.setText("");
-                            QuestionRadio.amenu.setText("");
-                            QuestionRadio.bmenu.setText("");
-                            QuestionRadio.cmenu.setText("");
-                            QuestionRadio.dmenu.setText("");
-
-                            present = "true";
+                        QuestionSpellingBee.tarea2.setText("");
+                        QuestionSpellingBee.tareaMeaning2.setText("");
 
 
-                            new QuestionRadio().fill(rec.getString("Question"),rec.getString("Option1"),rec.getString("Option2"),rec.getString("Option3"),rec.getString("Option4"));
-
-                            break;
-                        }
+                        present = "true";
 
 
+                        new QuestionSpellingBee().fill(rec.getString("Word"),rec.getString("Meaning"));
+
+                        break;
                     }
-                    catch (java.sql.SQLException jg){ jg.printStackTrace(); }
-
 
 
                 }
+                catch (java.sql.SQLException jg){ jg.printStackTrace(); }
 
 
 
+            }
 
 
 
             if(present.equals("false")){
 
 
-               JOptionPane.showMessageDialog(HolderPage.f,"No question has been set! Please choose another question","NO QUESTION!",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(HolderPage.f,"No question has been set! Please choose another question","NO QUESTION!",JOptionPane.INFORMATION_MESSAGE);
 
 
             }
-
-
 
 
 
@@ -129,8 +97,6 @@ public class Process {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
 
 
 
@@ -165,10 +131,6 @@ public class Process {
 
 
 
-
-
-
-
         try {
 
             Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
@@ -182,7 +144,7 @@ public class Process {
 
 
 
-                QuestionRadio.fillName(rec.getString("participant"));
+                QuestionSpellingBee.fillName(rec.getString("participant"));
 
             }
 

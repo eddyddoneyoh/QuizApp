@@ -13,16 +13,15 @@
 
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.RandomAccessFile;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.TimerTask;
 import java.util.Vector;
+import MaterialDesign.*;
 
 
 public class Quiz extends JPanel implements ActionListener{
@@ -43,13 +42,7 @@ public class Quiz extends JPanel implements ActionListener{
 
     GridLayout layout = new GridLayout(7, 3, 5, 5);
 
-    Process pro = new Process();
 
-
-    JPanel mainScrollPanel =  new JPanel();
-    public static JButton button;
-
-    JLabel selectYourQuestion =  new JLabel("Select Your Question Number Below!");
     static JPanel quicScores =  new JPanel();
     MaterialButton fullScores = new MaterialButton();
     JPanel panel = new JPanel();
@@ -73,9 +66,6 @@ public class Quiz extends JPanel implements ActionListener{
 
     static public JTable table = new JTable();
 
-    private MaterialButton saveGame =  new MaterialButton();
-    private MaterialButton quitGame =  new MaterialButton();
-
 
     MaterialButton previous = new MaterialButton();
     MaterialButton next =  new MaterialButton();
@@ -84,76 +74,37 @@ public class Quiz extends JPanel implements ActionListener{
     int pageCount = Integer.parseInt(pageNo.getText());
 
 
-
-
-
-    //////////////////////////////////////////////////////////////////////////////////
-
-
-    JButton home = new JButton();
-
-
-
     JLabel downbar =  new JLabel();
-    JLabel yellowUp =  new JLabel();
+
+
+
+    //JFormattedTextField addField = new JFormattedTextField("");
+    MaterialFormattedTextField addField =  new MaterialFormattedTextField();
+
+
+    static String actionCommandText = "";
+
+   // String quizdb = "";
 
 
 
 
-    JLabel topBar = new JLabel("QuizApp");
+    String quizdb = "";
 
+    RandomAccessFile configMain;
 
+    Boolean gd;
 
-
-    int x1 = 0;
-    int y1 = 0;
-    int fx = 0;
-    int fy = 0;
-
-
-    JButton close = new JButton();
-
-    JButton minimize =  new JButton();
-    JButton topMenu =  new JButton();
-
-    //////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-    JLabel date = new JLabel();
-
-    DateFormat dateFormat = new SimpleDateFormat("EEE MMMMMMMMMMMMMM, yyyy  |  hh:mm aaa");
-
-    java.util.Date dated = new java.util.Date();
-
-
-
-    //////////////////////////////////////////////////////////////////////////////
-
-    JLabel breadCrumb =  new JLabel("Home > Quiz Setup > New Quiz ");
 
 
 
     public Quiz() {
 
 
+        setBounds(0,0,980,515);
 
 
-
-        new Move().move(HolderPage.f,topBar);
-
-
-
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        y = screenSize.height;
-        x = screenSize.width;
-
-        heightdiv = y / 2;
-        widthdiv = x / 2;
+        HolderPage.breadCrumb.setText("Home > New Quiz > Quiz Start");
 
 
 
@@ -172,13 +123,14 @@ public class Quiz extends JPanel implements ActionListener{
 
         panel.setBackground(Color.white);
 
-        MaterialButton button;
+        JButton button;
 
         for (String label : labels) {
-            button = new MaterialButton();
+            button = new JButton();
             button.setText(label);
             button.addActionListener(this);
-            button.setBackground(new Color(0, 168, 89));
+          //  button.setBackground(new Color(0, 168, 89));
+            button.setBackground(MaterialColor.GREEN_700);
             button.setPreferredSize(new Dimension(100,100));
             button.setFont(new Font("Calibri", 1, 20));
             button.setActionCommand(label);
@@ -207,7 +159,7 @@ public class Quiz extends JPanel implements ActionListener{
         for (String label : labels2) {
             button2 = new JButton(label);
             button2.addActionListener(this);
-            button2.setBackground(new Color(0, 168, 89));
+            button2.setBackground(MaterialColor.GREEN_700);
             button2.setPreferredSize(new Dimension(100,100));
             button2.setFont(new Font("Calibri", 1, 20));
             button2.setActionCommand(label);
@@ -236,7 +188,7 @@ public class Quiz extends JPanel implements ActionListener{
         for (String label : labels3) {
             button3 = new JButton(label);
             button3.addActionListener(this);
-            button3.setBackground(new Color(0, 168, 89));
+            button3.setBackground(MaterialColor.GREEN_700);
             button3.setPreferredSize(new Dimension(100,100));
             button3.setFont(new Font("Calibri", 1, 20));
             button3.setActionCommand(label);
@@ -270,7 +222,7 @@ public class Quiz extends JPanel implements ActionListener{
         for (String label : labels4) {
             button4 = new JButton(label);
             button4.addActionListener(this);
-            button4.setBackground(new Color(0, 168, 89));
+            button4.setBackground(MaterialColor.GREEN_700);
             button4.setPreferredSize(new Dimension(100,100));
             button4.setFont(new Font("Calibri", 1, 20));
             button4.setActionCommand(label);
@@ -304,7 +256,7 @@ public class Quiz extends JPanel implements ActionListener{
         for (String label : labels5) {
             button5 = new JButton(label);
             button5.addActionListener(this);
-            button5.setBackground(new Color(0, 168, 89));
+            button5.setBackground(MaterialColor.GREEN_700);
             button5.setPreferredSize(new Dimension(100,100));
             button5.setFont(new Font("Calibri", 1, 20));
             button5.setActionCommand(label);
@@ -322,7 +274,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        quicScores.setBounds(530,100,400,250);
+        quicScores.setBounds(530,35,400,250);
        quicScores.setLayout(null);
         quicScores.setBackground(Color.white);
         //quicScores.setBorder(BorderFactory.createTitledBorder("Quick Scores"));
@@ -331,60 +283,8 @@ public class Quiz extends JPanel implements ActionListener{
         add(quicScores);
 
 
-
-
-        home.setBounds(300, 42, 30, 30);
-        home.setIcon( new ImageIcon("img//home.png"));
-        home.setRolloverIcon( new ImageIcon("img//homeR.png"));
-        home.setToolTipText("Return to home");
-
-        add(home);
-
-
-        home.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-                Home.dlog2.dispose();
-
-                JOptionPane pane = new JOptionPane("Are you really sure you want to exit?  YOU WILL LOSE THE GAME?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
-                JDialog dialog = pane.createDialog(null, "Exit");
-                dialog.show();
-                String selectedValue = pane.getValue().toString();
-
-                if(selectedValue.equals("0")){
-
-                    //totalReset();
-
-                    HolderPage.content.removeAll();
-
-                    HolderPage.content.add(new Entry());
-
-                    HolderPage.content.updateUI();
-
-                    HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
-
-
-                }
-                else{
-
-                    dialog.show(false);
-                }
-
-
-
-
-
-            }
-        });
-
-
-
-
-
-
-        saveGame.setBounds(550, 400, 150, 50);
+        MaterialButton saveGame = new MaterialButton();
+        saveGame.setBounds(550, 335, 150, 50);
         saveGame.setFont(new Font("Calibri", 1, 17));
         saveGame.setHorizontalAlignment(SwingConstants.CENTER);
         saveGame.setBackground(MaterialColor.GREEN_500);
@@ -396,14 +296,14 @@ public class Quiz extends JPanel implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                new NewDB();
 
             }
         });
 
 
-
-
-        quitGame.setBounds(770, 400, 150, 50);
+        MaterialButton quitGame = new MaterialButton();
+        quitGame.setBounds(770, 335, 150, 50);
         quitGame.setFont(new Font("Calibri", 1, 17));
         quitGame.setHorizontalAlignment(SwingConstants.CENTER);
         quitGame.setBackground(MaterialColor.RED_500);
@@ -416,29 +316,43 @@ public class Quiz extends JPanel implements ActionListener{
             public void actionPerformed(ActionEvent e) {
 
 
-                Home.dlog2.dispose();
+
 
                 JOptionPane pane = new JOptionPane("Are you really sure you want to exit?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
-                JDialog dialog = pane.createDialog(null, "Exit");
-                dialog.show();
-                String selectedValue = pane.getValue().toString();
-                System.out.print(selectedValue);
-                if(selectedValue.equals("0")){
+                JDialog dialog2 = pane.createDialog(HolderPage.f, "Exit");
+                dialog2.setVisible(true);
+
+                String selectedValue = "";
+
+                try {
+
+                    selectedValue = pane.getValue().toString();
+                }
+                catch (java.lang.NullPointerException f){selectedValue = "2";}
+
+
+
+
+                if (selectedValue.equals("0")) {
+
 
                     HolderPage.content.removeAll();
 
                     HolderPage.content.add(new Entry());
-
                     HolderPage.content.updateUI();
 
-                    HolderPage.f.setTitle("QuizApp 2016 - New Quiz");
+
+                } else if (selectedValue.equals("1")){
 
 
+                    dialog2.setVisible(false);
+                } else if (selectedValue.equals("2")){
+
+
+                    dialog2.setVisible(false);
                 }
-                else{
 
-                    dialog.show(false);
-                }
+
 
             }
         });
@@ -459,7 +373,7 @@ public class Quiz extends JPanel implements ActionListener{
             public void actionPerformed(ActionEvent e) {
 
                 new FullScores();
-                QuestionRadio.f.dispose();
+                //QuestionRadio.f.dispose();
             }
         });
 
@@ -469,7 +383,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         final JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setBounds(30,100,450,370);
+        scrollPane.setBounds(30,35,450,370);
         scrollPane.setAutoscrolls(true);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
@@ -483,7 +397,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         final JScrollPane scrollPane2 = new JScrollPane(panel2);
-        scrollPane2.setBounds(30,100,450,370);
+        scrollPane2.setBounds(30,35,450,370);
         scrollPane2.setAutoscrolls(true);
         scrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane2.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
@@ -496,7 +410,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         final JScrollPane scrollPane3 = new JScrollPane(panel3);
-        scrollPane3.setBounds(30,100,450,370);
+        scrollPane3.setBounds(30,35,450,370);
         scrollPane3.setAutoscrolls(true);
         scrollPane3.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane3.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
@@ -508,7 +422,7 @@ public class Quiz extends JPanel implements ActionListener{
         scrollPane3.setVisible(false);
 
         final JScrollPane scrollPane4 = new JScrollPane(panel4);
-        scrollPane4.setBounds(30,100,450,370);
+        scrollPane4.setBounds(30,35,450,370);
         scrollPane4.setAutoscrolls(true);
         scrollPane4.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane4.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
@@ -521,7 +435,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
         final JScrollPane scrollPane5 = new JScrollPane(panel5);
-        scrollPane5.setBounds(30,100,450,370);
+        scrollPane5.setBounds(30,35,450,370);
         scrollPane5.setAutoscrolls(true);
         scrollPane5.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane5.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
@@ -539,13 +453,13 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        pageNo.setBounds(130,545,50,30);
+        pageNo.setBounds(130,480,50,30);
         pageNo.setOpaque(true);
         pageNo.setHorizontalAlignment(SwingConstants.CENTER);
         //add(pageNo);
 
 
-        pageNoView.setBounds(190,485,100,25);
+        pageNoView.setBounds(190,420,100,25);
         pageNoView.setOpaque(true);
         pageNoView.setHorizontalAlignment(SwingConstants.CENTER);
         pageNoView.setForeground(Color.white);
@@ -554,7 +468,7 @@ public class Quiz extends JPanel implements ActionListener{
         add(pageNoView);
 
 
-        previous.setBounds(50,475,100,45);
+        previous.setBounds(50,410,100,45);
         previous.setEnabled(false);
         previous.setFont(new Font("Calibri",1,15));
         previous.setBackground(MaterialColor.BLUE_700);
@@ -657,7 +571,7 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        next.setBounds(330,475,100,45);
+        next.setBounds(330,410,100,45);
         next.setFont(new Font("Calibri",1,15));
         next.setBackground(new Color(6, 125, 248));
         next.setForeground(Color.white);
@@ -756,118 +670,10 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        close.setBounds(926,5,30,30);
-        close.setIcon(new ImageIcon("img//power.png"));
-        close.setRolloverIcon(new ImageIcon("img//powerR.png"));
-        add(close);
-
-
-        minimize.setBounds(880,5,30,30);
-        minimize.setIcon(new ImageIcon("img//minimize.png"));
-        minimize.setRolloverIcon(new ImageIcon("img//minimizeR.png"));
-        add(minimize);
-
-        minimize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                HolderPage.f.setState(Frame.ICONIFIED);
-            }
-        });
-
-        topMenu.setBounds(825,5,30,30);
-        topMenu.setIcon(new ImageIcon("img//menu.png"));
-        topMenu.setRolloverIcon(new ImageIcon("img//menuR.png"));
-        add(topMenu);
-
-        topMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-                new TopMenu();
-
-            }
-        });
-
-
-
-
-
-        topBar.setBounds(0,0,1000,40);
-        topBar.setOpaque(true);
-        topBar.setBackground(MaterialColor.BLUE_800);
-        topBar.setForeground(MaterialColor.DARK_WHITE);
-        topBar.setFont(new Font("Calibri",1, 20));
-        topBar.setHorizontalAlignment(SwingConstants.CENTER);
-        add(topBar);
-
-
-
-
-        close.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                System.exit(0);
-
-            }
-        });
-
-
-
-        breadCrumb.setBounds(40,40,400,35);
-        breadCrumb.setForeground(MaterialColor.WHITE);
-        breadCrumb.setFont(new Font("Calibri", 1, 18));
-        add(breadCrumb);
-
-
-
-
-        date.setBounds(750,40,400,35);
-        date.setForeground(MaterialColor.WHITE);
-        date.setFont(new Font("Calibri", 1, 18));
-        add(date);
-
-
-        java.util.Timer timer4 = new java.util.Timer();
-        TimerTask myTask = new TimerTask() {
-            @Override
-            public void run() {
-
-
-                dated = new java.util.Date();
-                date.setText(dateFormat.format(dated).toString());
-
-
-            }
-        };
-
-        timer4.scheduleAtFixedRate(myTask,0,1000);
-
-
-
-
-
-        yellowUp.setBounds(0,40,1000,35);
-        yellowUp.setBackground(MaterialColor.ORANGE_400);
-        yellowUp.setOpaque(true);
-        add(yellowUp);
-
-
-
-
-
-
-
-
-        downbar.setBounds(0,530,1000,40);
+        downbar.setBounds(0,465,1000,40);
         downbar.setBackground(new Color(233, 233, 233));
         downbar.setOpaque(true);
         add(downbar);
-
-
-
 
 
         scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
@@ -875,8 +681,32 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
+
+
+
+
+        try{
+
+            configMain = new RandomAccessFile("DB\\QuizDB", "r");
+            quizdb = configMain.readLine();
+            configMain.close();
+
+
+        }
+        catch (Exception exception)
+        {
+            System.out.println("config-file read error: " + exception.toString());
+        }
+
+
+
+        gd = quizdb.equals("SpellingBee");
+
+
+
         setBackground(Color.white);
         setLayout(null);
+
 
 
     }
@@ -895,14 +725,14 @@ public class Quiz extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
       JButton  button = (JButton) e.getSource();
-       // System.out.println(button.getBackground());
 
-        if(button.getBackground().toString().equals("java.awt.Color[r=0,g=168,b=89]") ){
 
-           // System.out.println(button.getText());
+
+        if(button.getBackground().toString().equals("java.awt.Color[r=56,g=142,b=60]") ){
+
             button.setBackground(Color.red);
             button.setForeground(Color.white);
-            button.setFont(new Font("Calibri", 1, 16));
+            button.setFont(new Font("Calibri", 1, 20));
 
 
 
@@ -924,6 +754,8 @@ public class Quiz extends JPanel implements ActionListener{
                 start = Integer.parseInt(quizCount);
                 max = Integer.parseInt(participantMax);
 
+                conf.close();
+
 
 
             }
@@ -937,60 +769,83 @@ public class Quiz extends JPanel implements ActionListener{
             counterMethod();
 
 
-            if(start < max){
-
-                Process.entry(button.getActionCommand().toString());
-                QuestionRadio.questionNumner.setText("Question  "  +  button.getActionCommand().toString());
 
 
-                start = start + 1;
 
-                String stringCount  = start + "";
-
-
-                try{
-
-                    conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\participants", "rw");
-                    //conf.seek(0);
-                    conf.writeBytes(participantsCount + "\n");
-                    conf.writeBytes(participantMax + "\n");
-                    conf.writeBytes(stringCount + "");
-                    conf.close();
+                if(start < max) {
 
 
-                }
-                catch (Exception exception)
-                {
-                    System.out.println("config-file read error: " + exception.toString());
-                }
+
+                    actionCommandText = button.getActionCommand();
+
+                    if(gd){
 
 
-                //QuestionRadio.count = start;
+                        SpellingBeeProcess.entry(button.getActionCommand());
+                        QuestionSpellingBee.questionNumner.setText("Question  " + button.getActionCommand().toString());
 
-                if(start == max){
 
-                    start = 1;
+                    }
+                    else{
 
-                    try{
+
+                        Process.entry(button.getActionCommand());
+                        QuestionRadio.questionNumner.setText("Question  " + button.getActionCommand().toString());
+
+
+
+                    }
+
+
+
+                    start = start + 1;
+
+                    String stringCount = start + "";
+
+
+                    try {
 
                         conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\participants", "rw");
                         //conf.seek(0);
                         conf.writeBytes(participantsCount + "\n");
                         conf.writeBytes(participantMax + "\n");
-                        conf.writeBytes(start + "");
+                        conf.writeBytes(stringCount + "");
                         conf.close();
 
 
-                    }
-                    catch (Exception exception)
-                    {
+                    } catch (Exception exception) {
                         System.out.println("config-file read error: " + exception.toString());
                     }
 
 
-
                     //QuestionRadio.count = start;
+
+                    if (start == max) {
+
+                        start = 1;
+
+                        try {
+
+                            conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\participants", "rw");
+                            //conf.seek(0);
+                            conf.writeBytes(participantsCount + "\n");
+                            conf.writeBytes(participantMax + "\n");
+                            conf.writeBytes(start + "");
+                            conf.close();
+
+
+                        } catch (Exception exception) {
+                            System.out.println("config-file read error: " + exception.toString());
+                        }
+
+
+                    }
+
+
                 }
+
+
+
 
 
 
@@ -998,22 +853,14 @@ public class Quiz extends JPanel implements ActionListener{
 
             }
 
-
-        }
-
         else if(button.getBackground().toString().equals("java.awt.Color[r=255,g=0,b=0]") ){
 
-            JOptionPane.showMessageDialog(null, "Please Choose Another Question", "QUESTION TAKEN", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(HolderPage.f, "Please Choose Another Question", "QUESTION TAKEN", JOptionPane.PLAIN_MESSAGE);
 
         }
-
-
-
 
 
     }
-
-
 
 
 
@@ -1082,7 +929,6 @@ public class Quiz extends JPanel implements ActionListener{
         table.setFont(new Font("Calibri",1,16));
         //table.setBackground(Color.white);
         table.setToolTipText("View Quick Scores here");
-       // System.out.print(table.getDropMode());
         table.removeMouseListener(null);
 
         scroll = new JScrollPane(table);
@@ -1126,28 +972,17 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-        if(counterNow.equals("10secs") ){
-
-            QuestionRadio.counter = 10;
-
-        }
-
-        if(counterNow.equals("15secs") ){
-
-            QuestionRadio.counter = 15;
-
-        }
-
-
         if(counterNow.equals("30secs") ){
 
             QuestionRadio.counter = 30;
+            QuestionSpellingBee.counter = 30;
 
         }
 
         if(counterNow.equals("45secs") ){
 
             QuestionRadio.counter = 45;
+            QuestionSpellingBee.counter = 45;
 
         }
 
@@ -1155,6 +990,7 @@ public class Quiz extends JPanel implements ActionListener{
         if(counterNow.equals("60secs") ){
 
             QuestionRadio.counter = 60;
+            QuestionSpellingBee.counter = 60;
 
         }
 
@@ -1174,150 +1010,129 @@ public class Quiz extends JPanel implements ActionListener{
 
 
 
-    class Move{
-
-
-        public void move(final JFrame frame, JLabel l){
 
 
 
 
-            l.addMouseListener(
+    public class NewDB {
+
+        JDialog dlog = new JDialog();
+
+        MaterialButton addButton = new MaterialButton();
+        MaterialButton cancel = new MaterialButton();
+        MaskFormatter fv;
+
+        JLabel tobBar =  new JLabel();
 
 
-                    new MouseAdapter(){
-
-
-                        public void mousePressed(MouseEvent t){
-
-
-                            x1 = t.getX();
-                            y1 = t.getY();
-
-
-
-                        }
-
-
-                    });
+        public NewDB() {
 
 
 
 
-            l.addMouseMotionListener(
-
-
-                    new MouseMotionAdapter(){
+            new Move().move(dlog,tobBar);
 
 
 
-                        public void mouseDragged(MouseEvent evt){
 
-
-                            fx = evt.getXOnScreen() - x1;
-
-                            fy = evt.getYOnScreen() - y1;
-
-
-                            frame.setLocation(fx,fy);
+            dlog.setLayout(null);
 
 
 
-                        }
 
-                    });
+            tobBar.setBounds(0,0,250,40);
+            tobBar.setText("       Save Quiz");
+            tobBar.setOpaque(true);
+            tobBar.setHorizontalAlignment(SwingConstants.CENTER);
+            tobBar.setBackground(MaterialColor.BLUE_600);
+            tobBar.setForeground(MaterialColor.WHITE);
+            tobBar.setFont(new Font("Calibri",1, 16));
+            dlog.add(tobBar);
 
 
 
 
 
 
-        }
+            try {
 
-    }
+                MaskFormatter fv = new MaskFormatter("********************");
+                fv.setInvalidCharacters("' ',',', '.','/', ']','[', ';',':' ");
 
-
-
-
-
-
-    class MyScrollBarUI extends BasicScrollBarUI {
-                private final Dimension d = new Dimension();
-
-                @Override
-                protected JButton createDecreaseButton(int orientation) {
-                    return new JButton() {
-                        @Override
-                        public Dimension getPreferredSize() {
-                            return d;
-                        }
-                    };
-                }
-
-                @Override
-                protected JButton createIncreaseButton(int orientation) {
-                    return new JButton() {
-                        @Override
-                        public Dimension getPreferredSize() {
-                            return d;
-                        }
-                    };
-                }
-
-                @Override
-                protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
-                }
-
-                @Override
-                protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
-                    Graphics2D g2 = (Graphics2D) g.create();
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON);
-                    Color color = null;
-                    JScrollBar sb = (JScrollBar) c;
-                    if (!sb.isEnabled() || r.width > r.height) {
-                        return;
-                    } else if (isDragging) {
-                        color = MaterialColor.GREY_500;
-                    } else if (isThumbRollover()) {
-                        color = MaterialColor.GREY_500;
-                    } else {
-                        color = Color.LIGHT_GRAY;
-                    }
-                    g2.setPaint(color);
-                    // g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
-                    g2.fillRect(r.x, r.y, r.width, r.height);
-                    g2.setPaint(Color.WHITE);
-                    // g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
-                    g2.dispose();
-                }
-
-                @Override
-                protected void setThumbBounds(int x, int y, int width, int height) {
-                    super.setThumbBounds(x, y, width, height);
-                    scrollbar.repaint();
-                }
+            } catch (Exception e) {
             }
 
 
 
+            addField = new MaterialFormattedTextField(fv);
+            addField.setText("");
+            addField.setBounds(30, 70, 220, 40);
+            addField.setFont(new Font("Calibri", 1, 17));
+            addField.setHint("Enter quiz name");
+            addField.setOpaque(false);
+            dlog.add(addField);
+
+
+            addButton.setBounds(100, 130, 100, 50);
+            addButton.setFont(new Font("Calibri", 1, 17));
+            addButton.setHorizontalAlignment(SwingConstants.CENTER);
+            addButton.setBackground(MaterialColor.BLUE_600);
+            addButton.setForeground(MaterialColor.WHITE);
+            addButton.setText(" Create");
+            dlog.add(addButton);
+
+            addButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+
+                    // createTable();
+                    // goaction();
+                    // comboBox();
+
+                   // dlog.setVisible(false);
+
+                    //JOptionPane.showMessageDialog(null, "Database Updated", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
+
+
+                }
+            });
+
+
+            cancel.setBounds(240,-10,70,58);
+            cancel.setFont(new Font("Calibri", 1, 17));
+            cancel.setHorizontalAlignment(SwingConstants.CENTER);
+            cancel.setBackground(MaterialColor.RED_500);
+            cancel.setForeground(MaterialColor.WHITE);
+            cancel.setText("X");
+            dlog.add(cancel);
+
+            cancel.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    addField.setText("");
+                    dlog.setVisible(false);
+                }
+            });
 
 
 
 
 
+            dlog.setLayout(null);
+            dlog.setSize(300, 200);
+            dlog.setLocationRelativeTo(HolderPage.f);
+            dlog.getContentPane().setBackground(MaterialColor.ORANGE_400);
+            dlog.setUndecorated(true);
+            dlog.setVisible(true);
+
+            dlog.setAlwaysOnTop(true);
 
 
+        }
 
-
-
-
-
-
-
-
-
-
+    }
 
 
 

@@ -1,13 +1,17 @@
+import MaterialDesign.MaterialColor;
+import MaterialDesign.MaterialDialog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.net.URI;
 
-/**
- * Created by EdidiongEyo on 6/2/2017.
- */
+
+
+
 public class TopMenu extends JPanel{
 
 
@@ -25,6 +29,9 @@ public class TopMenu extends JPanel{
     JButton about =  new JButton();
     JButton help =  new JButton();
     JButton update =  new JButton();
+
+
+    Thread finalT2;
 
 
 
@@ -83,18 +90,24 @@ public class TopMenu extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
 
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-
                         dlog2.dispose();
 
-                        new HolderPage.Blocker();
-                        new Settings();
+
+                        finalT2 = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                              HolderPage.f.setEnabled(false);
+
+                                new Settings();
+
+                                finalT2.stop();
+
+                            }
+                        });
+                        finalT2.start();
 
 
-
-                    }
-                });
 
             }
         });
@@ -119,16 +132,9 @@ public class TopMenu extends JPanel{
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
 
+
                         dlog2.dispose();
-
-                        HolderPage.content.removeAll();
-
-                        HolderPage.content.add(new Help());
-
-                        HolderPage.content.updateUI();
-
-                        HolderPage.f.setTitle("QuizApp 2016 - New Quiz");
-
+                        new Help();
 
 
                     }
@@ -147,6 +153,47 @@ public class TopMenu extends JPanel{
         feedback.setIcon(new ImageIcon("img//message.png"));
         this.add(feedback);
 
+        feedback.addActionListener(
+
+                new ActionListener(){
+
+                    public void actionPerformed(ActionEvent e){
+
+                        dlog2.dispose();
+
+                        String url = new String("www.google.com/feedback");
+
+                        if(Desktop.isDesktopSupported()){
+
+                            try{
+
+                                Desktop.getDesktop().browse(new URI(url));
+
+                            }catch(Exception f){f.printStackTrace();}
+
+
+                        }
+                        else{
+
+
+                            try{
+
+                                Runtime runtime = Runtime.getRuntime();
+                                runtime.exec("/usr/bin/firefox -new-window " + url);
+
+
+                            }catch(Exception f){f.printStackTrace();}
+
+                        }
+
+
+                    }
+
+
+                }
+
+        );
+
 
         update.setBounds(0,98,dlog2.getWidth(),32);
         update.setBackground(MaterialColor.WHITE);
@@ -155,6 +202,48 @@ public class TopMenu extends JPanel{
         update.setHorizontalAlignment(SwingConstants.LEFT);
         update.setIcon(new ImageIcon("img//update.png"));
         this.add(update);
+
+
+        update.addActionListener(
+
+                new ActionListener(){
+
+                    public void actionPerformed(ActionEvent e){
+
+                        String url = new String("www.google.com/update");
+
+                        if(Desktop.isDesktopSupported()){
+
+                            try{
+
+                                Desktop.getDesktop().browse(new URI(url));
+
+                            }catch(Exception f){f.printStackTrace();}
+
+
+                        }
+                        else{
+
+
+                            try{
+
+                                Runtime runtime = Runtime.getRuntime();
+                                runtime.exec("/usr/bin/firefox -new-window " + url);
+
+
+                            }catch(Exception f){f.printStackTrace();}
+
+                        }
+
+
+                    }
+
+
+                }
+
+        );
+
+
 
 
         about.setBounds(0,131,dlog2.getWidth(),32);
@@ -176,15 +265,7 @@ public class TopMenu extends JPanel{
                     public void run() {
 
                         dlog2.dispose();
-
-                        HolderPage.content.removeAll();
-
-                        HolderPage.content.add(new About());
-
-                        HolderPage.content.updateUI();
-
-                        HolderPage.f.setTitle("QuizApp 2016 - New Quiz");
-
+                        new About();
 
 
                     }
@@ -201,9 +282,10 @@ public class TopMenu extends JPanel{
 
 
         //dlog2.getContentPane().setBackground(MaterialColor.GREY_200);
-        dlog2.setVisible(true);
-       // dlog2.setLocationRelativeTo(HolderPage.f);
+
+       //dlog2.setLocationRelativeTo(HolderPage.f);
         dlog2.setLocation(locationX,locationY);
+        dlog2.setVisible(true);
 
         //dlog2.setAlwaysOnTop(true);
 

@@ -1,31 +1,15 @@
-/**
- * Created by EdidiongEyo on 11/5/2016.
- */
+
+import MaterialDesign.*;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.RandomAccessFile;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimerTask;
 
 
 @SuppressWarnings({"SpellCheckingInspection", "FieldCanBeLocal", "WeakerAccess"})
 public class Home extends JPanel {
-
-
-    public static JFrame f = new JFrame("");
-
-
-    int x;
-    int y;
-
-    int heightdiv;
-    int widthdiv;
 
 
     private JButton up = new JButton();
@@ -78,9 +62,7 @@ public class Home extends JPanel {
     private FlowLayout layout =  new FlowLayout(FlowLayout.CENTER,10,20);
    private JScrollPane scroll;
 
-    //private MaterialScrollPane scroll;
-
-    private MaterialPanel settings =  new MaterialPanel();
+    private JPanel settings =  new JPanel();
 
     private JComboBox combo = new JComboBox();
 
@@ -103,20 +85,10 @@ public class Home extends JPanel {
 
 
 
-
-
-   // Image imaget = new ImageIcon("img/home.png").getImage();
-
-
     MaterialButton selectDB =  new MaterialButton ();
 
 
-
-
-    ///////////////////////////////////////////////////////////////////////
-    //MaterialWindow dlog2 = new MaterialWindow();
-
-    public static MaterialDialog dlog2 = new MaterialDialog();
+     MaterialDialog dlog2 = new MaterialDialog();
 
 
     DefaultListModel data = new DefaultListModel();
@@ -138,55 +110,14 @@ public class Home extends JPanel {
     //////////////////////////////////////////////////////////////////////////////////
 
 
-    JButton home = new JButton();
-
-
-
     JLabel downbar =  new JLabel();
-    JLabel yellowUp =  new JLabel();
-
-
-
-
-    JLabel topBar = new JLabel("QuizApp");
-
-
-
-
-    int x1 = 0;
-    int y1 = 0;
-    int fx = 0;
-    int fy = 0;
-
-
-    JButton close = new JButton();
-    JButton minimize =  new JButton();
-    JButton topMenu =  new JButton();
-
-
-    //////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-    JLabel date = new JLabel();
-
-    DateFormat dateFormat = new SimpleDateFormat("EEE. MMMMMMMMMMMMMM, yyyy  |  hh:mm aaa");
-
-    Date dated = new Date();
-
-
-
-    //////////////////////////////////////////////////////////////////////////////
-
-    JLabel breadCrumb =  new JLabel("Home > New Quiz");
 
 
 
     public Home() {
 
 
+        setBounds(0,0,980,515);
 
 
           dlog2.addWindowFocusListener(new WindowFocusListener() {
@@ -198,49 +129,41 @@ public class Home extends JPanel {
               @Override
               public void windowLostFocus(WindowEvent e) {
 
-                  //System.out.println("true");
+
                   dlog2.dispose();
               }
           });
 
 
 
-        new Move().move(HolderPage.f,topBar);
-
-
-
-
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        y = screenSize.height;
-        x = screenSize.width;
-
-        heightdiv = y / 2;
-        widthdiv = x / 2;
 
         setBackground(Color.white);
         setLayout(null);
 
+
+
+        HolderPage.breadCrumb.setText("Home > New Quiz");
+        HolderPage.home.setVisible(true);
+
+
         panel.setLayout(layout);
         panel.setBackground(MaterialColor.ORANGE_300);
-       // panel.setBackground(new Color(233, 233, 233));
+
         panel.setPreferredSize(new Dimension(400,380));
         panel.updateUI();
 
         scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-       // scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Contestants", 1,2,new Font("Calibri",1,14),Color.red));
         scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Contestants", 2,2,new Font("Calibri",1,20),Color.black));
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         scroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
         scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
-        scroll.setBounds(30,100,500,380);
+        scroll.setBounds(30,35,500,380);
         add(scroll);
         scroll.updateUI();
 
-        contestantStatus.setBounds(45, 488, 150, 25);
+        contestantStatus.setBounds(45, 423, 150, 25);
         contestantStatus.setFont(new Font("Calibri", 1, 16));
         contestantStatus.setBackground(new Color(0, 168, 89));
         contestantStatus.setHorizontalAlignment(SwingConstants.CENTER);
@@ -254,7 +177,7 @@ public class Home extends JPanel {
         panelsAndTextFields();
 
 
-        up.setBounds(220, 485, 30, 30);
+        up.setBounds(220, 423, 30, 30);
         up.setIcon(new ImageIcon("img//add.png"));
         up.setRolloverIcon(new ImageIcon("img//addR.png"));
         up.setContentAreaFilled(false);
@@ -328,7 +251,7 @@ public class Home extends JPanel {
             }
         });
 
-        down.setBounds(260, 485, 30, 30);
+        down.setBounds(260, 423, 30, 30);
         down.setEnabled(false);
         down.setIcon(new ImageIcon("img//down.png"));
         down.setRolloverIcon(new ImageIcon("img//downR.png"));
@@ -411,7 +334,7 @@ public class Home extends JPanel {
 
 
 
-        reset.setBounds(300, 485, 30, 30);
+        reset.setBounds(300, 423, 30, 30);
         reset.setIcon(new ImageIcon("img//reset.png"));
        reset.setRolloverIcon(new ImageIcon("img//resetR.png"));
         reset.setToolTipText("Reset contestants information");
@@ -427,9 +350,10 @@ public class Home extends JPanel {
 
 
 
-        go.setBounds(340, 485, 30, 30);
+        go.setBounds(340, 423, 30, 30);
         go.setEnabled(false);
         go.setIcon(new ImageIcon("img//save.png"));
+        go.setRolloverIcon(new ImageIcon("img//saveR.png"));
         go.setToolTipText("Save contestants information");
         add(go);
 
@@ -448,7 +372,7 @@ public class Home extends JPanel {
 
 
 
-        start.setBounds(380, 485, 30, 30);
+        start.setBounds(380, 423, 30, 30);
         start.setIcon(new ImageIcon("img//start.png"));
         start.setRolloverIcon(new ImageIcon("img//startR.png"));
         start.setEnabled(false);
@@ -464,13 +388,11 @@ public class Home extends JPanel {
 
                 if(updateSettings.isVisible()){
 
-                    JOptionPane.showMessageDialog(null, "Please Update Quiz Settings","SETTINGS", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(HolderPage.f, "Please Update Quiz Settings","SETTINGS", JOptionPane.INFORMATION_MESSAGE);
 
                 }
                 else{
 
-                   // f.dispose();
-                  // new Quiz();
 
                     totalReset();
                     HolderPage.content.removeAll();
@@ -494,7 +416,7 @@ public class Home extends JPanel {
 
 
 
-        retrieve.setBounds(420, 485, 30, 30);
+        retrieve.setBounds(420, 423, 30, 30);
         retrieve.setIcon(new ImageIcon("img//retrieve.png"));
         retrieve.setRolloverIcon(new ImageIcon("img//retrieveR.png"));
         retrieve.setToolTipText("Retrieve from existing database");
@@ -514,54 +436,6 @@ public class Home extends JPanel {
 
 
 
-        home.setBounds(300, 42, 30, 30);
-        home.setIcon( new ImageIcon("img//home.png"));
-        home.setRolloverIcon( new ImageIcon("img//homeR.png"));
-        home.setToolTipText("Return to home");
-
-        add(home);
-
-
-        home.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-                JOptionPane pane = new JOptionPane("Are you really sure you want to exit?", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
-                JDialog dialog2 = pane.createDialog(null, "Exit");
-                //dialog2.setUndecorated(true);
-                dialog2.show();
-               String selectedValue = pane.getValue().toString();
-
-                if(selectedValue.equals("0")){
-
-                    totalReset();
-
-                    HolderPage.content.removeAll();
-
-                    HolderPage.content.add(new Entry());
-
-                    HolderPage.content.updateUI();
-
-                    HolderPage.f.setTitle("QuizApp 2016 - Welcome!");
-
-
-                }
-                else{
-
-                    dialog2.show(false);
-                }
-
-
-
-
-
-            }
-        });
-
-
-
-
 
 
 
@@ -573,13 +447,11 @@ public class Home extends JPanel {
         add(settings);
 
 
-        JScrollPane settingsScroll =  new JScrollPane();
 
-        settingsScroll = new JScrollPane(settings);
+        JScrollPane settingsScroll = new JScrollPane(settings);
         settingsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        settingsScroll.setBounds(570,100,380,220);
-       // settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black,2,true),"Quick Settings", 1,2,new Font("Calibri",1,14),Color.red));
-        settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Quick Settings", 2,2,new Font("Calibri",1,20),Color.black));
+        settingsScroll.setBounds(570,35,380,220);
+       settingsScroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"Quick Settings", 2,2,new Font("Calibri",1,20),Color.black));
         settingsScroll.getVerticalScrollBar().setUnitIncrement(16);
         settingsScroll.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
         settingsScroll.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
@@ -587,13 +459,7 @@ public class Home extends JPanel {
 
         add(settingsScroll);
 
-        //ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
 
-
-        questLabel.setBounds(20,20, 140,30);
-        questLabel.setForeground(Color.white);
-        questLabel.setFont(new Font("Calibri", 1,16));
-        //settings.add(questLabel);
 
         timeLabel.setBounds(160,20, 140,30);
         timeLabel.setForeground(Color.white);
@@ -618,81 +484,26 @@ public class Home extends JPanel {
 
 
 
-        combo.addItem("All");
-        combo.addItem("Range");
-
-        combo.setBounds(140,20,80,30);
-        //settings.add(combo);
-
-        combo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(combo.getSelectedItem().toString().equals("Range")){
-
-                    rangestart.setVisible(true);
-                    rangestop.setVisible(true);
-
-                }
-                else{
-
-                    rangestart.setVisible(false);
-                    rangestop.setVisible(false);
-
-                }
-            }
-        });
 
 
-
-
-
-        rangestart.addItem("1");
-        rangestart.addItem("2");
-        rangestart.addItem("3");
-
-        rangestart.setBounds(220,20,50,30);
-        rangestart.setVisible(false);
-        //settings.add(rangestart);
-
-
-        rangestop.addItem("1");
-        rangestop.addItem("2");
-        rangestop.addItem("3");
-
-        rangestop.setBounds(270,20,50,30);
-        rangestop.setVisible(false);
-        //settings.add(rangestop);
-
-
-        //time.addItem("5secs");
-       // time.addItem("10secs");
-      //  time.addItem("15secs");
         time.addItem("30secs");
        time.addItem("45secs");
        time.addItem("60secs");
 
-        time.setBounds(205 ,20,75 ,28);
+        time.setBounds(205 ,20,100 ,28);
         settings.add(time);
 
 
         point.addItem("1pt");
         point.addItem("3pts");
         point.addItem("5pts");
-       // point.addItem("10pts");
+       point.addItem("10pts");
 
 
         point.setBounds(75,20,63,28);
         settings.add(point);
 
 
-
-
-         //combo.setEnabled(false);
-        //point.setEnabled(false);
-        //time.setEnabled(false);
-        //rangestop.setEnabled(false);
-        //rangestart.setEnabled(false);
 
 
         updateSettings.setBounds(120, 120, 120,50);
@@ -731,9 +542,6 @@ public class Home extends JPanel {
 
                 selected.setText("");
               new SaveDB();
-
-
-
 
 
             }
@@ -782,114 +590,7 @@ public class Home extends JPanel {
 
 
 
-
-
-        close.setBounds(926,5,30,30);
-        close.setIcon(new ImageIcon("img//power.png"));
-       close.setRolloverIcon(new ImageIcon("img//powerR.png"));
-        add(close);
-
-
-        minimize.setBounds(880,5,30,30);
-        minimize.setIcon(new ImageIcon("img//minimize.png"));
-        minimize.setRolloverIcon(new ImageIcon("img//minimizeR.png"));
-        add(minimize);
-
-        minimize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                HolderPage.f.setState(Frame.ICONIFIED);
-            }
-        });
-
-        topMenu.setBounds(825,5,30,30);
-        topMenu.setIcon(new ImageIcon("img//menu.png"));
-        topMenu.setRolloverIcon(new ImageIcon("img//menuR.png"));
-        add(topMenu);
-
-        topMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-                new TopMenu();
-
-            }
-        });
-
-
-
-
-
-        topBar.setBounds(0,0,1000,40);
-        topBar.setOpaque(true);
-        topBar.setBackground(MaterialColor.BLUE_800);
-        topBar.setForeground(MaterialColor.DARK_WHITE);
-        topBar.setFont(new Font("Calibri",1, 20));
-        topBar.setHorizontalAlignment(SwingConstants.CENTER);
-        add(topBar);
-
-
-
-
-        close.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                System.exit(0);
-
-            }
-        });
-
-
-
-        breadCrumb.setBounds(40,40,400,35);
-        breadCrumb.setForeground(MaterialColor.WHITE);
-        breadCrumb.setFont(new Font("Calibri", 1, 18));
-        add(breadCrumb);
-
-
-
-
-        date.setBounds(750,40,400,35);
-        date.setForeground(MaterialColor.WHITE);
-        date.setFont(new Font("Calibri", 1, 18));
-        add(date);
-
-
-        java.util.Timer timer4 = new java.util.Timer();
-        TimerTask myTask = new TimerTask() {
-            @Override
-            public void run() {
-
-
-                dated = new java.util.Date();
-                date.setText(dateFormat.format(dated).toString());
-
-
-            }
-        };
-
-        timer4.scheduleAtFixedRate(myTask,0,1000);
-
-
-
-
-
-        yellowUp.setBounds(0,40,1000,35);
-        yellowUp.setBackground(MaterialColor.ORANGE_400);
-        yellowUp.setOpaque(true);
-       add(yellowUp);
-
-
-
-
-
-
-
-
-        downbar.setBounds(0,530,1000,40);
+        downbar.setBounds(0,465,1000,40);
         downbar.setBackground(new Color(233, 233, 233));
         downbar.setOpaque(true);
         add(downbar);
@@ -1039,7 +740,7 @@ public class Home extends JPanel {
 
             }
 
-            JOptionPane.showMessageDialog(null, "Database Updated", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(HolderPage.f, "Database Updated", "SUCCESS", JOptionPane.PLAIN_MESSAGE);
 
             go.setEnabled(false);
         }
@@ -1049,9 +750,8 @@ public class Home extends JPanel {
         catch ( SQLException sqlException )
         {
             sqlException.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(HolderPage.f, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
             go.setEnabled(true);
-            //JOptionPane.showMessageDialog(null, "Please fill all fields!");
 
         } // end catch
         catch ( ClassNotFoundException classNotFound )
@@ -1524,7 +1224,7 @@ public class Home extends JPanel {
 
 
 
-            JOptionPane.showMessageDialog(null, "No Question Choosen", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(HolderPage.f, "No Question Choosen", "", JOptionPane.INFORMATION_MESSAGE);
 
 
             updateSettings.setVisible(true);
@@ -1542,34 +1242,38 @@ public class Home extends JPanel {
 
             String counterNow = time.getSelectedItem().toString();
             String questionID = quiznametext.getText();
-            RandomAccessFile conf;
 
 
-            try {
-
-                conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\counter", "rw");
-                //conf.seek(0);
-                conf.writeBytes(counterNow);
-                conf.close();
+            try{
 
 
-            } catch (Exception exception) {
-                System.out.println("config-file read error: " + exception.toString());
+                WriteFile data = new WriteFile("DB\\counter", false);
+
+                data.writeToFile(counterNow);
+
+            }
+            catch (Exception e) { e.printStackTrace();
+
             }
 
 
-            try {
-
-                conf = new RandomAccessFile("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\QuizDB", "rw");
-                //conf.seek(0);
-                // conf.writeBytes("   ");
-                conf.writeBytes(questionID + "                ");
-                conf.close();
 
 
-            } catch (Exception exception) {
-                System.out.println("config-file read error: " + exception.toString());
+            try{
+
+
+                WriteFile data = new WriteFile("DB\\QuizDB", false);
+
+                data.writeToFile(questionID);
+
             }
+            catch (Exception e) { e.printStackTrace();
+
+            }
+
+
+
+
 
 
             combo.setEnabled(false);
@@ -1595,9 +1299,6 @@ public class Home extends JPanel {
                 ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '" + point.getSelectedItem().toString() + "' WHERE id = '" + 2 + "'");
                 ps.executeUpdate();
 
-                ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '" + combo.getSelectedItem().toString() + "' WHERE id = '" + 3 + "'");
-                ps.executeUpdate();
-
                 ps = conn.prepareStatement("UPDATE QuizSettings SET attr = '" + time.getSelectedItem().toString() + "' WHERE id = '" + 4 + "'");
                 ps.executeUpdate();
 
@@ -1607,7 +1308,7 @@ public class Home extends JPanel {
 
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(HolderPage.f, "Error in Uploading records", "FAILURE", JOptionPane.PLAIN_MESSAGE);
 
             } // end catch
             catch (ClassNotFoundException classNotFound) {
@@ -1620,24 +1321,6 @@ public class Home extends JPanel {
 
 
     }
-
-
-
-
-//    public void paintComponent(Graphics g){
-//
-//        super.paintComponent(g);
-//
-//
-//
-//
-//        //	g.setFont(new Font("Calibri (Body)", 1, 11));
-//
-//       // g.drawImage(imaget, 0, 0,1000,570,this);
-//
-//
-//
-//    }
 
 
 
@@ -1682,32 +1365,12 @@ public class Home extends JPanel {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     public  class SaveDB
     {
 
 
-        int x1 = 0;
-        int y1 = 0;
-        int fx = 0;
-        int fy = 0;
-
-
         JLabel tobBar =  new JLabel();
-
-        JPanel pan = new JPanel();
-
-
+        MaterialButton cancel = new MaterialButton();
 
         public SaveDB() {
 
@@ -1719,13 +1382,10 @@ public class Home extends JPanel {
             HolderPage.f.setFocusableWindowState(false);
 
             dlog2.requestFocus();
-            //dlog2.setAutoRequestFocus(true);
 
 
-
-
-            tobBar.setBounds(0,0,290,40);
-            tobBar.setText("                      Select quiz database");
+            tobBar.setBounds(0,0,239,40);
+            tobBar.setText("         Select quiz database");
             dlog2.add(tobBar);
             tobBar.setOpaque(true);
             tobBar.setHorizontalAlignment(SwingConstants.LEFT);
@@ -1735,10 +1395,35 @@ public class Home extends JPanel {
 
 
 
+            cancel.setBounds(229,-9,70,57);
+            cancel.setFont(new Font("Calibri", 1, 17));
+            cancel.setHorizontalAlignment(SwingConstants.CENTER);
+            cancel.setBackground(MaterialColor.WHITE);
+            cancel.setForeground(MaterialColor.RED_500);
+            cancel.setText("X");
+            dlog2.add(cancel);
+
+            cancel.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    HolderPage.f.setFocusable(true);
+                    HolderPage.f.requestFocus();
+                    HolderPage.f.setFocusableWindowState(true);
+
+                    dlog2.dispose();
+
+
+                }
+            });
+
+
+
+
             selected.setBounds(20, 50, 240, 30);
             selected.setFont(new Font("Calibri", 1, 18));
             selected.setOpaque(false);
-            selected.setBackground(new Color(230, 230, 230));
+            selected.setBackground(MaterialColor.WHITE);
             selected.setHorizontalAlignment(SwingConstants.CENTER);
             selected.setEditable(false);
            dlog2.add(selected);
@@ -1750,6 +1435,7 @@ public class Home extends JPanel {
             listID.setSelectionBackground(new Color(255, 250, 152));
             listID.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             scroll2.getViewport().setView(listID);
+            scroll2.getVerticalScrollBar().setUI(new MyScrollBarUI());
             dlog2.add(scroll2);
 
             listID.addMouseListener(new MouseAdapter() {
@@ -1800,7 +1486,7 @@ public class Home extends JPanel {
             int locationY =  HolderPage.f.getY();
 
 
-            dlog2.getContentPane().setBackground(Color.white);
+            dlog2.getContentPane().setBackground(MaterialColor.GREY_200);
             dlog2.setVisible(true);
             dlog2.setLocation(locationX  + 400,locationY + 160);
 
@@ -1817,173 +1503,7 @@ public class Home extends JPanel {
 
 
 
-
-
-
-    class Move{
-
-
-        public void move(final Component frame, JLabel l){
-
-
-
-
-            l.addMouseListener(
-
-
-                    new MouseAdapter(){
-
-
-                        public void mousePressed(MouseEvent t){
-
-
-                            x1 = t.getX();
-                            y1 = t.getY();
-
-
-
-                        }
-
-
-                    });
-
-
-
-
-            l.addMouseMotionListener(
-
-
-                    new MouseMotionAdapter(){
-
-
-
-                        public void mouseDragged(MouseEvent evt){
-
-
-                            fx = evt.getXOnScreen() - x1;
-
-                            fy = evt.getYOnScreen() - y1;
-
-
-                            frame.setLocation(fx,fy);
-
-
-
-                        }
-
-                    });
-
-
-
-
-
-
-
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-    class MyScrollBarUI extends BasicScrollBarUI {
-        private final Dimension d = new Dimension();
-
-        @Override
-        protected JButton createDecreaseButton(int orientation) {
-            return new JButton() {
-                @Override
-                public Dimension getPreferredSize() {
-                    return d;
-                }
-            };
-        }
-
-        @Override
-        protected JButton createIncreaseButton(int orientation) {
-            return new JButton() {
-                @Override
-                public Dimension getPreferredSize() {
-                    return d;
-                }
-            };
-        }
-
-        @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
-        }
-
-        @Override
-        protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            Color color = null;
-            JScrollBar sb = (JScrollBar) c;
-            if (!sb.isEnabled() || r.width > r.height) {
-                return;
-            } else if (isDragging) {
-                color = MaterialColor.GREY_500;
-            } else if (isThumbRollover()) {
-                color = MaterialColor.GREY_500;
-            } else {
-                color = Color.LIGHT_GRAY;
-            }
-            g2.setPaint(color);
-           // g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
-            g2.fillRect(r.x, r.y, r.width, r.height);
-            g2.setPaint(Color.WHITE);
-           // g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
-            g2.dispose();
-        }
-
-        @Override
-        protected void setThumbBounds(int x, int y, int width, int height) {
-            super.setThumbBounds(x, y, width, height);
-            scrollbar.repaint();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public static void main(String[] args) {
-
-
-
-
-        try
-        {
-            for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }
-        catch(Exception e){}
-
-
-
 
         new Home();
 

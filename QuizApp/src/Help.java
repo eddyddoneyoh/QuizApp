@@ -17,6 +17,9 @@
  * Created by EdidiongEyo on 11/6/2016.
  */
 
+import MaterialDesign.MaterialColor;
+import MaterialDesign.MaterialWindow;
+
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -29,27 +32,20 @@ import java.io.IOException;
 import java.net.URL;
 
 
-
 public class Help extends JPanel implements TreeSelectionListener  {
 
 
 
 
-
-    int x;
-    int y;
-
-    int heightdiv;
-    int widthdiv;
+    MaterialWindow frame =  new MaterialWindow();
 
 
     JLabel downbar  = new JLabel();
 
 
 
+    JButton home =  new JButton("X");
 
-
-    JButton home =  new JButton("Home");
 
 
 
@@ -69,21 +65,28 @@ public class Help extends JPanel implements TreeSelectionListener  {
     JLabel yellowUp = new JLabel();
 
 
-
+    JLabel topBar =  new JLabel();
 
 
     public Help() {
 
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        y = screenSize.height;
-        x = screenSize.width;
-
-        heightdiv = y / 2;
-        widthdiv = x / 2;
 
 
+
+
+        new Move().move(frame,topBar);
+
+
+
+
+
+        frame.setSize(800,500);
+        frame.add(this);
+
+
+
+        setBounds(0,0, 800, 500);
 
 
 
@@ -108,11 +111,13 @@ public class Help extends JPanel implements TreeSelectionListener  {
 
         //Create the scroll pane and add the tree to it.
         JScrollPane treeView = new JScrollPane(tree);
-        treeView.setBounds(100,30,250,450);
+        treeView.setBounds(30,60,250,370);
+        treeView.getVerticalScrollBar().setUI(new MyScrollBarUI());
+        treeView.getHorizontalScrollBar().setUI(new MyScrollBarUI());
         add(treeView);
 
 
-        treeView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 4,true));
+        treeView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 3,true));
 
 
 
@@ -121,41 +126,30 @@ public class Help extends JPanel implements TreeSelectionListener  {
         htmlPane.setEditable(false);
         initHelp();
         JScrollPane htmlView = new JScrollPane(htmlPane);
-        htmlView.setBounds(355,30,520,450);
+        htmlView.setBounds(290,60,460,370);
+        htmlView.getVerticalScrollBar().setUI(new MyScrollBarUI());
+        htmlView.getHorizontalScrollBar().setUI(new MyScrollBarUI());
         add(htmlView);
 
 
 
-        htmlView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 4,true));
+        htmlView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 3,true));
 
 
 
-        //Add the scroll panes to a split pane.
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setBounds(347,31,52,448);
-       // splitPane.setLeftComponent(treeView);
-        //splitPane.setRightComponent(htmlView);
-
-        Dimension minimumSize = new Dimension(500, 450);
-       // htmlView.setMinimumSize(minimumSize);
-       // treeView.setMinimumSize(minimumSize);
-        //splitPane.setDividerLocation(300);
-        //splitPane.setPreferredSize(new Dimension(100, 400));
-
-        //Add the split pane to this panel.
-
-       add(splitPane);
+        splitPane.setBounds(280,60,52,370);
+        add(splitPane);
 
 
 
 
 
-
-
-        home.setBounds(420, 520, 180, 30);
+        home.setBounds(730,0, 50, 35);
         home.setFont(new Font("Calibri", 1, 19));
         home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(6, 125, 248));
+        home.setBackground(MaterialColor.RED_400);
         home.setForeground(Color.white);
         add(home);
 
@@ -170,14 +164,8 @@ public class Help extends JPanel implements TreeSelectionListener  {
                     public void run() {
 
 
-                        HolderPage.content.removeAll();
 
-                        HolderPage.content.add(new Entry());
-
-                        HolderPage.content.updateUI();
-
-                        HolderPage.f.setTitle("QuizApp 2016 - Home");
-
+                        frame.dispose();
 
 
                     }
@@ -191,14 +179,25 @@ public class Help extends JPanel implements TreeSelectionListener  {
 
 
 
-        yellowUp.setBounds(0,495,1000,5);
-        yellowUp.setBackground(new Color(232, 161, 28));
-        yellowUp.setOpaque(true);
-        add(yellowUp);
 
 
 
-        downbar.setBounds(0,500,1000,70);
+
+        topBar.setBounds(0,0, 800, 35);
+        topBar.setBackground(MaterialColor.BLUE_700);
+        topBar.setForeground(MaterialColor.WHITE);
+        topBar.setFont(new Font("Calibri",1,15));
+        topBar.setText("       Help");
+        topBar.setOpaque(true);
+        add(topBar);
+
+
+
+
+
+
+
+        downbar.setBounds(0,450,800,30);
         downbar.setBackground(new Color(233, 233, 233));
         downbar.setOpaque(true);
         add(downbar);
@@ -207,10 +206,21 @@ public class Help extends JPanel implements TreeSelectionListener  {
 
 
 
-
-       // setBackground(new Color(32, 173, 248));
         setBackground(Color.white);
         setLayout(null);
+
+
+
+        int locationX = HolderPage.f.getX()  + 100;
+        int locationY =  HolderPage.f.getY()  +  50;
+
+        frame.setLocation(locationX, locationY);
+        //frame.setLocationRelativeTo(HolderPage.f);
+
+
+
+        frame.setVisible(true);
+        frame.setResizable(false);
 
 
 

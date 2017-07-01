@@ -1,102 +1,59 @@
-/**
- * Created by EdidiongEyo on 1/12/2017.
- */
-/**
- * Created by EdidiongEyo on 1/12/2017.
- */
-/**
- * Created by EdidiongEyo on 1/12/2017.
- */
-/**
- * Created by EdidiongEyo on 11/20/2016.
- */
-/**
- * Created by EdidiongEyo on 11/20/2016.
- */
-/**
- * Created by EdidiongEyo on 11/6/2016.
- */
+
+import MaterialDesign.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
+
+
+
+public class About extends JPanel{
 
 
 
 
-public class About extends JPanel {
+    MaterialWindow frame =  new MaterialWindow();
 
-
-
-
-
-    int x;
-    int y;
-
-    int heightdiv;
-    int widthdiv;
-
-
-
-
-
-
-    Image imaget = new ImageIcon("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\img\\bg.png").getImage();
-
-
-
-
-
-
-
-    MaterialButton home =  new MaterialButton();
-
-
-
-
-
-    private JEditorPane htmlPane;
-    private JTree tree;
-    private URL helpURL;
-    private static boolean DEBUG = false;
-
-    //Optionally play with line styles.  Possible values are
-    //"Angled" (the default), "Horizontal", and "None".
-    private static boolean playWithLineStyle = false;
-    private static String lineStyle = "Horizontal";
-
-    //Optionally set the look and feel.
-    private static boolean useSystemLookAndFeel = false;
-
-
-
-    JLabel downbar =  new JLabel();
-    JLabel yelloDown = new JLabel();
+    JButton home =  new JButton("X");
+     JLabel aboutPix = new JLabel();
 
 
     public About() {
 
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        y = screenSize.height;
-        x = screenSize.width;
-
-        heightdiv = y / 2;
-        widthdiv = x / 2;
 
 
 
-        home.setBounds(420, 510, 180, 60);
-        home.setText("Home");
-        //home.setFont(new Font("Calibri", 1, 19));
-        home.setHorizontalAlignment(SwingConstants.CENTER);
-        home.setBackground(new Color(6, 125, 248));
+
+        new Move().move(frame,aboutPix);
+
+
+
+
+
+        frame.setSize(415,328);
+        frame.add(this);
+
+
+
+        setBounds(0,0, 415, 328);
+
+
+
+        home.setBounds(355,5, 35, 30);
+        home.setFont(new Font("Calibri", 1, 13));
+        home.setBackground(MaterialColor.RED_400);
         home.setForeground(Color.white);
         add(home);
+
+
+
+        aboutPix.setBounds(0,0,415,328);
+        aboutPix.setIcon(new ImageIcon("img//aboutPix.png"));
+        aboutPix.setOpaque(true);
+        add(aboutPix);
+
 
 
         home.addActionListener(new ActionListener() {
@@ -109,25 +66,12 @@ public class About extends JPanel {
                     public void run() {
 
 
-                        HolderPage.content.removeAll();
 
-
-
-                        HolderPage.content.add(new Entry());
-
-                        HolderPage.content.updateUI();
-
-                        HolderPage.f.setTitle("QuizApp 2016 - Home");
-
+                        frame.dispose();
 
 
                     }
                 });
-
-
-               // HolderPage.menuAdjuster();
-               // HolderPage.content.updateUI();
-
 
 
             }
@@ -137,92 +81,25 @@ public class About extends JPanel {
 
 
 
-
-        htmlPane = new JEditorPane();
-        htmlPane.setEditable(false);
-        initHelp();
-        JScrollPane htmlView = new JScrollPane(htmlPane);
-        htmlView.setBounds(150,30,700,450);
-
-        htmlView.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 4,true));
-
-        add(htmlView);
-
-
-
-
-        yelloDown.setBounds(0,495,1000,5);
-        yelloDown.setBackground(new Color(232, 161, 28));
-        yelloDown.setOpaque(true);
-        add(yelloDown);
-
-
-
-        downbar.setBounds(0,500,1000,70);
-        downbar.setBackground(new Color(233, 233, 233));
-        downbar.setOpaque(true);
-        add(downbar);
-
-
         setBackground(Color.white);
         setLayout(null);
 
 
 
-    }
+        int locationX = HolderPage.f.getX()  + 300;
+        int locationY =  HolderPage.f.getY()  +  150;
+
+        frame.setLocation(locationX, locationY);
+        //frame.setLocationRelativeTo(HolderPage.f);
 
 
 
-
-
-
-    private void initHelp() {
-        String s = "HelpFiles/arnold.html";
-        helpURL = getClass().getResource(s);
-        if (helpURL == null) {
-            System.err.println("Couldn't open help file: " + s);
-        } else if (DEBUG) {
-            System.out.println("Help URL is " + helpURL);
-        }
-
-        displayURL(helpURL);
-    }
-
-    private void displayURL(URL url) {
-        try {
-            if (url != null) {
-                htmlPane.setPage(url);
-            } else { //null url
-                htmlPane.setText("File Not Found");
-                if (DEBUG) {
-                    System.out.println("Attempted to display a null URL.");
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Attempted to read a bad URL: " + url);
-        }
-    }
-
-
-
-
-    public void paintComponent(Graphics g){
-
-        super.paintComponent(g);
-
-
-
-
-        //	g.setFont(new Font("Calibri (Body)", 1, 11));
-
-        // g.drawImage(imaget, 0, 0,1000,570,this);
+        frame.setVisible(true);
+        frame.setResizable(false);
 
 
 
     }
-
-
-
 
 
 

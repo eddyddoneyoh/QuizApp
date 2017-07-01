@@ -5,38 +5,16 @@
  * Created by EdidiongEyo on 11/6/2016.
  */
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.RandomAccessFile;
-import java.sql.*;
-import javax.swing.event.*;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
+import MaterialDesign.MaterialColor;
+import MaterialDesign.MaterialWindow;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.awt.Dimension;
-import java.util.Vector;
-import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JOptionPane;
-
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.Vector;
 
 
 
@@ -44,23 +22,18 @@ import javax.swing.table.DefaultTableModel;
 public class FullScores extends JPanel {
 
 
-    JFrame f = new JFrame("");
+    MaterialWindow f = new MaterialWindow();
 
 
-    int x;
-    int y;
-
-    int heightdiv;
-    int widthdiv;
+    //static String JDBC_DRIVER = "sun.jdbc.odbc.JdbcOdbcDriver";
+    //static String DATABASE_URL = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\db.mdb;";
 
 
-
-
+    static String JDBC_DRIVER = "net.ucanaccess.jdbc.UcanaccessDriver";
+    static String DATABASE_URL  = "jdbc:ucanaccess://DB/db.mdb";
 
 
 
-    static String JDBC_DRIVER = "sun.jdbc.odbc.JdbcOdbcDriver";
-    static String DATABASE_URL = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\DB\\db.mdb;";
 
     static JScrollPane scroll = new JScrollPane();
 
@@ -73,27 +46,35 @@ public class FullScores extends JPanel {
 
 
 
-    JButton close =  new JButton("Close");
+    JButton close =  new JButton("X");
+
+
+    JLabel topBar =  new JLabel("Full Scores");
+
+    JLabel downBar =  new JLabel();
 
 
 
     public FullScores() {
 
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        y = screenSize.height;
-        x = screenSize.width;
-
-        heightdiv = (Integer) y / 2;
-        widthdiv = (Integer) x / 2;
+        new Move().move(f,topBar);
 
 
 
-        close.setBounds(370, 535, 150, 32);
+
+        HolderPage.f.setFocusable(false);
+        HolderPage.f.setFocusableWindowState(false);
+
+        f.requestFocus();
+
+
+
+
+        close.setBounds(730, 2, 40, 30);
         close.setFont(new Font("Calibri", 1, 17));
-        close.setHorizontalAlignment(SwingConstants.CENTER);
-        close.setBackground(new Color(0, 168, 89));
+        close.setHorizontalAlignment(SwingConstants.LEFT);
+        close.setBackground(MaterialColor.RED_500);
         close.setForeground(Color.white);
         add(close);
 
@@ -101,10 +82,35 @@ public class FullScores extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+
+                HolderPage.f.setFocusable(true);
+                HolderPage.f.setFocusableWindowState(true);
+                HolderPage.f.requestFocus();
+
                 f.dispose();
 
             }
         });
+
+
+
+
+        topBar.setBounds(0, 0, 800, 35);
+        topBar.setOpaque(true);
+        topBar.setBackground(MaterialColor.BLUE_700);
+        topBar.setForeground(MaterialColor.DARK_WHITE);
+        topBar.setFont(new Font("Calibri", 1, 17));
+        topBar.setHorizontalAlignment(SwingConstants.CENTER);
+        add(topBar);
+
+
+
+        downBar.setBounds(0, 450, 800, 50);
+        downBar.setOpaque(true);
+        downBar.setBackground(MaterialColor.GREY_300);
+        add(downBar);
+
 
 
 
@@ -116,7 +122,7 @@ public class FullScores extends JPanel {
 
 
 
-        scroll.setBorder(BorderFactory.createTitledBorder("FULL SCORE SHEET"));
+        scroll.setBorder(BorderFactory.createTitledBorder(""));
         add(scroll);
 
 
@@ -128,10 +134,16 @@ public class FullScores extends JPanel {
 
         f.add(this);
 
-        f.setSize(900, 600);
-        f.setLocation(widthdiv - 450, heightdiv - 300);
+
+        int locationX = HolderPage.f.getX()  + 100;
+        int locationY =  HolderPage.f.getY()  +  50;
+
+
+
+        f.setSize(800, 500);
+        f.setLocation(locationX, locationY);
         f.setUndecorated(true);
-        f.setOpacity(0.98f);
+       // f.setOpacity(0.98f);
         f.setVisible(true);
         f.setDefaultCloseOperation(3);
         f.setResizable(false);
@@ -198,7 +210,7 @@ public class FullScores extends JPanel {
         DefaultTableModel model = new DefaultTableModel(data ,columnNames);
         table = new JTable(model);
 
-        table.setRowHeight(50);
+        table.setRowHeight(65);
         table.setEnabled(false);
         table.setDragEnabled(false);
         table.setColumnSelectionAllowed(false);
@@ -216,8 +228,10 @@ public class FullScores extends JPanel {
 
 
         scroll = new JScrollPane(table);
-        scroll.setBounds(20,30,850,500);
+        scroll.setBounds(20,60,745,350);
         scroll.setBackground(Color.white);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
 
 
 

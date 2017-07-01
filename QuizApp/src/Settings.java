@@ -11,12 +11,17 @@
  * Created by EdidiongEyo on 11/6/2016.
  */
 
+import MaterialDesign.MaterialButton;
+import MaterialDesign.MaterialColor;
+import MaterialDesign.MaterialWindow;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public class Settings extends JPanel {
 
@@ -24,33 +29,11 @@ public class Settings extends JPanel {
 
     MaterialWindow frame =  new MaterialWindow();
 
-   // MaterialDialog frame = new MaterialDialog();
-
-
     int x;
     int y;
 
-    int heightdiv;
-    int widthdiv;
 
-
-
-   // JPanel
-
-
-    JPanel settingsPanel =  new JPanel();
-    JScrollPane scrollPane =  new JScrollPane(settingsPanel);
-
-
-
-    JLabel divider1 =  new JLabel("_________________________________________________________________");
-    JLabel divider2 =  new JLabel("_________________________________________________________________");
-    JLabel divider3 =  new JLabel("_________________________________________________________________");
-    JLabel divider4 =  new JLabel("_________________________________________________________________");
-
-
-
-    JLabel general =  new JLabel("General");
+    JLabel generalLabel =  new JLabel("General");
     JLabel fontType = new JLabel("Font");
     JLabel security =  new JLabel("Security");
     JLabel sync =  new JLabel("Sync");
@@ -70,13 +53,7 @@ public class Settings extends JPanel {
 
 
     JLabel securityLabel =  new JLabel("Set security status:");
-    JButton securityButton =  new JButton("Disabled");
-
-
-
-
-    Image imaget = new ImageIcon("C:\\Users\\EdidiongEyo\\IdeaProjects\\QuizApp\\img\\bg.png").getImage();
-
+    JButton securityButtonDialog =  new JButton("Disabled");
 
 
 
@@ -120,6 +97,34 @@ public class Settings extends JPanel {
 
 
 
+
+
+
+
+    JPanel buttonsPanel = new JPanel();
+    ////////////////////////////////  SLIDING PANEL BUTTONS  //////////////////////////////////////////////
+
+    MaterialButton generalButton = new MaterialButton();
+    MaterialButton contentButton = new MaterialButton();
+    MaterialButton securityButton = new MaterialButton();
+    MaterialButton syncButton = new MaterialButton();
+    MaterialButton updateButton = new MaterialButton();
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    JPanel generalContent = new JPanel();
+    JPanel contentContent = new JPanel();
+    JPanel securityContent = new JPanel();
+    JPanel syncContent = new JPanel();
+    JPanel updateContent = new JPanel();
+
+
+
+
     public Settings() {
 
 
@@ -129,220 +134,21 @@ public class Settings extends JPanel {
 
 
 
-
-
         frame.setSize(800,500);
-        frame.add(this);
 
 
+       setBounds(0,0, 800, 500);
 
-        setBounds(0,0, frame.getWidth(), frame.getHeight());
 
+        HolderPage.f.setEnabled(false);
+        HolderPage.f.setFocusable(false);
+        HolderPage.f.setFocusableWindowState(false);
+        frame.requestFocus();
 
+        checkEnableStatus(securityButtonDialog);
 
-        // frame.setEnabled(true);
 
 
-
-
-
-        //HolderPage.blocker.setVisible(true);
-        //HolderPage.f.setFocusable(false);
-
-
-
-        checkEnableStatus(securityButton);
-
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        y = screenSize.height;
-        x = screenSize.width;
-
-        heightdiv = y / 2;
-        widthdiv = x / 2;
-
-
-        settingsPanel.setLayout(null);
-        settingsPanel.setPreferredSize(new Dimension(550, 750));
-
-
-        //---------------------------------------------------------------------------------------
-
-        general.setBounds(30,30,500,30);
-        general.setFont(new Font("Calibri", 1, 19));
-        general.setBackground(new Color(233, 233, 233));
-        general.setOpaque(true);
-        settingsPanel.add(general);
-
-
-        shutdown.setBounds(30, 65, 200, 40);
-        shutdown.setFont(new Font("Calibri", 0, 17));
-        settingsPanel.add(shutdown);
-
-        divider1.setBounds(30,100,500,15);
-        settingsPanel.add(divider1);
-
-        //---------------------------------------------------------------------------------------
-
-
-        fontType.setBounds(30,125,500,30);
-        fontType.setFont(new Font("Calibri", 1, 19));
-        fontType.setBackground(new Color(233, 233, 233));
-        fontType.setOpaque(true);
-        settingsPanel.add(fontType);
-
-
-        prefFontType.setBounds(30, 165, 170, 40);
-        prefFontType.setFont(new Font("Calibri", 0, 17));
-        settingsPanel.add(prefFontType);
-
-
-        comboFontType.addItem("Calibri");
-        comboFontType.addItem("Arial");
-        comboFontType.addItem("Times Roman");
-
-
-        comboFontType.setBounds(185,170,150,25);
-        settingsPanel.add(comboFontType);
-
-                    //---------------
-
-        prefFontSize.setBounds(30, 205, 170, 40);
-        prefFontSize.setFont(new Font("Calibri", 0, 17));
-        settingsPanel.add(prefFontSize);
-
-
-        comboFontSize.addItem("Small");
-        comboFontSize.addItem("Medium");
-        comboFontSize.addItem("Large");
-
-
-        comboFontSize.setBounds(185,210,150,25);
-        settingsPanel.add(comboFontSize);
-
-
-                    //---------------
-
-        prefTheme.setBounds(30, 245, 170, 40);
-        prefTheme.setFont(new Font("Calibri", 0, 17));
-        settingsPanel.add(prefTheme);
-
-
-
-        comboTheme.addItem("Default");
-        comboTheme.addItem("Dark");
-        comboTheme.addItem("Venus");
-
-
-        comboTheme.setBounds(185,250,150,25);
-        settingsPanel.add(comboTheme);
-
-
-        divider2.setBounds(30,285,500,15);
-        settingsPanel.add(divider2);
-
-
-        //---------------------------------------------------------------------------------------
-
-
-        sync.setBounds(30,310,500,30);
-        sync.setFont(new Font("Calibri", 1, 19));
-        sync.setBackground(new Color(233, 233, 233));
-        sync.setOpaque(true);
-        settingsPanel.add(sync);
-
-
-        syncCheckBox.setBounds(30, 350, 200, 40);
-        syncCheckBox.setFont(new Font("Calibri", 0, 17));
-        settingsPanel.add(syncCheckBox);
-
-        divider3.setBounds(30,390,500,15);
-        settingsPanel.add(divider3);
-
-
-        //----------------------------------------------------------------------------------------
-
-
-        security.setBounds(30,420,500,30);
-        security.setFont(new Font("Calibri", 1, 19));
-        security.setBackground(new Color(233, 233, 233));
-        security.setOpaque(true);
-        settingsPanel.add(security);
-
-
-        securityLabel.setBounds(30, 470, 140, 30);
-        securityLabel.setFont(new Font("Calibri", 0, 17));
-        settingsPanel.add(securityLabel);
-
-        securityButton.setBounds(185, 470, 100,30);
-        securityButton.setFont(new Font("Calibri", 0, 15));
-        settingsPanel.add(securityButton);
-
-        securityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-               new Security(securityButton) ;
-
-
-
-            }
-        });
-
-
-        divider4.setBounds(30,500,500,15);
-        settingsPanel.add(divider4);
-
-
-
-
-
-        restore.setBounds(150,650,150,30);
-        restore.setFont(new Font("Calibri", 1, 15));
-        restore.setHorizontalAlignment(SwingConstants.CENTER);
-        settingsPanel.add(restore);
-
-        saveButton.setBounds(310,650, 100, 30);
-        saveButton.setFont(new Font("Calibri", 1, 15));
-        saveButton.setHorizontalAlignment(SwingConstants.CENTER);
-        saveButton.setBackground(new Color(6, 125, 248));
-        saveButton.setForeground(Color.white);
-        settingsPanel.add(saveButton);
-
-        cancelButton.setBounds(420, 650, 100, 30);
-        cancelButton.setFont(new Font("Calibri", 1, 15));
-        cancelButton.setHorizontalAlignment(SwingConstants.CENTER);
-        settingsPanel.add(cancelButton);
-
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-
-
-                        HolderPage.content.removeAll();
-
-                        HolderPage.content.add(new Entry());
-
-                        HolderPage.content.updateUI();
-
-                        HolderPage.f.setTitle("QuizApp 2016 - Home");
-
-
-
-                    }
-                });
-
-
-            }
-        });
 
 
 
@@ -361,19 +167,379 @@ public class Settings extends JPanel {
 
 
 
+                HolderPage.f.setEnabled(true);
+                HolderPage.f.setFocusable(true);
+                HolderPage.f.setFocusableWindowState(true);
+                HolderPage.f.requestFocus();
+                frame.dispose();
+
+
+
+            }
+        });
+
+        topBar.setBounds(0,0, frame.getWidth(), 35);
+        topBar.setBackground(MaterialColor.BLUE_700);
+        topBar.setForeground(MaterialColor.WHITE);
+        topBar.setFont(new Font("Calibri",1,15));
+        topBar.setText("       Settings");
+        topBar.setOpaque(true);
+        add(topBar);
+
+
+
+        downBar.setBounds(0,450, frame.getWidth(), 40);
+        downBar.setBackground(new Color(233, 233, 233));
+        downBar.setOpaque(true);
+        add(downBar);
+
+
+
+
+
+
+        ////////buttons panel program begins/////////////////////////////////////////////////////////
+
+
+
+
+        buttonsPanel.setBackground(MaterialColor.GREY_300);
+        buttonsPanel.setBounds(0, 35, 199, 418);
+        buttonsPanel.setLayout(null);
+        add(buttonsPanel);
+
+
+
+        generalButton.setBounds(0, 60, 199, 65);
+        generalButton.setBackground(MaterialColor.ORANGE_700);
+        generalButton.setHorizontalAlignment(SwingConstants.CENTER);
+        generalButton.setForeground(Color.yellow);
+        generalButton.setText("General");
+        generalButton.setFont(new Font("Calibri", 1, 17));
+        buttonsPanel.add(generalButton);
+
+
+        generalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                generalButton.setForeground(Color.yellow);
+                contentButton.setForeground(Color.white);
+                securityButton.setForeground(Color.white);
+                syncButton.setForeground(Color.white);
+                updateButton.setForeground(Color.white);
+
+
+
+//                HolderPage.breadCrumb.setText("Home > Admin Panel > Dashboard");
+                remove(contentContent);
+                remove(securityContent);
+                remove(syncContent);
+                remove(updateContent);
+                add(generalContent);
+                updateUI();
+            }
+        });
+
+
+
+        contentButton.setBounds(0, 120, 199, 65);
+        contentButton.setBackground(MaterialColor.ORANGE_700);
+        contentButton.setHorizontalAlignment(SwingConstants.CENTER);
+        contentButton.setFont(new Font("Calibri", 1, 17));
+        contentButton.setForeground(Color.white);
+        contentButton.setText("Content");
+        buttonsPanel.add(contentButton);
+
+
+        contentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                contentButton.setForeground(Color.yellow);
+                generalButton.setForeground(Color.white);
+                contentButton.setForeground(Color.white);
+                securityButton.setForeground(Color.white);
+                syncButton.setForeground(Color.white);
+                updateButton.setForeground(Color.white);
+
+
+
+
+//                HolderPage.breadCrumb.setText("Home > Admin Panel > History");
+                remove(generalContent);
+                remove(securityContent);
+                remove(syncContent);
+                remove(updateContent);
+                add(contentContent);
+//
+//                comboBoxHistory();
+
+                updateUI();
+            }
+        });
+
+
+        securityButton.setBounds(0, 180, 199, 65);
+        securityButton.setBackground(MaterialColor.ORANGE_700);
+        securityButton.setHorizontalAlignment(SwingConstants.CENTER);
+        securityButton.setFont(new Font("Calibri", 1, 17));
+        securityButton.setForeground(Color.white);
+        securityButton.setText("Security");
+        buttonsPanel.add(securityButton);
+
+
+        securityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+
+                securityButton.setForeground(Color.yellow);
+                generalButton.setForeground(Color.white);
+                contentButton.setForeground(Color.white);
+                syncButton.setForeground(Color.white);
+                updateButton.setForeground(Color.white);
+
+
+//                HolderPage.breadCrumb.setText("Home > Admin Panel > Import DB");
+                remove(generalContent);
+                remove(contentContent);
+                remove(syncContent);
+                remove(updateContent);
+                add(securityContent);
+
+                updateUI();
+            }
+        });
+
+
+        syncButton.setBounds(0, 240, 199, 65);
+        syncButton.setBackground(MaterialColor.ORANGE_700);
+        syncButton.setHorizontalAlignment(SwingConstants.CENTER);
+        syncButton.setFont(new Font("Calibri", 1, 17));
+        syncButton.setForeground(Color.white);
+        syncButton.setText("Sync");
+        buttonsPanel.add(syncButton);
+
+        syncButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                syncButton.setForeground(Color.yellow);
+                generalButton.setForeground(Color.white);
+                contentContent.setForeground(Color.white);
+                securityContent.setForeground(Color.white);
+                updateButton.setForeground(Color.white);
+
+//
+//                HolderPage.breadCrumb.setText("Home > Admin Panel > Account");
+                remove(generalContent);
+                remove(contentContent);
+                remove(securityContent);
+                remove(updateContent);
+                add(syncContent);
+                updateUI();
+
+
+            }
+        });
+
+        updateButton.setBounds(0, 300, 199, 65);
+        updateButton.setBackground(MaterialColor.ORANGE_700);
+        updateButton.setHorizontalAlignment(SwingConstants.CENTER);
+        updateButton.setFont(new Font("Calibri", 1, 17));
+        updateButton.setForeground(Color.white);
+        updateButton.setText("Update");
+        buttonsPanel.add(updateButton);
+
+
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                updateButton.setForeground(Color.yellow);
+                generalButton.setForeground(Color.white);
+                contentButton.setForeground(Color.white);
+                securityButton.setForeground(Color.white);
+                syncButton.setForeground(Color.white);
+
+
+                remove(generalContent);
+                remove(contentContent);
+                remove(securityContent);
+                remove(syncContent);
+                add(updateContent);
+                updateUI();
+
+
+            }
+            });
+
+        ////////buttons panel program ends/////////////////////////////////////////////////////////
+
+
+
+
+        generalContent.setLayout(null);
+        generalContent.setBounds(200,35,600,418);
+        generalContent.setBackground(MaterialColor.WHITE);
+        add(generalContent);
+
+        contentContent.setLayout(null);
+        contentContent.setBounds(200,35,600,418);
+        contentContent.setBackground(MaterialColor.WHITE);
+
+        securityContent.setLayout(null);
+        securityContent.setBounds(200,35,600,418);
+        securityContent.setBackground(MaterialColor.WHITE);
+
+        syncContent.setLayout(null);
+        syncContent.setBounds(200,35,600,418);
+        syncContent.setBackground(MaterialColor.WHITE);
+
+        updateContent.setLayout(null);
+        updateContent.setBounds(200,35,600,418);
+        updateContent.setBackground(MaterialColor.WHITE);
+
+
+
+
+
+        shutdown.setBounds(30, 65, 200, 40);
+        shutdown.setFont(new Font("Calibri", 0, 17));
+        generalContent.add(shutdown);
+
+
+
+        comboFontType.addItem("Calibri");
+        comboFontType.addItem("Arial");
+        comboFontType.addItem("Times Roman");
+
+
+        comboFontType.setBounds(185,170,150,25);
+       // fontContent.add(comboFontType);
+
+                    //---------------
+
+        prefFontSize.setBounds(30, 205, 170, 40);
+        prefFontSize.setFont(new Font("Calibri", 0, 17));
+       // fontContent.add(prefFontSize);
+
+
+        comboFontSize.addItem("Small");
+        comboFontSize.addItem("Medium");
+        comboFontSize.addItem("Large");
+
+
+        comboFontSize.setBounds(185,210,150,25);
+        //fontContent.add(comboFontSize);
+
+
+                    //---------------
+
+        prefTheme.setBounds(30, 245, 170, 40);
+        prefTheme.setFont(new Font("Calibri", 0, 17));
+       // fontContent.add(prefTheme);
+
+
+
+        comboTheme.addItem("Default");
+        comboTheme.addItem("Dark");
+        comboTheme.addItem("Venus");
+
+
+        comboTheme.setBounds(185,250,150,25);
+       // fontContent.add(comboTheme);
+
+
+
+
+        //---------------------------------------------------------------------------------------
+
+
+        sync.setBounds(30,20,500,30);
+        sync.setFont(new Font("Calibri", 1, 19));
+        sync.setBackground(new Color(233, 233, 233));
+        sync.setOpaque(true);
+        syncContent.add(sync);
+
+
+        syncCheckBox.setBounds(30, 60, 200, 40);
+        syncCheckBox.setFont(new Font("Calibri", 0, 17));
+        syncContent.add(syncCheckBox);
+
+
+        //----------------------------------------------------------------------------------------
+
+
+        security.setBounds(30,420,500,30);
+        security.setFont(new Font("Calibri", 1, 19));
+        security.setBackground(new Color(233, 233, 233));
+        security.setOpaque(true);
+        generalContent.add(security);
+
+
+        securityLabel.setBounds(30, 470, 140, 30);
+        securityLabel.setFont(new Font("Calibri", 0, 17));
+        generalContent.add(securityLabel);
+
+        securityButton.setBounds(185, 470, 100,30);
+        securityButton.setFont(new Font("Calibri", 0, 15));
+        generalContent.add(securityButton);
+
+        securityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+              new Security(securityButtonDialog) ;
+
+
+
+            }
+        });
+
+
+
+
+
+
+        restore.setBounds(150,650,150,30);
+        restore.setFont(new Font("Calibri", 1, 15));
+        restore.setHorizontalAlignment(SwingConstants.CENTER);
+        generalContent.add(restore);
+
+        saveButton.setBounds(310,650, 100, 30);
+        saveButton.setFont(new Font("Calibri", 1, 15));
+        saveButton.setHorizontalAlignment(SwingConstants.CENTER);
+        saveButton.setBackground(new Color(6, 125, 248));
+        saveButton.setForeground(Color.white);
+        generalContent.add(saveButton);
+
+        cancelButton.setBounds(420, 650, 100, 30);
+        cancelButton.setFont(new Font("Calibri", 1, 15));
+        cancelButton.setHorizontalAlignment(SwingConstants.CENTER);
+        generalContent.add(cancelButton);
+
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
 
 
+                        HolderPage.content.removeAll();
 
-                        frame.dispose();
-                       // HolderPage.blocker.dispose();
-                       // HolderPage.blocker.setVisible(false);
-
-                        HolderPage.blocker.dispose();
-                        HolderPage.f.setFocusable(true);
-
-
+                        HolderPage.content.add(new Entry());
 
 
                     }
@@ -386,43 +552,13 @@ public class Settings extends JPanel {
 
 
 
-        settingsPanel.setBackground(Color.white);
 
 
 
 
 
+        generalContent.setBackground(Color.white);
 
-        scrollPane.setBounds(90,50,600,380);
-        scrollPane.setAutoscrolls(true);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getViewport().putClientProperty("EnableWindowBlit", Boolean.TRUE);
-        scrollPane.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-       // scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray,2, true),"Settings"));
-        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(200, 200, 200),3,true),"", 2,2,new Font("Calibri",1,20),Color.black));
-        scrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
-        add(scrollPane);
-
-
-
-
-
-        topBar.setBounds(0,0, frame.getWidth(), 35);
-        topBar.setBackground(MaterialColor.BLUE_700);
-        topBar.setForeground(MaterialColor.WHITE);
-        topBar.setFont(new Font("Calibri",1,15));
-        topBar.setText("       Settings");
-        topBar.setOpaque(true);
-        add(topBar);
-
-
-
-
-
-        downBar.setBounds(0,450, frame.getWidth(), 40);
-        downBar.setBackground(new Color(233, 233, 233));
-        downBar.setOpaque(true);
-        add(downBar);
 
 
 
@@ -431,45 +567,16 @@ public class Settings extends JPanel {
         setLayout(null);
 
 
-
-        int locationX = HolderPage.f.getX()  + 100;
-        int locationY =  HolderPage.f.getY()  +  50;
-
-       // frame.setLocation(locationX, locationY);
         frame.setLocationRelativeTo(HolderPage.f);
 
 
+        frame.add(this);
 
         frame.setVisible(true);
         frame.setResizable(false);
 
 
     }
-
-
-
-
-//
-//
-//    public void paintComponent(Graphics g){
-//
-//        super.paintComponent(g);
-//
-//
-//
-//       // g.setFont(new Font("Calibri (Body)", 1, 11));
-//
-//
-//
-//       // g.drawImage(imaget, 0, 0,1000,570,this);
-//
-//
-//
-//    }
-
-
-
-
 
 
 
@@ -680,93 +787,41 @@ public class Settings extends JPanel {
         public void loginSetup(){
 
 
-        PreparedStatement  ps = null;
-        Connection conn = null;
-
-
-
-
-        try{
-
-        Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-        conn = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=DB/db.mdb;");
-
-
-            ps = conn.prepareStatement("DELETE FROM LoginStatus WHERE Key = 'key'");
-            ps.execute();
-
-
-
-              ps = conn.prepareStatement ("INSERT INTO LoginStatus (Key, Status ) "+ "VALUES (?, ?)");
-
-
-
             if(enableCheckBoxStatus == true){
 
 
 
-                ps.setString (1, "key");
-                ps.setString (2, "true");
-                ps.execute();
+                try{
 
 
-                //  Settings.securityButton.setText("Enabled");
+                    WriteFile data = new WriteFile("DB/Accounts/LoginTest", false);
 
+                    data.writeToFile("true");
+
+                }
+                catch (Exception e) { e.printStackTrace();
+
+                }
 
             }else{
 
 
-                ps.setString (1, "key");
-                ps.setString (2, "false");
-                ps.execute();
-               // Settings.securityButton.setText("Disabled");
+                try{
 
-                // loginSetup();
 
+                    WriteFile data = new WriteFile("DB/Accounts/LoginTest", false);
+
+                    data.writeToFile("false");
+
+                }
+                catch (Exception e) { e.printStackTrace();
+
+                }
 
 
             }
 
-
-
-
-
-    }
-	catch(NullPointerException Nullexcept){ JOptionPane.showMessageDialog(null,"Please insert all fields");}
-
-
-
-        catch ( SQLException sqlException )
-    {
-        sqlException.printStackTrace();
-
-
-
-    }
-        catch ( ClassNotFoundException classNotFound )
-    {
-        classNotFound.printStackTrace();
-
-    }
-        finally
-    {
-        try
-        {
-            ps.close();
-            conn.close();
         }
-        catch ( Exception exception )
-        {
-            exception.printStackTrace();
-
-        }
-    }
-
-
-
-
-
-}
 
 
 
@@ -780,59 +835,32 @@ public class Settings extends JPanel {
     public static void checkEnableStatus(JButton button){
 
 
+
         try {
 
-
-            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-            Connection conn = DriverManager.getConnection("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=DB/db.mdb;");
-
-            Statement st = conn.createStatement();
-            //ResultSet rec = st.executeQuery("SELECT username, password FROM Login");
-            ResultSet rec = st.executeQuery("SELECT Status FROM LoginStatus");
-            boolean isExist = false;
-
-            while (rec.next()) {
+            RandomAccessFile configMain = new RandomAccessFile("DB/Accounts/LoginTest", "r");
+            String quizdb = configMain.readLine();
+            configMain.close();
 
 
+            if (quizdb.equals("true")) {
 
-                //String status = rec.getString("Status") + "";
-                String status = "true";
-                String statusf = "false";
-
-                if(status.equals(rec.getString("Status"))){
-
-                   //securityButton.setText("Enabled");
-                    button.setText("Enabled");
-                }
-                else{
+                button.setText("Enabled");
 
 
-                    //securityButton.setText("Disabled");
-                    button.setText("Disabled");
-                }
+            } else if(quizdb.equals("false")) {
 
-//                    HolderPage.f.setEnabled(true);
-//
-//                    HolderPage.content.removeAll();
-//
-//                    HolderPage.content.add(new Admin());
+                button.setText("Disabled");
 
+            }
 
-                   // HolderPage.content.updateUI();
-
-
-
-                }
-
-
-
-            st.close();
-            conn.close();
-        } catch (SQLException d) {
-            d.printStackTrace();
-        } catch (ClassNotFoundException f) {
-            f.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
 
 
     }
